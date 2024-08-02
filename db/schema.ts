@@ -6,20 +6,24 @@ import {
 	integer,
 	uuid,
 	boolean,
+	doublePrecision,
 } from "drizzle-orm/pg-core";
-import type { AdapterAccountType } from "next-auth/adapters";
+import { AdapterAccountType } from "next-auth/adapters";
 
 // USERS
 export const users = pgTable("user", {
 	id: uuid("id")
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
+	uid: text("uid").notNull(),
 	name: text("name"),
 	phone: text("phone").notNull(),
-	phoneVerified: timestamp("phoneVerified", { mode: "date" }),
 	admin: boolean("admin").default(false),
 	password: text("password"),
-	image: text("image"),
+	image: text("image").default("https://www.im2015.com/user-avatar/n1.png"),
+	createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+	balance: doublePrecision("balance").default(0.0),
+	points: doublePrecision("points").default(0.0),
 });
 
 export const accounts = pgTable(

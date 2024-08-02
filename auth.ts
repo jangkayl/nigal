@@ -1,15 +1,17 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth, { NextAuthConfig } from "next-auth";
-import db from "./db/drizzle";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { eq } from "drizzle-orm";
 import { compareSync } from "bcrypt-ts-edge";
+import { eq } from "drizzle-orm";
+import CredentialsProvider from "next-auth/providers/credentials";
+import type { NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
+
+import db from "./db/drizzle";
 import { users } from "./db/schema";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 
 export const config = {
 	pages: {
-		signIn: "/login",
-		error: "/login",
+		signIn: "/sign-in",
+		error: "/sign-in",
 	},
 	session: {
 		strategy: "jwt",
@@ -19,9 +21,7 @@ export const config = {
 	providers: [
 		CredentialsProvider({
 			credentials: {
-				phone: {
-					type: "text",
-				},
+				phone: {},
 				password: { type: "password" },
 			},
 			async authorize(credentials) {
@@ -30,6 +30,7 @@ export const config = {
 				const user = await db.query.users.findFirst({
 					where: eq(users.phone, credentials.phone as string),
 				});
+
 				if (user && user.password) {
 					const isMatch = compareSync(
 						credentials.password as string,
@@ -40,6 +41,7 @@ export const config = {
 							id: user.id,
 							name: user.name,
 							phone: user.phone,
+							image: user.image,
 							admin: user.admin,
 						};
 					}

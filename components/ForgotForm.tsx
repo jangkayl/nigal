@@ -83,7 +83,7 @@ const ForgotForm = () => {
 			<p className="text-gray-400 text-sm">
 				Have an existing account?{" "}
 				<Link
-					href="/login"
+					href="/api/auth/signin"
 					className="text-sky-500 text-sm">
 					Login
 				</Link>

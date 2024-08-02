@@ -1,18 +1,15 @@
-import React from "react";
-import LogoInForm from "@/components/LogoInForm";
-import { Metadata } from "next";
 import { auth } from "@/auth";
+import LogoInForm from "@/components/LogoInForm";
 import { redirect } from "next/navigation";
+import React from "react";
 import CredentialsSignInForm from "./credentials-signin-form";
 
-export const metadata: Metadata = {
-	title: `Sign In - NiGal`,
-};
-
-const Login = async ({
+const SignIn = async ({
 	searchParams: { callbackUrl },
 }: {
-	searchParams: { callbackUrl: string };
+	searchParams: {
+		callbackUrl: string;
+	};
 }) => {
 	const session = await auth();
 	if (session) {
@@ -27,4 +24,4 @@ const Login = async ({
 	);
 };
 
-export default Login;
+export default SignIn;

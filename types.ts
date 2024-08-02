@@ -1,7 +1,11 @@
 export type userType = {
-	id: number;
-	phone: number;
-	nickname: string;
-	password: string;
+	id: string;
+	phone: string;
+	uid: string;
+	name: string;
+	image: string;
 	admin: boolean;
+	balance: number;
+	points: number;
+	createdAt: Date;
 };

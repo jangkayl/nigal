@@ -1,5 +1,5 @@
 {
-  "id": "0ce985a4-ad3d-4821-b2fa-3c331113cbf2",
+  "id": "2c03feb8-79c8-4456-a898-65d9df1bacdf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -154,6 +154,12 @@
           "primaryKey": true,
           "notNull": true
         },
+        "uid": {
+          "name": "uid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "name": {
           "name": "name",
           "type": "text",
@@ -165,12 +171,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "phoneVerified": {
-          "name": "phoneVerified",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
         },
         "admin": {
           "name": "admin",
@@ -189,7 +189,29 @@
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'https://www.im2015.com/user-avatar/n1.png'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "balance": {
+          "name": "balance",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "points": {
+          "name": "points",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
         }
       },
       "indexes": {},

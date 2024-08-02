@@ -1,31 +1,34 @@
 "use client";
-import { signInWithCredentials } from "@/lib/actions/user.action";
 import { signInDefaultValues } from "@/lib/constants";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { MdPhoneAndroid } from "react-icons/md";
-import { MdLock } from "react-icons/md";
-import { TbEyeClosed } from "react-icons/tb";
-import { TbEye } from "react-icons/tb";
+import { MdPhoneAndroid, MdLock } from "react-icons/md";
+import { TbEyeClosed, TbEye } from "react-icons/tb";
+import { signInWithCredentials } from "@/lib/actions/user.action";
+import { useRouter } from "next/navigation";
 
 export default function CredentialsSignInForm() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [data, action] = useFormState(signInWithCredentials, {
-		message: "",
 		success: false,
+		message: "",
+	});
+	const [formValues, setFormValues] = useState({
+		phone: signInDefaultValues.phone,
+		password: signInDefaultValues.password,
 	});
 
 	const searchParams = useSearchParams();
-	const callbackUrl = searchParams.get("callback") || "/";
+	const callbackUrl = searchParams.get("callback") || "/user";
 
 	const SignInButton = () => {
 		const { pending } = useFormStatus();
 		return (
 			<button
 				disabled={pending}
-				type="button"
+				type="submit"
 				className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none font-medium rounded-lg text-md px-5 py-2 text-center me-2 mb-2 w-full">
 				{pending ? "Submitting..." : "Login"}
 			</button>
@@ -34,6 +37,14 @@ export default function CredentialsSignInForm() {
 
 	const handleIsOpen = () => {
 		setIsOpen(!isOpen);
+	};
+
+	const handleInputChange = (e: any) => {
+		const { name, value } = e.target;
+		setFormValues({
+			...formValues,
+			[name]: value,
+		});
 	};
 
 	return (
@@ -54,18 +65,24 @@ export default function CredentialsSignInForm() {
 					<p className="pr-1">+63</p>
 					<input
 						type="number"
+						name="phone"
+						required
 						className="outline-none px-2 overscroll-x-none w-[14rem] font-normal"
 						placeholder="Enter your phone number"
 						defaultValue={signInDefaultValues.phone}
+						onChange={handleInputChange}
 					/>
 				</div>
 				<div className="flex items-center border-b-2 py-2">
 					<MdLock size={20} />
 					<input
 						type={isOpen ? "text" : "password"}
+						name="password"
+						required
 						className="outline-none px-2 pl-2 overscroll-x-none w-[14rem] font-normal"
 						placeholder="Fill in your password"
 						defaultValue={signInDefaultValues.password}
+						onChange={handleInputChange}
 					/>
 					{isOpen ? (
 						<TbEye
@@ -81,32 +98,26 @@ export default function CredentialsSignInForm() {
 						/>
 					)}
 				</div>
-			</form>
-			<div className="w-full">
-				<SignInButton />
-				<p className="text-gray-400 text-right">
-					<Link
-						href="/forgot-password"
-						className="text-sky-500 text-sm">
-						Forgot password
-					</Link>
-				</p>
-			</div>
-			{data && !data.success && (
-				<div className="text-center text-red-500">{data.message}</div>
-			)}
-			{!data && (
-				<div className="text-center text-red-500">
-					Unknown error happend.{" "}
-					<button onClick={() => window.location.reload()}>
-						Please reload
-					</button>
+				<div className="w-full">
+					{data && !data.success && (
+						<div className="text-center text-red-500 pt-1 pb-3 text-sm">
+							{data.message}
+						</div>
+					)}
+					<SignInButton />
+					<p className="text-gray-400 text-right">
+						<Link
+							href="/forgot-password"
+							className="text-sky-500 text-sm">
+							Forgot password
+						</Link>
+					</p>
 				</div>
-			)}
+			</form>
 			<p className="text-gray-400 text-sm">
 				No account yet?{" "}
 				<Link
-					href={`/register?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+					href={`/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`}
 					className="text-sky-500 text-sm">
 					Register
 				</Link>

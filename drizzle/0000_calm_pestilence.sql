@@ -21,12 +21,15 @@ CREATE TABLE IF NOT EXISTS "session" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
 	"id" uuid PRIMARY KEY NOT NULL,
+	"uid" text NOT NULL,
 	"name" text,
 	"phone" text NOT NULL,
-	"phoneVerified" timestamp,
 	"admin" boolean DEFAULT false,
 	"password" text,
-	"image" text
+	"image" text DEFAULT 'https://www.im2015.com/user-avatar/n1.png',
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"balance" double precision DEFAULT 0,
+	"points" double precision DEFAULT 0
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "verificationToken" (
