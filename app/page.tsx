@@ -1,29 +1,18 @@
-import Link from "next/link";
-import { auth } from "@/auth";
-import { getUserById, SignOut } from "@/lib/actions/user.action";
+import Hotspot from "@/components/Hotspot";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: `Nigal`,
+};
 
 export default async function Home() {
-	const session = await auth();
-	let user = null;
-
-	if (session?.user?.id) {
-		user = await getUserById(session.user.id);
-	}
-
 	return (
-		<main className="flex min-h-screen flex-col items-center p-24">
-			{session ? (
-				<div>
-					<Link href="/user">User</Link>
-					<p>Welcome {user?.name}</p>
-					<form action={SignOut}>
-						<button>Signout</button>
-					</form>
-					<pre>{JSON.stringify(user, null, 2)}</pre>
-				</div>
-			) : (
-				<Link href="/api/auth/signin">Login</Link>
-			)}
+		<main className="min-h-screen flex flex-col max-w-md mx-auto gap-5 relative bg-gray-100">
+			<p className="py-4 bg-sky-300 w-full text-white px-3 font-semibold tracking-widest text-xl">
+				<span className="text-yellow-300 text-2xl">N</span>igal{" "}
+				<span className="text-yellow-300 text-2xl">N</span>ow
+			</p>
+			<Hotspot />
 		</main>
 	);
 }

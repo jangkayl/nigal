@@ -13,6 +13,14 @@ CREATE TABLE IF NOT EXISTS "account" (
 	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "prizes" (
+	"time" timestamp DEFAULT now() NOT NULL,
+	"serial" bigserial PRIMARY KEY NOT NULL,
+	"number" integer NOT NULL,
+	"result_value" integer NOT NULL,
+	"result" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
 	"sessionToken" text PRIMARY KEY NOT NULL,
 	"userId" uuid NOT NULL,

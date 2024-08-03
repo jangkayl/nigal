@@ -33,11 +33,11 @@ const UserProfile = ({ user }: UserProfileProps) => {
 			<div className="flex flex-col gap-2">
 				<p>{user.name}</p>
 				<p className="flex items-center gap-1">
-					ID: {user.name}
+					ID: {user.uid}
 					<CiEdit
 						size={20}
 						className="cursor-pointer text-gray-500"
-						onClick={() => router.push(`/user/data/${user.id}`)}
+						onClick={() => router.push("/user/data/")}
 					/>
 				</p>
 			</div>

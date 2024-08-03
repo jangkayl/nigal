@@ -90,3 +90,14 @@ export const changeProfileById = async (id: string, image: string) => {
 
 	revalidatePath("/");
 };
+
+export const changeNameById = async (id: string, name: string) => {
+	await db
+		.update(users)
+		.set({
+			name: name,
+		})
+		.where(eq(users.id, id));
+
+	revalidatePath("/");
+};

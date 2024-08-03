@@ -10,7 +10,7 @@ interface UserProfileProps {
 const UserInfo = ({ user }: UserProfileProps) => {
 	if (!user) redirect("/sign-in");
 	return (
-		<div className="w-full px-5">
+		<div className="w-full px-5 pt-[5rem]">
 			<div className="bg-white w-full h-48 rounded-md">
 				<UserProfile user={user} />
 				<div className="grid grid-cols-2 pt-5 max-w-[20rem] mx-auto">

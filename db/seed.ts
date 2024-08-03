@@ -20,12 +20,6 @@ const main = async () => {
 		await db.delete(schema.accounts);
 		await db.delete(schema.users);
 
-		const resUsers = await db
-			.insert(schema.users)
-			.values(sampleData.users)
-			.returning();
-
-		console.log({ resUsers });
 		await client.end();
 	} catch (error) {
 		console.error(error);

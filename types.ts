@@ -9,3 +9,11 @@ export type userType = {
 	points: number;
 	createdAt: Date;
 };
+
+export type prizeType = {
+	time: Date | string;
+	serial: number;
+	number: number;
+	result_value: number;
+	result: string;
+};

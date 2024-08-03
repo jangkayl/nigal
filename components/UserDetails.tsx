@@ -5,13 +5,14 @@ import React, { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { RiLock2Line } from "react-icons/ri";
 import { FiChevronRight } from "react-icons/fi";
+import UserButtons from "./UserButtons";
 
 interface UserDetailsProps {
 	user: userType | null;
 }
 
 const UserDetails = ({ user }: UserDetailsProps) => {
-	const [name, setName] = useState(user?.name);
+	const [name, setName] = useState<string>(user?.name ?? "");
 	const router = useRouter();
 
 	return (
@@ -69,6 +70,12 @@ const UserDetails = ({ user }: UserDetailsProps) => {
 					/>
 				</button>
 			</div>
+			{user?.id && (
+				<UserButtons
+					nickname={name}
+					id={user?.id}
+				/>
+			)}
 		</>
 	);
 };

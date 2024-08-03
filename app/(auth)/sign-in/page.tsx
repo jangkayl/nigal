@@ -13,7 +13,7 @@ const SignIn = async ({
 }) => {
 	const session = await auth();
 	if (session) {
-		return redirect(callbackUrl || "/");
+		return redirect(callbackUrl || "/user");
 	}
 
 	return (

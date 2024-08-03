@@ -1,7 +1,5 @@
 import { auth } from "@/auth";
-import TopUp from "@/components/TopUp";
-import UserDashboard from "@/components/UserDashboard";
-import UserInfo from "@/components/UserInfo";
+import UserDetails from "@/components/UserDetails";
 import { getUserById } from "@/lib/actions/user.action";
 import { userType } from "@/types";
 import { Metadata } from "next";
@@ -9,10 +7,10 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 export const metadata: Metadata = {
-	title: `Account`,
+	title: `User Profile`,
 };
 
-const User = async () => {
+const UserData = async () => {
 	const session = await auth();
 	let user: userType | null = null;
 
@@ -25,15 +23,10 @@ const User = async () => {
 	}
 
 	return (
-		<main className="min-h-screen flex flex-col items-center max-w-md mx-auto bg-gray-100 gap-5 relative">
-			<p className="py-4 bg-sky-300 w-full text-center text-white fixed top-0 max-w-md">
-				Account
-			</p>
-			<UserInfo user={user} />
-			<TopUp />
-			<UserDashboard />
+		<main className="min-h-screen flex flex-col items-center max-w-md mx-auto bg-gray-100 gap-5">
+			<UserDetails user={user} />
 		</main>
 	);
 };
 
-export default User;
+export default UserData;

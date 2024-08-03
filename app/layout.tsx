@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import UserNavigation from "@/components/UserNavigation";
 
 const poppins = Poppins({
 	subsets: ["latin"],
@@ -35,16 +36,19 @@ export default function RootLayout({
 					href="/favicon-32x32.png"
 				/>
 				<link
-					rel="apple-touch-icon"
+					rel="icon"
 					sizes="180x180"
 					href="/apple-touch-icon.png"
 				/>
 				<link
-					rel="manifest"
+					rel="icon"
 					href="/site.webmanifest"
 				/>
 			</head>
-			<body className={`${poppins.className} smooth-scroll`}>{children}</body>
+			<body className={`${poppins.className} smooth-scroll`}>
+				{children}
+				<UserNavigation />
+			</body>
 		</html>
 	);
 }

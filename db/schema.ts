@@ -7,6 +7,7 @@ import {
 	uuid,
 	boolean,
 	doublePrecision,
+	bigserial,
 } from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
 
@@ -24,6 +25,15 @@ export const users = pgTable("user", {
 	createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 	balance: doublePrecision("balance").default(0.0),
 	points: doublePrecision("points").default(0.0),
+});
+
+// ORDERS
+export const prizes = pgTable("prizes", {
+	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
+	serial: bigserial("serial", { mode: "number" }).primaryKey(),
+	number: integer("number").notNull(),
+	result_value: integer("result_value").notNull(),
+	result: text("result").notNull(),
 });
 
 export const accounts = pgTable(

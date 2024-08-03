@@ -1,13 +1,28 @@
 "use client";
-import { SignOut } from "@/lib/actions/user.action";
+import { changeNameById, SignOut } from "@/lib/actions/user.action";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const UserButtons = () => {
+interface nicknameProps {
+	nickname: string;
+	id: string;
+}
+
+const UserButtons = ({ nickname, id }: nicknameProps) => {
 	const router = useRouter();
+
+	const handleSaveChanges = async () => {
+		if (id) {
+			await changeNameById(id, nickname);
+			router.back();
+		}
+	};
+
 	return (
 		<div className="py-4 w-full max-w-sm gap-6 text-center flex flex-col fixed bottom-5">
-			<button className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 outline-none hover:bg-gradient-to-br rounded-lg p-3 text-center">
+			<button
+				className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 outline-none hover:bg-gradient-to-br rounded-lg p-3 text-center"
+				onClick={handleSaveChanges}>
 				Save changes
 			</button>
 			<form
