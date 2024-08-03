@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import UserNavigation from "@/components/UserNavigation";
 
+export const dynamic = "force-dynamic";
+
 const poppins = Poppins({
 	subsets: ["latin"],
 	display: "swap",
