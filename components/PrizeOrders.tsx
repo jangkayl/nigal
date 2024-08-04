@@ -1,24 +1,18 @@
 "use client";
-import { getAllPrizes } from "@/lib/actions/prize.action";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import DraggableButton from "./Draggable";
 import PrizeChart from "./PrizeChart";
+import { prizeType } from "@/types";
 
-const PrizeOrders = () => {
-	const [prizes, setPrizes] = useState<any[]>([]);
-	const [open, setOpen] = useState(false);
+interface PrizeProps {
+	prizes: prizeType[];
+}
+
+const PrizeOrders = ({ prizes }: PrizeProps) => {
+	const [open, setOpen] = useState<boolean>(false);
 	const router = useRouter();
-
-	const fetchPrizes = async () => {
-		const data = await getAllPrizes();
-		setPrizes(data);
-	};
-
-	useEffect(() => {
-		fetchPrizes();
-	}, []);
 
 	const formatDate = (date: Date | string) => {
 		let dt: Date;
@@ -47,7 +41,6 @@ const PrizeOrders = () => {
 					setOpen={setOpen}
 				/>
 			) : null}
-
 			<div className="w-full">
 				<div className="py-4 w-full text-center relative">
 					<IoIosArrowBack
@@ -57,42 +50,42 @@ const PrizeOrders = () => {
 					/>
 					<p>Prize opening record</p>
 				</div>
-				{open ? (
-					<PrizeChart />
-				) : (
-					<div>
-						<div className="w-full bg-sky-300 text-white">
-							<div className="grid grid-cols-4 py-3 text-center text-sm">
-								<p className="border-r border-white">Opening time</p>
-								<p className="border-r border-white">Issue</p>
-								<p className="border-r border-white">Number</p>
-								<p>Results</p>
-							</div>
-						</div>
-						<div className="w-full max-h-[84vh] overflow-y-auto scrollbar-hide">
-							{prizes.length > 0 ? (
-								prizes.map((prize, index) => (
-									<div
-										key={index}
-										className="w-full border-b">
-										<div className="grid grid-cols-4 py-2 items-center justify-center text-center text-sm">
-											<p>{formatDate(prize.time)}</p>
-											<p>{prize.serial}</p>
-											<p>{prize.number}</p>
-											<div className="flex justify-center">
-												<p className={`bg-yellow-300 py-1 w-24 rounded-md`}>
-													{prize.result}
-												</p>
-											</div>
-										</div>
-									</div>
-								))
-							) : (
-								<p className="pt-5 text-center">Loading...</p>
-							)}
+				<PrizeChart
+					open={open}
+					prizes={prizes}
+				/>
+				<div className={`${open ? "hidden" : "block"}`}>
+					<div className="w-full bg-sky-300 text-white">
+						<div className="flex py-3 text-center text-sm">
+							<p className="border-r border-white px-2">Opening time</p>
+							<p className="border-r border-white px-4 pr-7">Issue</p>
+							<p className="border-r border-white pl-4 pr-3">Number</p>
+							<p className="pl-6">Results</p>
 						</div>
 					</div>
-				)}
+					<div className="w-full max-h-[84vh] overflow-y-auto scrollbar-hide">
+						{prizes.length > 0 ? (
+							prizes.map((prize, index) => (
+								<div
+									key={index}
+									className="w-full border-b">
+									<div className="grid grid-cols-4 py-2 px-2 items-center justify-center text-center text-sm">
+										<p>{formatDate(prize.time)}</p>
+										<p>{prize.serial}</p>
+										<p>{prize.number}</p>
+										<div className="flex justify-center">
+											<p className={`bg-yellow-300 py-1 w-24 rounded-md`}>
+												{prize.result}
+											</p>
+										</div>
+									</div>
+								</div>
+							))
+						) : (
+							<p className="pt-5 text-center">Loading...</p>
+						)}
+					</div>
+				</div>
 			</div>
 		</>
 	);

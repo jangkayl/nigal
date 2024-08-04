@@ -17,3 +17,10 @@ export type prizeType = {
 	result_value: number;
 	result: string;
 };
+
+export type detailType = {
+	image: string;
+	title: string;
+	price: string;
+	cost: number;
+};

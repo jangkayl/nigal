@@ -1,7 +1,7 @@
 "use client";
 import { changeProfileById } from "@/lib/actions/user.action";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface ModalProps {
 	open: boolean;
@@ -14,13 +14,9 @@ const Modal: React.FC<ModalProps> = ({ open, setOpen, userId, currentImg }) => {
 	const [selectedImage, setSelectedImage] = useState(currentImg);
 	const modalRef = useRef<HTMLDivElement>(null);
 
-	const handleClose = () => setOpen(false);
-
-	const handleClickOutside = (e: MouseEvent) => {
-		if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-			handleClose();
-		}
-	};
+	const handleClose = useCallback(() => {
+		setOpen(false);
+	}, [setOpen]);
 
 	const handleImageClick = async (imageSrc: string) => {
 		setSelectedImage(imageSrc);
@@ -29,6 +25,11 @@ const Modal: React.FC<ModalProps> = ({ open, setOpen, userId, currentImg }) => {
 	};
 
 	useEffect(() => {
+		const handleClickOutside = (e: MouseEvent) => {
+			if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+				handleClose();
+			}
+		};
 		if (open) {
 			document.addEventListener("mousedown", handleClickOutside);
 		} else {
@@ -38,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ open, setOpen, userId, currentImg }) => {
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
-	}, [open]);
+	}, [handleClose, open]);
 
 	return (
 		<div

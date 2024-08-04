@@ -24,13 +24,13 @@ const UserNavigation = () => {
 	}
 
 	return (
-		<div className="bg-white border-t-2 py-4 px-5 border w-full text-xs flex justify-between max-w-sm mx-auto items-center fixed bottom-0 left-0 right-0">
+		<div className="bg-white border-t-2 py-2 px-5 border w-full text-xs flex justify-between max-w-sm mx-auto items-center fixed bottom-0 left-0 right-0">
 			<Link
 				href="/"
 				className={`flex flex-col items-center gap-1 ${
 					isActive("/") ? "text-blue-500" : "text-gray-500"
 				}`}>
-				<RiHome3Line size={26} />
+				<RiHome3Line size={23} />
 				Home
 			</Link>
 			<Link
@@ -38,7 +38,7 @@ const UserNavigation = () => {
 				className={`flex flex-col items-center gap-1 ${
 					isActive("/points") ? "text-blue-500" : "text-gray-500"
 				}`}>
-				<TbDiamond size={26} />
+				<TbDiamond size={23} />
 				Points
 			</Link>
 			<Link
@@ -46,7 +46,7 @@ const UserNavigation = () => {
 				className={`flex flex-col items-center gap-1 ${
 					isActive("/vip_zone") ? "text-blue-500" : "text-gray-500"
 				}`}>
-				<RiVipCrown2Line size={26} />
+				<RiVipCrown2Line size={23} />
 				VIP Zone
 			</Link>
 			<Link
@@ -54,7 +54,7 @@ const UserNavigation = () => {
 				className={`flex flex-col items-center gap-1 ${
 					isActive("/order") ? "text-blue-500" : "text-gray-500"
 				}`}>
-				<RiFileList2Line size={26} />
+				<RiFileList2Line size={23} />
 				Order
 			</Link>
 			<Link
@@ -62,7 +62,7 @@ const UserNavigation = () => {
 				className={`flex flex-col items-center gap-1 ${
 					isActive("/user") ? "text-blue-500" : "text-gray-500"
 				}`}>
-				<PiUserBold size={26} />
+				<PiUserBold size={23} />
 				Account
 			</Link>
 		</div>
