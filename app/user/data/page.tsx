@@ -23,7 +23,7 @@ const UserData = async () => {
 	}
 
 	return (
-		<main className="min-h-screen flex flex-col items-center max-w-md mx-auto bg-gray-100 gap-5">
+		<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-gray-100 gap-5">
 			<UserDetails user={user} />
 		</main>
 	);

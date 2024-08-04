@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const Prize = () => {
 	return (
-		<main className="min-h-screen flex flex-col items-center max-w-md mx-auto bg-gray-100">
+		<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-gray-100">
 			<PrizeOrders />
 		</main>
 	);

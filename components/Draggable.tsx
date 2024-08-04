@@ -60,7 +60,7 @@ const DraggableButton = ({ open, setOpen }: any) => {
 			<button
 				ref={buttonRef}
 				onMouseDown={() => setIsDragging(true)}
-				className="bg-red-500 bg-opacity-65 text-white cursor-pointer absolute max-w-md rounded-full px-3 py-5 hover:bg-opacity-100"
+				className="bg-red-500 bg-opacity-65 text-white cursor-pointer absolute max-w-sm rounded-full px-3 py-5 hover:bg-opacity-100"
 				onClick={() => setOpen(!open)}
 				style={{
 					left: `${position.x}px`,

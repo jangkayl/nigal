@@ -4,7 +4,12 @@ import { prizes } from "@/db/schema";
 import { randomInt } from "crypto";
 import { desc, notInArray } from "drizzle-orm";
 
-// ADD PRIZES ASYNC
+let isCronJobInitialized = false;
+let cronJobIntervalId: NodeJS.Timeout | null = null;
+let initialTimeoutId: NodeJS.Timeout | null = null;
+let stopJob = false;
+let currentJobPromise: Promise<void> | null = null;
+
 export const addPrizeWithRandomNumber = async () => {
 	const random_number = randomInt(1, 101);
 	const number = random_number;
@@ -25,10 +30,8 @@ export const addPrizeWithRandomNumber = async () => {
 	}
 };
 
-// Function to delete records exceeding the limit of 50 items
 export const deleteExcessRecords = async () => {
 	try {
-		// Fetch the IDs of the most recent 50 records
 		const recentPrizes = await db
 			.select()
 			.from(prizes)
@@ -36,7 +39,6 @@ export const deleteExcessRecords = async () => {
 			.limit(50);
 		const recentIds = recentPrizes.map((prize) => prize.serial);
 
-		// Delete records not in the recentIds
 		if (recentIds.length > 0) {
 			await db.delete(prizes).where(notInArray(prizes.serial, recentIds));
 			console.log("Excess records deleted successfully.");
@@ -46,4 +48,84 @@ export const deleteExcessRecords = async () => {
 	} catch (error) {
 		console.error("Error deleting excess records:", error);
 	}
+};
+
+function getDelayToNextMinute(): number {
+	const now = new Date();
+	const nextMinute = new Date(
+		now.getFullYear(),
+		now.getMonth(),
+		now.getDate(),
+		now.getHours(),
+		now.getMinutes() + 1,
+		0,
+		0
+	);
+	return nextMinute.getTime() - now.getTime();
+}
+
+const job = async () => {
+	if (stopJob) return;
+
+	try {
+		console.log("Cron job started at", new Date().toISOString());
+		await addPrizeWithRandomNumber();
+		if (stopJob) return;
+		await deleteExcessRecords();
+		console.log("Cron job completed at", new Date().toISOString());
+	} catch (error) {
+		console.error("Error during cron job execution:", error);
+	}
+};
+
+export const startCronJob = () => {
+	if (isCronJobInitialized) {
+		console.log("Cron job is already initialized.");
+		return;
+	}
+
+	isCronJobInitialized = true;
+	stopJob = false;
+
+	initialTimeoutId = setTimeout(async () => {
+		if (stopJob) return;
+
+		await job();
+		if (stopJob) return;
+
+		cronJobIntervalId = setInterval(async () => {
+			if (stopJob) {
+				clearInterval(cronJobIntervalId as any);
+				cronJobIntervalId = null;
+				return;
+			}
+
+			if (currentJobPromise) await currentJobPromise;
+			currentJobPromise = job();
+			await currentJobPromise;
+		}, 60000);
+	}, getDelayToNextMinute());
+
+	console.log("Cron job scheduled to start.");
+};
+
+export const stopCronJob = async () => {
+	stopJob = true;
+
+	if (cronJobIntervalId) {
+		clearInterval(cronJobIntervalId);
+		cronJobIntervalId = null;
+	}
+
+	if (initialTimeoutId) {
+		clearTimeout(initialTimeoutId);
+		initialTimeoutId = null;
+	}
+
+	if (currentJobPromise) {
+		await currentJobPromise;
+	}
+
+	isCronJobInitialized = false;
+	console.log("Cron job stopped.");
 };

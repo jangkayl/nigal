@@ -21,7 +21,7 @@ const Register = async ({
 	}
 
 	return (
-		<main className="min-h-screen flex flex-col items-center max-w-md mx-auto bg-white gap-10">
+		<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-white gap-10">
 			<LogoInForm />
 			<RegisterForm />
 		</main>

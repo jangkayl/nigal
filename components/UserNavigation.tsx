@@ -24,7 +24,7 @@ const UserNavigation = () => {
 	}
 
 	return (
-		<div className="bg-white border-t-2 py-4 px-5 border w-full text-xs flex justify-between max-w-md mx-auto items-center fixed bottom-0 left-0 right-0">
+		<div className="bg-white border-t-2 py-4 px-5 border w-full text-xs flex justify-between max-w-sm mx-auto items-center fixed bottom-0 left-0 right-0">
 			<Link
 				href="/"
 				className={`flex flex-col items-center gap-1 ${

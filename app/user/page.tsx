@@ -25,8 +25,8 @@ const User = async () => {
 	}
 
 	return (
-		<main className="min-h-screen flex flex-col items-center max-w-md mx-auto bg-gray-100 gap-5 relative">
-			<p className="py-4 bg-sky-300 w-full text-center text-white fixed top-0 max-w-md">
+		<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-gray-100 gap-5 relative">
+			<p className="py-4 bg-sky-300 w-full text-center text-white fixed top-0 max-w-sm">
 				Account
 			</p>
 			<UserInfo user={user} />
