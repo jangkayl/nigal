@@ -1,18 +1,31 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import DraggableButton from "./Draggable";
 import PrizeChart from "./PrizeChart";
 import { prizeType } from "@/types";
+import { getAllPrizes } from "@/lib/actions/prize.action";
 
-interface PrizeProps {
-	prizes: prizeType[];
-}
-
-const PrizeOrders = ({ prizes }: PrizeProps) => {
+const PrizeOrders = () => {
+	const [prize, setPrize] = useState<prizeType[]>([]);
 	const [open, setOpen] = useState<boolean>(false);
 	const router = useRouter();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const data = await getAllPrizes();
+				setPrize(data);
+			} catch (error) {
+				console.error("Error fetching prizes:", error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
+	console.log(prize);
 
 	const formatDate = (date: Date | string) => {
 		let dt: Date;
@@ -35,7 +48,7 @@ const PrizeOrders = ({ prizes }: PrizeProps) => {
 
 	return (
 		<>
-			{prizes.length ? (
+			{prize.length ? (
 				<DraggableButton
 					open={open}
 					setOpen={setOpen}
@@ -52,7 +65,7 @@ const PrizeOrders = ({ prizes }: PrizeProps) => {
 				</div>
 				<PrizeChart
 					open={open}
-					prizes={prizes}
+					prizes={prize}
 				/>
 				<div className={`${open ? "hidden" : "block"}`}>
 					<div className="w-full bg-sky-300 text-white">
@@ -63,9 +76,9 @@ const PrizeOrders = ({ prizes }: PrizeProps) => {
 							<p className="pl-6">Results</p>
 						</div>
 					</div>
-					<div className="w-full max-h-[84vh] overflow-y-auto scrollbar-hide">
-						{prizes.length > 0 ? (
-							prizes.map((prize, index) => (
+					<div className="w-full h-[84vh] overflow-y-auto scrollbar-hide">
+						{prize.length > 0 ? (
+							prize.map((prize, index) => (
 								<div
 									key={index}
 									className="w-full border-b">

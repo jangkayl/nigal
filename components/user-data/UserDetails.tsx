@@ -29,7 +29,7 @@ const UserDetails = ({ user }: UserDetailsProps) => {
 				<p>Nickname</p>
 				<input
 					type="text"
-					className="text-gray-500 text-right w-auto bg-transparent outline-none"
+					className="text-gray-500 text-right max-w-[9rem] bg-transparent outline-none"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 				/>

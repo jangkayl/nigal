@@ -19,7 +19,7 @@ export type prizeType = {
 };
 
 export type detailType = {
-	image: string;
+	image: any;
 	title: string;
 	price: string;
 	cost: number;

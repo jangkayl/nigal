@@ -8,30 +8,23 @@ const DraggableButton = ({ open, setOpen }: any) => {
 		x: number;
 		y: number;
 	} | null>(null);
+	const requestRef = useRef<number | null>(null);
 
 	const handleMove = useCallback(
 		(e: MouseEvent | TouchEvent) => {
 			if (isDragging && buttonRef.current && startOffset) {
-				// Calculate the new position based on the event type
 				const clientX =
-					e instanceof MouseEvent
-						? e.clientX
-						: (e as TouchEvent).touches[0].clientX;
+					e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
 				const clientY =
-					e instanceof MouseEvent
-						? e.clientY
-						: (e as TouchEvent).touches[0].clientY;
+					e instanceof MouseEvent ? e.clientY : e.touches[0].clientY;
 
-				// Calculate the new position considering the initial offset
 				const newX = clientX - startOffset.x;
 				const newY = clientY - startOffset.y;
 
-				// Calculate boundaries for dragging
 				const buttonRect = buttonRef.current.getBoundingClientRect();
 				const maxX = window.innerWidth - buttonRect.width;
 				const maxY = window.innerHeight - buttonRect.height;
 
-				// Limit the position within the viewport
 				const clampedX = Math.max(0, Math.min(newX, maxX));
 				const clampedY = Math.max(0, Math.min(newY, maxY));
 
@@ -45,26 +38,36 @@ const DraggableButton = ({ open, setOpen }: any) => {
 	);
 
 	useEffect(() => {
+		const moveHandler = (e: MouseEvent | TouchEvent) => {
+			if (requestRef.current !== null) {
+				window.cancelAnimationFrame(requestRef.current);
+			}
+			requestRef.current = window.requestAnimationFrame(() => handleMove(e));
+		};
+
 		const handleMouseUp = () => setIsDragging(false);
 		const handleTouchEnd = () => setIsDragging(false);
 
 		if (isDragging) {
-			window.addEventListener("mousemove", handleMove);
+			window.addEventListener("mousemove", moveHandler);
 			window.addEventListener("mouseup", handleMouseUp);
-			window.addEventListener("touchmove", handleMove, { passive: false });
+			window.addEventListener("touchmove", moveHandler, { passive: false });
 			window.addEventListener("touchend", handleTouchEnd);
 		} else {
-			window.removeEventListener("mousemove", handleMove);
+			window.removeEventListener("mousemove", moveHandler);
 			window.removeEventListener("mouseup", handleMouseUp);
-			window.removeEventListener("touchmove", handleMove);
+			window.removeEventListener("touchmove", moveHandler);
 			window.removeEventListener("touchend", handleTouchEnd);
 		}
 
 		return () => {
-			window.removeEventListener("mousemove", handleMove);
+			window.removeEventListener("mousemove", moveHandler);
 			window.removeEventListener("mouseup", handleMouseUp);
-			window.removeEventListener("touchmove", handleMove);
+			window.removeEventListener("touchmove", moveHandler);
 			window.removeEventListener("touchend", handleTouchEnd);
+			if (requestRef.current !== null) {
+				window.cancelAnimationFrame(requestRef.current);
+			}
 		};
 	}, [isDragging, handleMove]);
 
@@ -72,7 +75,7 @@ const DraggableButton = ({ open, setOpen }: any) => {
 		const buttonRect = buttonRef.current?.getBoundingClientRect();
 		if (buttonRect) {
 			setStartOffset({
-				x: buttonRect.right,
+				x: e.clientX - buttonRect.left,
 				y: e.clientY - buttonRect.top,
 			});
 		}
@@ -95,13 +98,13 @@ const DraggableButton = ({ open, setOpen }: any) => {
 			ref={buttonRef}
 			onMouseDown={handleMouseDown}
 			onTouchStart={handleTouchStart}
-			className="bg-red-500 bg-opacity-65 text-white cursor-pointer absolute max-w-sm rounded-full px-3 py-5 hover:bg-opacity-100 z-10"
+			className="bg-red-500 bg-opacity-65 text-white cursor-pointer fixed max-w-sm rounded-full px-3 py-5 hover:bg-opacity-100 z-10"
 			onClick={() => setOpen(!open)}
 			style={{
 				left: `${position.x}px`,
 				top: `${position.y}px`,
-				maxWidth: "28rem", // Ensure the button does not exceed max-width
-				width: "auto", // Allow width to adjust based on content
+				maxWidth: "28rem",
+				width: "auto",
 			}}>
 			{open ? "Close" : "Chart"}
 		</button>

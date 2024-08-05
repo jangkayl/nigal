@@ -16,11 +16,11 @@ const UserInfo = ({ user }: UserProfileProps) => {
 				<div className="grid grid-cols-2 pt-5 max-w-[20rem] mx-auto">
 					<div className="text-center">
 						<p className="text-2xl">{user.balance}</p>
-						<p className="text-sm text-gray-400">Available balance (₱)</p>
+						<p className="text-xs text-gray-400">Available balance (₱)</p>
 					</div>
 					<div className="text-center">
 						<p className="text-2xl">{user.points}</p>
-						<p className="text-sm text-gray-400">My Points</p>
+						<p className="text-xs text-gray-400">My Points</p>
 					</div>
 				</div>
 			</div>

@@ -1,18 +1,16 @@
-import { Metadata } from "next";
 import React from "react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: `My order`,
 };
 
-const Order = () => {
+const Points = () => {
 	return (
-		<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-gray-100 gap-5">
-			<div className="py-4 bg-sky-300 w-full text-white text-center relative">
-				<p>My Order</p>
-			</div>
+		<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-gray-100 gap-5 relative">
+			<p className="py-4 bg-sky-300 w-full text-center text-white">Account</p>
 		</main>
 	);
 };
 
-export default Order;
+export default Points;

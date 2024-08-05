@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
-const Carousel = ({ images }: { images: string[] }) => {
-	const [currentIndex, setCurrentIndex] = useState(1); // Start at 1 to show the first image in the middle
+const Carousel = ({ images }: { images: (string | StaticImageData)[] }) => {
+	const [currentIndex, setCurrentIndex] = useState(1);
 	const carouselRef = useRef<HTMLDivElement>(null);
 	const startXRef = useRef<number | null>(null);
 	const isDragging = useRef(false);
@@ -103,12 +103,14 @@ const Carousel = ({ images }: { images: string[] }) => {
 	}, [currentIndex, clonedImages.length]);
 
 	return (
-		<div className="w-full overflow-hidden relative">
-			<IoIosArrowBack
-				size={35}
-				className="p-2 bg-gray-700 opacity-95 rounded-full text-white absolute z-10 cursor-pointer top-2 left-2"
-				onClick={() => router.back()}
-			/>
+		<div className="w-full max-w-sm overflow-hidden relative">
+			<div className="pl-2">
+				<IoIosArrowBack
+					size={35}
+					className="p-2 bg-gray-700 opacity-95 rounded-full text-white fixed z-10 cursor-pointer top-2"
+					onClick={() => router.back()}
+				/>
+			</div>
 			<div
 				className="flex transition-transform duration-700 ease-in-out"
 				style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -129,9 +131,7 @@ const Carousel = ({ images }: { images: string[] }) => {
 							src={image}
 							alt={`Carousel image ${index + 1}`}
 							width={1200}
-							height={800}
-							sizes="100vw"
-							className="w-full h-auto"
+							height={1200}
 						/>
 					</div>
 				))}

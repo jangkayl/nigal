@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import UserDetails from "@/components/UserDetails";
+import UserDetails from "@/components/user-data/UserDetails";
 import { getUserById } from "@/lib/actions/user.action";
 import { userType } from "@/types";
 import { Metadata } from "next";

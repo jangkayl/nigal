@@ -80,13 +80,13 @@ const BelowChart = ({ prizes }: PrizeProps) => {
 				</table>
 				<div className="flex justify-center items-center flex-col w-[6rem] gap-1">
 					<div className="w-10 h-10 border-[6px] border-red-500 rounded-full flex justify-center items-center text-red-500">
-						<p>{evenCount}</p>
+						<p>{oddCount}</p>
 					</div>
 					<p className="text-red-500">
 						V<span className="text-blue-500">S</span>
 					</p>
 					<div className="w-10 h-10 border-[6px] border-blue-500 rounded-full flex justify-center items-center text-blue-500">
-						<p>{oddCount}</p>
+						<p>{evenCount}</p>
 					</div>
 				</div>
 			</div>

@@ -9,21 +9,19 @@ const Partners = () => {
 				<button>
 					<Image
 						src="https://manage.im2015.com//uploads/attach/2020/03/20200315/8abbd022d271c2177d3d314654ab6186.jpeg"
-						width="0"
-						height="0"
-						sizes="100vw"
-						className="w-full h-auto rounded-md"
-						alt="gcash"
+						width={170}
+						height={170}
+						alt="partners"
+						className="rounded-md"
 					/>
 				</button>
 				<button>
 					<Image
 						src="https://manage.im2015.com//uploads/attach/2020/04/20200404/3ef75b73bfe6c460000b83371803cbe0.png"
-						width="0"
-						height="0"
-						sizes="90vw"
-						className="w-full h-auto rounded-md"
-						alt="youtube"
+						width={170}
+						height={170}
+						alt="partners"
+						className="rounded-md"
 					/>
 				</button>
 			</div>
