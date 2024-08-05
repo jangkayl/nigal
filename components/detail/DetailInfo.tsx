@@ -21,9 +21,8 @@ const DetailInfo = ({ data, oneBet }: Props) => {
 			</div>
 			<div className="flex flex-col gap-2">
 				<p className="font-semibold">{data.title}</p>
-				<div className="flex justify-between text-[0.8rem] text-gray-500">
+				<div className="flex gap-5 text-[0.8rem] text-gray-500">
 					<p>Original price: {data.price}</p>
-					<p>Inventory: 696969</p>
 					<p>Sold: 696969</p>
 				</div>
 				<p className="text-[0.8rem] text-red-500">

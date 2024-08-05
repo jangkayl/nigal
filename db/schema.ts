@@ -27,8 +27,17 @@ export const users = pgTable("user", {
 	points: doublePrecision("points").default(0.0),
 });
 
-// ORDERS
+// PRIZES
 export const prizes = pgTable("prizes", {
+	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
+	serial: bigserial("serial", { mode: "number" }).primaryKey(),
+	number: integer("number").notNull(),
+	result_value: integer("result_value").notNull(),
+	result: text("result").notNull(),
+});
+
+// ORDERS
+export const orders = pgTable("orders", {
 	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
 	serial: bigserial("serial", { mode: "number" }).primaryKey(),
 	number: integer("number").notNull(),

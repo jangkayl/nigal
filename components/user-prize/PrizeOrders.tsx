@@ -1,7 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { IoIosArrowBack } from "react-icons/io";
 import DraggableButton from "./Draggable";
 import PrizeChart from "./PrizeChart";
 import { prizeType } from "@/types";
@@ -10,7 +8,6 @@ import { getAllPrizes } from "@/lib/actions/prize.action";
 const PrizeOrders = () => {
 	const [prize, setPrize] = useState<prizeType[]>([]);
 	const [open, setOpen] = useState<boolean>(false);
-	const router = useRouter();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -55,14 +52,6 @@ const PrizeOrders = () => {
 				/>
 			) : null}
 			<div className="w-full">
-				<div className="py-4 w-full text-center relative">
-					<IoIosArrowBack
-						size={20}
-						className="cursor-pointer absolute left-3"
-						onClick={() => router.back()}
-					/>
-					<p>Prize opening record</p>
-				</div>
 				<PrizeChart
 					open={open}
 					prizes={prize}

@@ -1,17 +1,17 @@
-import PaymentSuccess from "@/components/detail/PaymentSuccess";
+import OrderSuccess from "@/components/detail/OrderSuccess";
 import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-	title: `Order created successfully`,
+	title: `Order Detail`,
 };
 
-const Submit = async () => {
+const Prize = async () => {
 	return (
 		<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-gray-100 relative">
-			<PaymentSuccess />
+			<OrderSuccess />
 		</main>
 	);
 };
 
-export default Submit;
+export default Prize;
