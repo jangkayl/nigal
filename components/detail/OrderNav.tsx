@@ -1,20 +1,30 @@
 "use client";
-import { updateUserOrder } from "@/lib/actions/prize.action";
+import { getOrderById, updateUserOrder } from "@/lib/actions/prize.action";
 import { orderType } from "@/types";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BetError from "../submit-order/BetError";
 import BetSuccess from "../submit-order/BetSuccess";
+import { getSessionUser } from "@/lib/actions/user.action";
 
-interface Props {
-	result?: orderType;
-}
-
-const OrderNav = ({ result }: Props) => {
+const OrderNav = ({ params }: any) => {
 	const [selected, setSelected] = useState("");
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const [result, setResult] = useState<orderType>();
 	const router = useRouter();
+
+	useEffect(() => {
+		const fetchOrders = async () => {
+			const user = await getSessionUser();
+			if (user?.user.id) {
+				const res = await getOrderById(params);
+				setResult(res);
+			}
+		};
+
+		fetchOrders();
+	}, [params]);
 
 	const handleButtonClick = (choice: string) => {
 		setSelected(choice);
@@ -24,7 +34,7 @@ const OrderNav = ({ result }: Props) => {
 
 	const handleClick = async () => {
 		const status = "Waiting for draw";
-		const choice = selected && "even" ? 0 : 1;
+		const choice = selected === "even" ? 0 : 1;
 
 		if (!result?.opening_time) {
 			setSuccess(true);

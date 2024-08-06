@@ -17,8 +17,9 @@ interface Props {
 const OrderSuccess = ({ result }: Props) => {
 	const router = useRouter();
 
-	const index = result?.index || 0 + 1;
-	const cost = allGoodsData.prices[result?.index || 0].cost;
+	const index = allGoodsData.prices.findIndex(
+		(item) => item.cost === result?.cost
+	);
 
 	return (
 		<div className="w-full flex flex-col gap-2 text-sm">
@@ -50,8 +51,8 @@ const OrderSuccess = ({ result }: Props) => {
 							className="rounded-md"
 						/>
 						<div className="flex flex-col gap-2">
-							<p>Cash 2x returns</p>
-							<p className="text-xs text-red-500">₱{cost}</p>
+							<p>{result?.returns}</p>
+							<p className="text-xs text-red-500">₱{result?.cost}</p>
 						</div>
 					</div>
 					<p className="text-gray-400">x {result?.item}</p>
@@ -61,7 +62,7 @@ const OrderSuccess = ({ result }: Props) => {
 			<div className="fixed bottom-0 p-3 bg-white max-w-sm w-full">
 				<div className="text-end">
 					<Link
-						href={`/detail/${index}`}
+						href={`/detail/${index + 1}`}
 						className="py-1 px-3 text-yellow-500 border-yellow-500 border rounded-md">
 						Re-order
 					</Link>

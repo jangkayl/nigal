@@ -45,11 +45,12 @@ export const orderSuccess = pgTable("orderSuccess", {
 	item: integer("item").notNull(),
 	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
 	status: text("status").default("Is not on sales yet").notNull(),
+	returns: text("returns"),
 	games: text("games"),
 	opening_time: timestamp("opening_time", { mode: "date" }),
 	my_choice: integer("my_choice"),
 	image: text("image"),
-	index: integer("index"),
+	cost: integer("cost"),
 	total: integer("total").notNull(),
 	userId: uuid("userId")
 		.notNull()

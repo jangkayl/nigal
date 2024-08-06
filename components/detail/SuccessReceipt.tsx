@@ -101,7 +101,11 @@ const SuccessReceipt = ({ result }: Props) => {
 					<p>
 						Amount paid:{" "}
 						<span className="font-semibold text-red-500">
-							₱{result?.total}.00
+							₱
+							{result?.status === "Sales success"
+								? result.total / 2
+								: result?.total}
+							.00
 						</span>
 					</p>
 				</div>

@@ -1,23 +1,37 @@
 "use client";
+
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import SubmitItem from "./SubmitItem";
 import allGoodsData from "@/lib/sample-data";
 import PaymentMethod from "./PaymentMethod";
 import { userType } from "@/types";
+import { getSessionUser, getUserById } from "@/lib/actions/user.action";
 
 interface UserProps {
 	user: userType | null;
 }
 
-const SubmitOrder = ({ user }: UserProps) => {
+const SubmitOrder = ({ user: initialUser }: UserProps) => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const count = parseInt(searchParams.get("count") || "0", 10);
 	const cost = parseFloat(searchParams.get("cost") || "0");
 	const dataIndex = parseInt(searchParams.get("dataIndex") || "0");
 	const data = allGoodsData.prices[dataIndex];
+	const [user, setUser] = useState<userType | null>(initialUser);
+
+	useEffect(() => {
+		const fetchUserData = async () => {
+			const session = await getSessionUser();
+			if (session?.user?.id) {
+				const updatedUser = await getUserById(session.user.id);
+				setUser(updatedUser);
+			}
+		};
+		fetchUserData();
+	}, []);
 
 	return (
 		<div className="w-full">

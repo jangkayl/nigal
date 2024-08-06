@@ -1,17 +1,27 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Operated from "./Operated";
 import { orderType } from "@/types";
 import Image from "next/image";
+import { getAllUserOrder } from "@/lib/actions/prize.action";
+import { getSessionUser } from "@/lib/actions/user.action";
 
-interface Props {
-	orders?: orderType[];
-}
-
-const OrderList = ({ orders }: Props) => {
+const OrderList = () => {
 	const [selected, setSelected] = useState("");
+	const [orders, setOrders] = useState<orderType[] | undefined>(undefined);
 
-	console.log(orders);
+	useEffect(() => {
+		const fetchOrders = async () => {
+			const user = await getSessionUser();
+			if (user?.user.id) {
+				const res = await getAllUserOrder(user.user.id);
+				setOrders(res.length > 0 ? res : undefined);
+			}
+		};
+
+		fetchOrders();
+	}, []);
+
 	return (
 		<div className="w-full text-xs">
 			<div className="pb-1 border-b bg-white fixed top-0 max-w-sm w-full">
@@ -64,16 +74,16 @@ const OrderList = ({ orders }: Props) => {
 					</button>
 				</div>
 			</div>
-			{orders?.length !== 0 ? (
+			{orders?.length ? (
 				<Operated orders={orders} />
 			) : (
-				<div className="pt-44 z-10 w-48	mx-auto max-w-sm">
+				<div className="pt-44 z-10 w-48 mx-auto max-w-sm">
 					<Image
 						src="https://www.im2015.com/h5/img/noOrder.3770f435.png"
 						width={999}
 						height={999}
 						quality={100}
-						alt="background"
+						alt="No Orders"
 					/>
 				</div>
 			)}

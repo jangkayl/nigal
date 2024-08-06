@@ -36,5 +36,6 @@ export type orderType = {
 	total: number;
 	userId: string;
 	image: string | null;
-	index: number | null;
+	returns: string | null;
+	cost: number | null;
 };

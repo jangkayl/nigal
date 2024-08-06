@@ -1,4 +1,4 @@
-import allGoodsData from "@/lib/sample-data";
+import { updateSuccessOrder } from "@/lib/actions/prize.action";
 import { formatDateTime } from "@/lib/utils";
 import { orderType } from "@/types";
 import Image from "next/image";
@@ -12,53 +12,58 @@ interface Props {
 
 const Operated = ({ orders }: Props) => {
 	const router = useRouter();
-	const [currentTime, setCurrentTime] = useState<Date>(new Date());
-	const [calculatedCountdowns, setCalculatedCountdowns] = useState<{
-		[key: string]: string;
-	}>({});
+	const [countdown, setCountdown] = useState<string>("");
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setCurrentTime(new Date());
-		}, 1000); // Update every second
+			const now = new Date();
+			const nextMinute = new Date(
+				now.getFullYear(),
+				now.getMonth(),
+				now.getDate(),
+				now.getHours(),
+				now.getMinutes() + 1,
+				0,
+				0
+			);
 
-		return () => clearInterval(interval); // Clean up interval on unmount
+			const diff = Math.max((nextMinute.getTime() - now.getTime()) / 1000, 0);
+
+			const minutes = Math.floor(diff / 60);
+			const seconds = Math.floor(diff % 60);
+
+			const formattedMinutes = String(minutes).padStart(2, "0");
+			const formattedSeconds = String(seconds).padStart(2, "0");
+
+			setCountdown(`${formattedMinutes}:${formattedSeconds}`);
+		}, 1000);
+
+		return () => clearInterval(interval);
 	}, []);
 
-	useEffect(() => {
-		const updatedCountdowns: { [key: string]: string } = {};
-		orders?.forEach((order) => {
-			if (order.opening_time) {
-				const countdown = calculateCountdown(order.opening_time);
-				updatedCountdowns[order.orderNo] = countdown;
-			}
-		});
-		setCalculatedCountdowns(updatedCountdowns);
-	}, [currentTime, orders]);
-
-	const calculateCountdown = (targetTime: Date | null) => {
-		if (!targetTime) return "00:00"; // Handle null case
-
-		const targetDate = new Date(new Date(targetTime).getTime() + 120000);
-		const now = currentTime;
-		const diff = targetDate.getTime() - now.getTime();
-
-		console.log(`Target Date: ${targetDate}`);
-		console.log(`Now: ${now}`);
-		console.log(`Diff: ${diff}`);
-
-		if (diff <= 0) {
-			return "00:00"; // Ensure countdown doesn't go negative
-		}
-
-		const minutes = Math.floor(diff / 60000);
-		const seconds = Math.floor((diff % 60000) / 1000);
-
-		return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-			2,
-			"0"
-		)}`;
+	const updateOrderStatus = async (order: orderType) => {
+		const image =
+			"https://manage.im2015.com//uploads/attach/2020/05/20200515/0e8c80facdfc560b7e45e3281b20c13c.png";
+		const returns = "Win the lottery";
+		const status = "Sales success";
+		const total = order.total * 2;
+		await updateSuccessOrder(order.orderNo, image, returns, status, total);
+		window.location.reload();
 	};
+
+	useEffect(() => {
+		if (countdown === "00:00") {
+			orders?.forEach((order) => {
+				if (
+					order.opening_time &&
+					order.status !== "Sales success" &&
+					order.status !== "Sales failed"
+				) {
+					updateOrderStatus(order);
+				}
+			});
+		}
+	}, [countdown, orders]);
 
 	const handleHotspot = (order: string) => {
 		router.push(`/order/game/${order}`);
@@ -102,16 +107,12 @@ const Operated = ({ orders }: Props) => {
 								height={100}
 								alt="order"
 								quality={100}
-								className="rounded-md w-14"
+								className="rounded-md w-16"
 							/>
-							<p>
-								{order.index === 2 || order.index === 3
-									? "VIP 71x returns"
-									: "Cash 2x returns"}
-							</p>
+							<p>{order.returns}</p>
 						</div>
 						<div className="flex items-end text-gray-400 flex-col">
-							<p>₱{allGoodsData.prices[order.index || 0].cost}.00</p>
+							<p>₱{order.cost}.00</p>
 							<p>x{order.item}</p>
 						</div>
 					</div>
@@ -124,11 +125,19 @@ const Operated = ({ orders }: Props) => {
 							</span>
 						</p>
 					</div>
-					<div className="w-full flex justify-end px-4 py-3 gap-3">
+					<div className="w-full flex justify-end items-center px-4 py-3 gap-3">
 						{order.my_choice !== null ? (
-							<p className="flex justify-center items-center">
-								Bonus countdown: {calculatedCountdowns[order.orderNo] || "N/A"}
-							</p>
+							<div>
+								{order.status === "Waiting for draw" ? (
+									<p className="">Bonus countdown: {countdown}</p>
+								) : (
+									<button
+										className="p-2 border rounded-lg border-cyan-500 text-cyan-500 flex justify-center items-center"
+										onClick={() => console.log("Success button clicked")}>
+										Refund
+									</button>
+								)}
+							</div>
 						) : (
 							<button
 								className="border rounded-lg border-red-500 text-red-500 flex justify-center items-center p-2"

@@ -41,7 +41,9 @@ export const generateOrder = async (
 	item: number,
 	games: string,
 	total: number,
-	image: string
+	image: string,
+	returns: string,
+	cost: number
 ) => {
 	try {
 		await db.insert(orderSuccess).values({
@@ -50,6 +52,8 @@ export const generateOrder = async (
 			games: games,
 			total: total,
 			image: image,
+			returns: returns,
+			cost: cost,
 		});
 		console.log("Generate order done");
 	} catch (error) {
@@ -57,10 +61,29 @@ export const generateOrder = async (
 	}
 };
 
+// GET LATEST ORDER BY USER ID
+export const getLatestUserOrder = async (userId: any) => {
+	if (!userId) {
+		throw new Error("User ID is required");
+	}
+
+	try {
+		const result = await db.query.orderSuccess.findFirst({
+			where: eq(orderSuccess.userId, userId),
+			orderBy: desc(orderSuccess.time),
+		});
+
+		return result;
+	} catch (error) {
+		console.error("Query error:", error);
+		throw error;
+	}
+};
+
 // GET USER ORDER BY ID
 export const getOrderById = async (orderNo: any) => {
 	if (!orderNo) {
-		throw new Error("User ID is required");
+		throw new Error("orderNo is required");
 	}
 
 	try {
@@ -103,6 +126,29 @@ export const updateUserOrder = async (
 				opening_time: new Date(),
 				my_choice: choice,
 				status: status,
+			})
+			.where(eq(orderSuccess.orderNo, orderNo));
+		console.log("Update user order done");
+	} catch (error) {
+		console.error("Update User Order error: ", error);
+	}
+};
+
+export const updateSuccessOrder = async (
+	orderNo: any,
+	image: string,
+	returns: string,
+	status: string,
+	total: number
+) => {
+	try {
+		await db
+			.update(orderSuccess)
+			.set({
+				image: image,
+				returns: returns,
+				status: status,
+				total: total,
 			})
 			.where(eq(orderSuccess.orderNo, orderNo));
 		console.log("Update user order done");

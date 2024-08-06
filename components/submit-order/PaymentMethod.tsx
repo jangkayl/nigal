@@ -6,7 +6,7 @@ import InsufficientModal from "../InsufficientModal";
 import {
 	deductUserBalance,
 	generateOrder,
-	getOrderById,
+	getLatestUserOrder,
 } from "@/lib/actions/prize.action";
 
 interface UserProps {
@@ -41,8 +41,17 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 				const deductBalance = user?.balance - cost;
 				await deductUserBalance(user?.id, deductBalance);
 			}
-			await generateOrder(user?.id, count, games, cost, data.image.src);
-			const success = await getOrderById(user?.id);
+			const returns = "Cash 2x returns";
+			await generateOrder(
+				user?.id,
+				count,
+				games,
+				cost,
+				data.image.src,
+				returns,
+				data.cost
+			);
+			const success = await getLatestUserOrder(user?.id);
 			router.push(`/order/status/${success?.orderNo}`);
 		} else {
 			setInsufficient(true);
