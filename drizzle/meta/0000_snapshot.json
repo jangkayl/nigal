@@ -1,5 +1,5 @@
 {
-  "id": "7571e150-2e35-4425-bfef-16c3b548fb0e",
+  "id": "d8b0ec1f-7409-40de-adfd-5d72d50724b4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -102,10 +102,22 @@
       },
       "uniqueConstraints": {}
     },
-    "public.prizes": {
-      "name": "prizes",
+    "public.orderSuccess": {
+      "name": "orderSuccess",
       "schema": "",
       "columns": {
+        "orderNo": {
+          "name": "orderNo",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "item": {
+          "name": "item",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "time": {
           "name": "time",
           "type": "timestamp",
@@ -113,11 +125,91 @@
           "notNull": true,
           "default": "now()"
         },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Is not on sales yet'"
+        },
+        "games": {
+          "name": "games",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opening_time": {
+          "name": "opening_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "my_choice": {
+          "name": "my_choice",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "index": {
+          "name": "index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total": {
+          "name": "total",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "orderSuccess_userId_user_id_fk": {
+          "name": "orderSuccess_userId_user_id_fk",
+          "tableFrom": "orderSuccess",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.prizes": {
+      "name": "prizes",
+      "schema": "",
+      "columns": {
         "serial": {
           "name": "serial",
           "type": "bigserial",
           "primaryKey": true,
           "notNull": true
+        },
+        "time": {
+          "name": "time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         },
         "number": {
           "name": "number",

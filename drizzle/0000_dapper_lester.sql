@@ -13,9 +13,23 @@ CREATE TABLE IF NOT EXISTS "account" (
 	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "prizes" (
+CREATE TABLE IF NOT EXISTS "orderSuccess" (
+	"orderNo" uuid PRIMARY KEY NOT NULL,
+	"item" integer NOT NULL,
 	"time" timestamp DEFAULT now() NOT NULL,
+	"status" text DEFAULT 'Is not on sales yet' NOT NULL,
+	"games" text,
+	"opening_time" timestamp,
+	"my_choice" integer,
+	"image" text,
+	"index" integer,
+	"total" integer NOT NULL,
+	"userId" uuid NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "prizes" (
 	"serial" bigserial PRIMARY KEY NOT NULL,
+	"time" timestamp DEFAULT now() NOT NULL,
 	"number" integer NOT NULL,
 	"result_value" integer NOT NULL,
 	"result" text NOT NULL
@@ -49,6 +63,12 @@ CREATE TABLE IF NOT EXISTS "verificationToken" (
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "account" ADD CONSTRAINT "account_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "orderSuccess" ADD CONSTRAINT "orderSuccess_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

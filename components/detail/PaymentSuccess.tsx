@@ -3,8 +3,14 @@ import React from "react";
 import { GiCheckMark } from "react-icons/gi";
 import { FaRegRegistered } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
+import { orderType } from "@/types";
+import { formatDateTime } from "@/lib/utils";
 
-const PaymentSuccess = () => {
+interface Props {
+	result?: orderType;
+}
+
+const PaymentSuccess = ({ result }: Props) => {
 	const router = useRouter();
 
 	return (
@@ -19,11 +25,11 @@ const PaymentSuccess = () => {
 				<div className="text-sm w-full py-5 border-t border-b gap-1 flex flex-col">
 					<div className="flex justify-between">
 						<p>Order No.</p>
-						<p className="text-gray-500">1231234535235</p>
+						<p className="text-gray-500">{result?.orderNo.split("-").pop()}</p>
 					</div>
 					<div className="flex justify-between">
 						<p>Order time</p>
-						<p className="text-gray-500">1212312412</p>
+						<p className="text-gray-500">{formatDateTime(result?.time)}</p>
 					</div>
 					<div className="flex justify-between">
 						<p>Payment Method</p>
@@ -31,12 +37,12 @@ const PaymentSuccess = () => {
 					</div>
 					<div className="flex justify-between">
 						<p>Total Amount</p>
-						<p className="text-gray-500">5.00</p>
+						<p className="text-gray-500">{result?.total}.00</p>
 					</div>
 				</div>
 				<button
 					className="flex items-center justify-center w-full bg-red-500 rounded-full text-white py-3 mt-5"
-					onClick={() => router.push("/order/game")}>
+					onClick={() => router.push(`/order/game/${result?.orderNo}`)}>
 					HOT SPOT
 					<FaRegRegistered size={15} />
 				</button>

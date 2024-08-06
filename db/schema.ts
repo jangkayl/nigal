@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
 	timestamp,
 	pgTable,
@@ -29,21 +30,43 @@ export const users = pgTable("user", {
 
 // PRIZES
 export const prizes = pgTable("prizes", {
-	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
 	serial: bigserial("serial", { mode: "number" }).primaryKey(),
+	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
 	number: integer("number").notNull(),
 	result_value: integer("result_value").notNull(),
 	result: text("result").notNull(),
 });
 
-// ORDERS
-export const orders = pgTable("orders", {
+// ORDER SUCCESS
+export const orderSuccess = pgTable("orderSuccess", {
+	orderNo: uuid("orderNo")
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	item: integer("item").notNull(),
 	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
-	serial: bigserial("serial", { mode: "number" }).primaryKey(),
-	number: integer("number").notNull(),
-	result_value: integer("result_value").notNull(),
-	result: text("result").notNull(),
+	status: text("status").default("Is not on sales yet").notNull(),
+	games: text("games"),
+	opening_time: timestamp("opening_time", { mode: "date" }),
+	my_choice: integer("my_choice"),
+	image: text("image"),
+	index: integer("index"),
+	total: integer("total").notNull(),
+	userId: uuid("userId")
+		.notNull()
+		.references(() => users.id),
 });
+
+// RELATIONS
+export const usersRelations = relations(users, ({ many }) => ({
+	orderSuccess: many(orderSuccess),
+}));
+
+export const orderSuccessRelations = relations(orderSuccess, ({ one }) => ({
+	user: one(users, {
+		fields: [orderSuccess.userId],
+		references: [users.id],
+	}),
+}));
 
 export const accounts = pgTable(
 	"account",

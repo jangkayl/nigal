@@ -13,6 +13,7 @@ const Detail = ({ params }: any) => {
 	const dataIndex = params.slug - 1;
 	const oneBet = params.slug - 1 === 2 || params.slug - 1 === 3;
 	const images = [data.image, data.image, data.image];
+
 	return (
 		<main className="min-h-screen overflow-y-auto scrollbar-hide flex flex-col max-w-sm mx-auto relative bg-gray-100">
 			<div className="h-[100vh]">

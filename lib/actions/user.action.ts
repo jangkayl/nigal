@@ -1,6 +1,6 @@
 "use server";
 import { isRedirectError } from "next/dist/client/components/redirect";
-import { signIn, signOut } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 import { signInFormSchema, signUpFormSchema } from "@/lib/zod";
 import db from "@/db/drizzle";
 import { users } from "@/db/schema";
@@ -100,4 +100,9 @@ export const changeNameById = async (id: string, name: string) => {
 		.where(eq(users.id, id));
 
 	revalidatePath("/");
+};
+
+export const getSessionUser = async () => {
+	const session = await auth();
+	return session;
 };

@@ -1,8 +1,8 @@
-import { auth } from "@/auth";
 import LogoInForm from "@/components/LogoInForm";
 import { redirect } from "next/navigation";
 import React from "react";
 import CredentialsSignInForm from "./credentials-signin-form";
+import { getSessionUser } from "@/lib/actions/user.action";
 
 const SignIn = async ({
 	searchParams: { callbackUrl },
@@ -11,7 +11,7 @@ const SignIn = async ({
 		callbackUrl: string;
 	};
 }) => {
-	const session = await auth();
+	const session = await getSessionUser();
 	if (session) {
 		return redirect(callbackUrl || "/user");
 	}

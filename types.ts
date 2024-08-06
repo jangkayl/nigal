@@ -24,3 +24,17 @@ export type detailType = {
 	price: string;
 	cost: number;
 };
+
+export type orderType = {
+	orderNo: string;
+	item: number;
+	time: Date | string;
+	status: string;
+	games: string | null;
+	opening_time: Date | null;
+	my_choice: number | null;
+	total: number;
+	userId: string;
+	image: string | null;
+	index: number | null;
+};

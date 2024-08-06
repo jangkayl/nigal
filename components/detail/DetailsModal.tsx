@@ -80,7 +80,6 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
 	}, [show, onClose, checkoutButtonRef]);
 
 	const handlePredictTypeSelect = (type: string) => {
-		console.log(`Selected Predict Type: ${type}`);
 		setActivePredictType(type);
 		if (type === "Big" || type === "Small") {
 			localSetWinrate(50);

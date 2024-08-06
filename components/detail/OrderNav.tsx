@@ -1,17 +1,44 @@
 "use client";
+import { updateUserOrder } from "@/lib/actions/prize.action";
+import { orderType } from "@/types";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import BetError from "../submit-order/BetError";
+import BetSuccess from "../submit-order/BetSuccess";
 
-const OrderNav = () => {
+interface Props {
+	result?: orderType;
+}
+
+const OrderNav = ({ result }: Props) => {
 	const [selected, setSelected] = useState("");
+	const [error, setError] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const router = useRouter();
 
 	const handleButtonClick = (choice: string) => {
 		setSelected(choice);
 	};
 
-	const handleClick = () => {
-		router.push("/order/detail");
+	console.log(result);
+
+	const handleClick = async () => {
+		const status = "Waiting for draw";
+		const choice = selected && "even" ? 0 : 1;
+
+		if (!result?.opening_time) {
+			setSuccess(true);
+			await updateUserOrder(result?.orderNo, status, choice);
+		} else {
+			setError(true);
+			console.log("Cannot bet");
+		}
+	};
+
+	const handleClose = () => {
+		setSuccess(false);
+		setError(false);
+		router.push(`/order/detail/${result?.orderNo}`);
 	};
 
 	return (
@@ -45,6 +72,14 @@ const OrderNav = () => {
 					Confirm selection
 				</button>
 			</div>
+			<BetError
+				isVisible={error}
+				onClose={handleClose}
+			/>
+			<BetSuccess
+				isVisible={success}
+				onClose={handleClose}
+			/>
 		</div>
 	);
 };

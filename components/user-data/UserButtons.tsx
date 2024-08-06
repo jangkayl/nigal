@@ -19,7 +19,7 @@ const UserButtons = ({ nickname, id }: nicknameProps) => {
 	};
 
 	return (
-		<div className="py-4 w-full max-w-sm gap-6 text-center flex flex-col fixed bottom-5">
+		<div className="py-4 w-full max-w-sm gap-6 text-center flex flex-col">
 			<button
 				className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 outline-none hover:bg-gradient-to-br rounded-lg p-3 text-center"
 				onClick={handleSaveChanges}>

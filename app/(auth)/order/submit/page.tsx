@@ -1,6 +1,5 @@
-import { auth } from "@/auth";
 import SubmitOrder from "@/components/submit-order/SubmitOrder";
-import { getUserById } from "@/lib/actions/user.action";
+import { getSessionUser, getUserById } from "@/lib/actions/user.action";
 import { Metadata } from "next";
 import React from "react";
 
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const Submit = async () => {
-	const session = await auth();
+	const session = await getSessionUser();
 	let user = null;
 
 	if (session?.user?.id) {

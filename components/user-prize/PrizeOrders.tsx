@@ -22,8 +22,6 @@ const PrizeOrders = () => {
 		fetchData();
 	}, []);
 
-	console.log(prize);
-
 	const formatDate = (date: Date | string) => {
 		let dt: Date;
 

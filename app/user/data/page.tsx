@@ -1,6 +1,5 @@
-import { auth } from "@/auth";
 import UserDetails from "@/components/user-data/UserDetails";
-import { getUserById } from "@/lib/actions/user.action";
+import { getSessionUser, getUserById } from "@/lib/actions/user.action";
 import { userType } from "@/types";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const UserData = async () => {
-	const session = await auth();
+	const session = await getSessionUser();
 	let user: userType | null = null;
 
 	if (session?.user?.id) {

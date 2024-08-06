@@ -14,7 +14,6 @@ interface UserProps {
 const SubmitOrder = ({ user }: UserProps) => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const winrate = parseFloat(searchParams.get("winrate") || "0");
 	const count = parseInt(searchParams.get("count") || "0", 10);
 	const cost = parseFloat(searchParams.get("cost") || "0");
 	const dataIndex = parseInt(searchParams.get("dataIndex") || "0");
@@ -37,6 +36,9 @@ const SubmitOrder = ({ user }: UserProps) => {
 			<PaymentMethod
 				user={user}
 				cost={cost}
+				count={count}
+				dataIndex={dataIndex}
+				data={data}
 			/>
 		</div>
 	);

@@ -1,8 +1,8 @@
-import { auth } from "@/auth";
 import LogoInForm from "@/components/LogoInForm";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import RegisterForm from "./signup-form";
+import { getSessionUser } from "@/lib/actions/user.action";
 
 export const metadata: Metadata = {
 	title: `Sign Up - Nigal`,
@@ -15,7 +15,7 @@ const Register = async ({
 		callbackUrl: string;
 	};
 }) => {
-	const session = await auth();
+	const session = await getSessionUser();
 	if (session) {
 		return redirect(callbackUrl || "/");
 	}
