@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useModalState } from "@/components/ModalContext";
-import { startCronJob, stopCronJob } from "@/lib/utils";
+import { startCronJob } from "@/lib/actions/prizeAuto.action";
 
 const StartCronJob = () => {
 	const { state, setState } = useModalState();

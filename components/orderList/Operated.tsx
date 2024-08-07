@@ -1,4 +1,3 @@
-import { updateRedeemPoints, updateRefund } from "@/lib/actions/prize.action";
 import { formatDateTime } from "@/lib/utils";
 import { orderType } from "@/types";
 import Image from "next/image";
@@ -7,6 +6,10 @@ import React, { useState } from "react";
 import { FaRegRegistered } from "react-icons/fa6";
 import { useModalState } from "../ModalContext";
 import ReceivedModal from "./ReceivedModal";
+import {
+	updateRedeemPoints,
+	updateRefund,
+} from "@/lib/actions/prizeAuto.action";
 
 interface Props {
 	orders?: orderType[];
