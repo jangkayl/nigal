@@ -24,7 +24,7 @@ export const users = pgTable("user", {
 	password: text("password"),
 	image: text("image").default("https://www.im2015.com/user-avatar/n1.png"),
 	createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
-	balance: doublePrecision("balance").default(0.0),
+	balance: doublePrecision("balance").default(300.0),
 	points: doublePrecision("points").default(0.0),
 });
 

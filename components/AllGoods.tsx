@@ -2,28 +2,50 @@
 import allGoodsData from "@/lib/sample-data";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import Undermaintenance from "./detail/Undermaintenance";
+import { orderType } from "@/types";
 
 const AllGoods = () => {
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [selectedOrder, setSelectedOrder] = useState<orderType | null>(null);
 	const router = useRouter();
-	const handleCLick = (index: number) => {
-		router.push(`/detail/${index + 1}`);
+
+	const handleClick = (index: number) => {
+		if (index === 2 || index === 3) {
+			setIsModalVisible(true);
+		} else {
+			router.push(`/detail/${index + 1}`);
+		}
+	};
+
+	const handleCloseModal = () => {
+		setIsModalVisible(false);
+		setSelectedOrder(null);
 	};
 
 	return (
 		<div className="py-3 flex justify-center">
 			<div className="grid grid-cols-2 gap-3">
+				<Undermaintenance
+					isVisible={isModalVisible}
+					onClose={handleCloseModal}
+				/>
+
 				{allGoodsData.prices.map((item, index) => (
 					<button
 						key={index}
 						className="border shadow-md rounded-md"
-						onClick={() => handleCLick(index)}>
-						<Image
-							src={item.image}
-							alt="promo"
-							width={200}
-							height={1}
-						/>
+						onClick={() => handleClick(index)}>
+						<div className="h-auto w-auto">
+							<Image
+								src={item.image}
+								alt="promo"
+								width={200}
+								height={1}
+								placeholder="blur"
+							/>
+						</div>
 						<div className="text-start py-3 px-4">
 							<p className="text-sm">{item.title}</p>
 							<p className="text-red-700">{item.price}</p>

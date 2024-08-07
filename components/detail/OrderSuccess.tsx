@@ -43,13 +43,15 @@ const OrderSuccess = ({ result }: Props) => {
 				</div>
 				<div className="px-4 py-3 bg-white flex items-center justify-between">
 					<div className="flex items-center gap-3">
-						<Image
-							src={result?.image || image1}
-							alt="success"
-							width={70}
-							height={70}
-							className="rounded-md"
-						/>
+						<div className="h-auto w-auto">
+							<Image
+								src={result?.image || image1}
+								alt="success"
+								width={70}
+								height={70}
+								className="rounded-md"
+							/>
+						</div>
 						<div className="flex flex-col gap-2">
 							<p>{result?.returns}</p>
 							<p className="text-xs text-red-500">₱{result?.cost}</p>

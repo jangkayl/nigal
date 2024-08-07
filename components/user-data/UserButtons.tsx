@@ -19,9 +19,9 @@ const UserButtons = ({ nickname, id }: nicknameProps) => {
 	};
 
 	return (
-		<div className="py-4 w-full max-w-sm gap-6 text-center flex flex-col">
+		<div className="py-4 w-full max-w-sm gap-6 text-center flex flex-col items-center">
 			<button
-				className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 outline-none hover:bg-gradient-to-br rounded-lg p-3 text-center"
+				className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 outline-none hover:bg-gradient-to-br rounded-lg p-3 w-[20rem]"
 				onClick={handleSaveChanges}>
 				Save changes
 			</button>
@@ -29,7 +29,7 @@ const UserButtons = ({ nickname, id }: nicknameProps) => {
 				action={SignOut}
 				className="w-full">
 				<button
-					className="w-full text-red-700 hover:text-white border border-red-700 hover:bg-red-800 outline-none rounded-lg p-3 text-center"
+					className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 outline-none rounded-lg p-3 w-[20rem]"
 					onClick={() => router.push("/")}>
 					Signout
 				</button>

@@ -179,9 +179,8 @@ export const addPrizeWithRandomNumber = async () => {
 	}
 
 	const number = random;
-	const result_value = random_number % 2 === 0 ? 0 : 1;
-	const result =
-		random_number % 2 === 0 ? `Even&${random_number}` : `Odd&${random_number}`;
+	const result_value = number % 2 === 0 ? 0 : 1;
+	const result = number % 2 === 0 ? `Even&${number}` : `Odd&${number}`;
 
 	try {
 		console.log("Inserting prize:", { number, result_value, result });

@@ -41,11 +41,6 @@ const StartCronJob = () => {
 		return () => clearInterval(interval);
 	}, [setState]);
 
-	// return (
-	// 	<div className="fixed top-0">
-	// 		<p>{state.countdown}</p>
-	// 	</div>
-	// );
 	return null;
 };
 

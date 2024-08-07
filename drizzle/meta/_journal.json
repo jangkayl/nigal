@@ -15,6 +15,13 @@
       "when": 1723015158836,
       "tag": "0001_silky_quasar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1723027730387,
+      "tag": "0002_happy_roxanne_simpson",
+      "breakpoints": true
     }
   ]
 }

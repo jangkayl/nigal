@@ -70,12 +70,14 @@ const UserDetails = ({ user }: UserDetailsProps) => {
 					/>
 				</button>
 			</div>
-			{user?.id && (
-				<UserButtons
-					nickname={name}
-					id={user?.id}
-				/>
-			)}
+			<div className="absolute bottom-10">
+				{user?.id && (
+					<UserButtons
+						nickname={name}
+						id={user?.id}
+					/>
+				)}
+			</div>
 		</>
 	);
 };

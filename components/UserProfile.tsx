@@ -26,6 +26,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
 					alt="profile"
 					width={65}
 					height={65}
+					priority={true}
 					className="rounded-full border-sky-500 border shadow-lg shadow-sky-500 cursor-pointer"
 					onClick={handleProfile}
 				/>
