@@ -26,13 +26,9 @@ function getDelayToNextMinute(): number {
 		0
 	);
 	const delay = nextMinute.getTime() - now.getTime();
-	return delay + 2000; // Add 1 second (1000 milliseconds) delay
+	return delay + 1000; // Add 1 second (1000 milliseconds) delay
 }
 
-let user = null;
-let orders: any = null;
-
-// ADD PRIZES ASYNC
 export const addPrizeWithRandomNumber = async () => {
 	const randomIn = randomInt(1, 81);
 	const random_number = randomInt(1, 81);
@@ -61,10 +57,8 @@ export const addPrizeWithRandomNumber = async () => {
 	}
 };
 
-// Function to delete records exceeding the limit of 50 items
 export const deleteExcessRecords = async () => {
 	try {
-		// Fetch the IDs of the most recent 50 records
 		const recentPrizes = await db
 			.select()
 			.from(prizes)
@@ -72,7 +66,6 @@ export const deleteExcessRecords = async () => {
 			.limit(50);
 		const recentIds = recentPrizes.map((prize) => prize.serial);
 
-		// Delete records not in the recentIds
 		if (recentIds.length > 0) {
 			await db.delete(prizes).where(notInArray(prizes.serial, recentIds));
 			console.log("Excess records deleted successfully.");
@@ -84,7 +77,6 @@ export const deleteExcessRecords = async () => {
 	}
 };
 
-// GET LATEST PRIZE RESULT
 export const getPrizeResult = async () => {
 	const result = await db.query.prizes.findFirst({
 		orderBy: desc(prizes.serial),
@@ -92,7 +84,6 @@ export const getPrizeResult = async () => {
 	return result?.result_value;
 };
 
-// GET REDEEM POINTS
 export const updateRedeemPoints = async (points: number, orderNo: string) => {
 	const user = await getSessionUser();
 	const userId = user?.user.id;
@@ -114,7 +105,7 @@ export const updateRedeemPoints = async (points: number, orderNo: string) => {
 		})
 		.where(eq(users.id, userId));
 
-	console.log("Deduct successfull: ", currentPoints);
+	console.log("Deduct successful: ", currentPoints);
 
 	await db
 		.update(orderSuccess)
@@ -126,7 +117,6 @@ export const updateRedeemPoints = async (points: number, orderNo: string) => {
 	console.log("IsDone true");
 };
 
-// GET REFUND
 export const updateRefund = async (balance: number, orderNo: string) => {
 	const user = await getSessionUser();
 	const userId = user?.user.id;
@@ -141,7 +131,6 @@ export const updateRefund = async (balance: number, orderNo: string) => {
 
 	const currentBalance: any = userData?.balance;
 
-	// Calculate the refund amount minus 2%
 	const refundAmount = balance * 0.98;
 	const newBalance = currentBalance + refundAmount;
 
@@ -164,15 +153,14 @@ export const updateRefund = async (balance: number, orderNo: string) => {
 	console.log("Order marked as done");
 };
 
-// Cron job function
 const job = async () => {
-	if (stopJob) return; // Exit if stop flag is set
+	if (stopJob) return;
 
 	try {
 		console.log("Cron job started at", new Date().toISOString());
 		await addPrizeWithRandomNumber();
-		user = await getSessionUser();
-		orders = await getAllUserOrder(user?.user.id);
+		const user = await getSessionUser();
+		const orders = await getAllUserOrder(user?.user.id);
 
 		orders.map((order: any) => {
 			if (order.status === "Waiting for draw") {
@@ -182,7 +170,7 @@ const job = async () => {
 			}
 		});
 
-		if (stopJob) return; // Check stop flag after async operation
+		if (stopJob) return;
 		await deleteExcessRecords();
 
 		console.log("Cron job completed at", new Date().toISOString());
@@ -191,27 +179,42 @@ const job = async () => {
 	}
 };
 
-// Initialize and start the cron job
 export const startCronJob = async () => {
 	if (isCronJobInitialized) {
 		console.log("Cron job is already initialized.");
-		user = await getSessionUser();
-		orders = await getAllUserOrder(user?.user.id);
-		console.log("Fetched orders:", orders);
+		return;
+	}
 
+	// Check the latest prize timestamp
+	const latestPrize = await db
+		.select()
+		.from(prizes)
+		.orderBy(desc(prizes.serial))
+		.limit(1);
+	const latestTimestamp = latestPrize
+		? new Date(latestPrize[0].time).getTime()
+		: 0;
+	const currentTime = Date.now();
+
+	console.log(currentTime - latestTimestamp < 2 * 60 * 1000);
+
+	// If the latest prize was added in the last 2 minutes, do not start the cron job
+	if (currentTime - latestTimestamp < 2 * 60 * 1000) {
+		console.log("Cron job already ran recently, not starting again.");
 		return;
 	}
 
 	isCronJobInitialized = true;
 	stopJob = false;
 
-	// Set up the job to run every minute
-	const interval = 60000; // 60,000 milliseconds (1 minute)
+	const interval = 60000;
 
 	initialTimeoutId = setTimeout(async () => {
-		if (stopJob) return; // Exit if stop flag is set before starting the initial job
-		await job(); // Execute the initial job
-		if (stopJob) return; // Check stop flag after initial job execution
+		if (stopJob) return;
+
+		await job();
+
+		if (stopJob) return;
 
 		cronJobIntervalId = setInterval(async () => {
 			if (stopJob) {
@@ -220,7 +223,6 @@ export const startCronJob = async () => {
 				return;
 			}
 
-			// Wait for the current job to finish before starting a new one
 			if (currentJobPromise) await currentJobPromise;
 			currentJobPromise = job();
 			await currentJobPromise;
@@ -230,11 +232,9 @@ export const startCronJob = async () => {
 	console.log("Cron job scheduled to start.");
 };
 
-// Function to stop the cron job
-export const stopCronJob = () => {
+export const stopCronJob = async () => {
 	stopJob = true;
 
-	// Clear the interval and timeout if they exist
 	if (cronJobIntervalId) {
 		clearInterval(cronJobIntervalId);
 		cronJobIntervalId = null;
@@ -245,7 +245,6 @@ export const stopCronJob = () => {
 		initialTimeoutId = null;
 	}
 
-	// Wait for any ongoing job to complete
 	if (currentJobPromise) {
 		currentJobPromise.finally(() => {
 			console.log("Cron job stopped.");
@@ -259,5 +258,4 @@ export const stopCronJob = () => {
 
 export const updateOrderStatus = async (order: orderType) => {
 	await updateSuccessOrder(order);
-	window.location.reload();
 };

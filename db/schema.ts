@@ -9,6 +9,7 @@ import {
 	boolean,
 	doublePrecision,
 	bigserial,
+	serial,
 } from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
 
@@ -35,6 +36,12 @@ export const prizes = pgTable("prizes", {
 	number: integer("number").notNull(),
 	result_value: integer("result_value").notNull(),
 	result: text("result").notNull(),
+});
+
+// CRON STATUS
+export const cronStatus = pgTable("cronStatus", {
+	id: serial("id").primaryKey(),
+	isInitialized: boolean("is_initialized").notNull(),
 });
 
 // ORDER SUCCESS

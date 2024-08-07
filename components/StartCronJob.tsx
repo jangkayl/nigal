@@ -7,7 +7,16 @@ const StartCronJob = () => {
 	const { state, setState } = useModalState();
 
 	useEffect(() => {
-		startCronJob();
+		const initializeCronJob = async () => {
+			if (
+				typeof window !== "undefined" &&
+				localStorage.getItem("cronJobInitialized") !== "true"
+			) {
+				await startCronJob();
+			}
+		};
+
+		initializeCronJob();
 
 		const interval = setInterval(() => {
 			const now = new Date();
