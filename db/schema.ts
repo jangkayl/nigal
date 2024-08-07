@@ -41,7 +41,7 @@ export const prizes = pgTable("prizes", {
 // CRON STATUS
 export const cronStatus = pgTable("cronStatus", {
 	id: serial("id").primaryKey(),
-	isInitialized: boolean("is_initialized").notNull(),
+	isInitialized: boolean("isInitialized").notNull().default(false),
 });
 
 // ORDER SUCCESS

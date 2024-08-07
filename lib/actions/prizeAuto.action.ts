@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/db/drizzle";
-import { orderSuccess, prizes, users } from "@/db/schema";
+import { cronStatus, orderSuccess, prizes, users } from "@/db/schema";
 import { randomInt } from "crypto";
 import { desc, eq, notInArray } from "drizzle-orm";
 import { getSessionUser } from "./user.action";
@@ -31,16 +31,8 @@ function getDelayToNextMinute(): number {
 
 export const addPrizeWithRandomNumber = async () => {
 	const randomIn = randomInt(1, 81);
-	const random_number = randomInt(1, 81);
-	let random = null;
 
-	if (randomIn > random_number) {
-		random = randomInt(random_number, randomIn);
-	} else {
-		random = randomInt(randomIn, random_number);
-	}
-
-	const number = random;
+	const number = randomIn;
 	const result_value = number % 2 === 0 ? 0 : 1;
 	const result = number % 2 === 0 ? `Even&${number}` : `Odd&${number}`;
 
@@ -51,7 +43,7 @@ export const addPrizeWithRandomNumber = async () => {
 			result_value,
 			result,
 		});
-		console.log("Prize added successfully with random number:", random_number);
+		console.log("Prize added successfully with random number:", number);
 	} catch (error) {
 		console.error("Error inserting prize:", error);
 	}
@@ -198,11 +190,34 @@ export const startCronJob = async () => {
 
 	console.log(currentTime - latestTimestamp < 2 * 60 * 1000);
 
+	// Check isInitialized
+	const isInitialized = await db
+		.select()
+		.from(cronStatus)
+		.orderBy(desc(cronStatus.id))
+		.limit(1);
+
 	// If the latest prize was added in the last 2 minutes, do not start the cron job
-	if (currentTime - latestTimestamp < 2 * 60 * 1000) {
+	if (
+		currentTime - latestTimestamp < 2 * 60 * 1000 ||
+		isInitialized[0].isInitialized === false
+	) {
+		await db
+			.update(cronStatus)
+			.set({
+				isInitialized: false,
+			})
+			.where(eq(cronStatus.id, 1));
 		console.log("Cron job already ran recently, not starting again.");
 		return;
 	}
+
+	await db
+		.update(cronStatus)
+		.set({
+			isInitialized: true,
+		})
+		.where(eq(cronStatus.id, 1));
 
 	isCronJobInitialized = true;
 	stopJob = false;
