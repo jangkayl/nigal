@@ -37,7 +37,7 @@ const AllGoods = () => {
 						key={index}
 						className="border shadow-md rounded-md"
 						onClick={() => handleClick(index)}>
-						<div className="h-[10.5rem] w-[10.5rem]">
+						<div className="h-auto w-full">
 							<Image
 								src={item.image}
 								alt="promo"
@@ -45,7 +45,7 @@ const AllGoods = () => {
 								height="0"
 								sizes="100vw"
 								placeholder="blur"
-								className="w-[10.5rem]"
+								className="w-full"
 							/>
 						</div>
 						<div className="text-start py-3 px-4">
