@@ -1,5 +1,10 @@
 import { orderType } from "@/types";
-import { getAllUserOrder, updateSuccessOrder } from "./actions/prize.action";
+import {
+	addPrizeWithRandomNumber,
+	deleteExcessRecords,
+	getAllUserOrder,
+	updateSuccessOrder,
+} from "./actions/prize.action";
 import { getSessionUser } from "./actions/user.action";
 
 export const formatError = (error: any): string => {
@@ -63,7 +68,7 @@ const job = async () => {
 
 	try {
 		console.log("Cron job started at", new Date().toISOString());
-		// await addPrizeWithRandomNumber();
+		await addPrizeWithRandomNumber();
 		user = await getSessionUser();
 		orders = await getAllUserOrder(user?.user.id);
 
@@ -76,7 +81,7 @@ const job = async () => {
 		});
 
 		if (stopJob) return; // Check stop flag after async operation
-		// await deleteExcessRecords();
+		await deleteExcessRecords();
 
 		console.log("Cron job completed at", new Date().toISOString());
 	} catch (error) {
