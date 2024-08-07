@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import BetError from "../submit-order/BetError";
 import BetSuccess from "../submit-order/BetSuccess";
 import { getSessionUser } from "@/lib/actions/user.action";
-import { startCronJob } from "@/lib/utils";
+import { startCronJob } from "@/lib/actions/prizeAuto.action";
 
 const OrderNav = ({ params }: any) => {
 	const [selected, setSelected] = useState("");
