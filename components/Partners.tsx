@@ -1,31 +1,40 @@
 import Image from "next/image";
 import React from "react";
+import gcash from "@/public/gcash.jpeg";
+import youtube from "@/public/youtube.png";
+import Link from "next/link";
 
 const Partners = () => {
 	return (
 		<div className="py-2 px-1">
 			<p>Partners</p>
-			<div className="py-1 flex gap-3 justify-center">
-				<button>
+			<div className="py-1 flex gap-3 justify-center items-center">
+				<Link
+					href={"gcash.com"}
+					className="w-[10rem] h-auto">
 					<Image
-						src="https://manage.im2015.com//uploads/attach/2020/03/20200315/8abbd022d271c2177d3d314654ab6186.jpeg"
+						src={gcash}
 						width="0"
 						height="0"
 						sizes="100vw"
 						className="w-[10rem] h-auto rounded-md"
 						alt="partners"
+						placeholder="blur"
 					/>
-				</button>
-				<button>
+				</Link>
+				<Link
+					href={"youtube.com"}
+					className="w-[10rem] h-auto">
 					<Image
-						src="https://manage.im2015.com//uploads/attach/2020/04/20200404/3ef75b73bfe6c460000b83371803cbe0.png"
+						src={youtube}
 						width="0"
 						height="0"
 						sizes="100vw"
 						className="w-[10rem] h-auto rounded-md"
 						alt="partners"
+						placeholder="blur"
 					/>
-				</button>
+				</Link>
 			</div>
 		</div>
 	);

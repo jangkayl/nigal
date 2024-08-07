@@ -29,7 +29,7 @@ const Undermaintenance: React.FC<ModalProps> = ({ isVisible, onClose }) => {
 					<button
 						className="text-red-400 py-2 px-4 bg-yellow-400 rounded-full"
 						onClick={onClose}>
-						Okay nig
+						Okay nigw
 					</button>
 				</div>
 			</div>

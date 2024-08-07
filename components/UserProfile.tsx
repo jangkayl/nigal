@@ -20,14 +20,15 @@ const UserProfile = ({ user }: UserProfileProps) => {
 
 	return (
 		<div className="pt-6 px-6 flex items-center gap-4 text-sm">
-			<div>
+			<div className="w-16 h-auto">
 				<Image
 					src={user?.image}
 					alt="profile"
-					width={65}
-					height={65}
+					width="0"
+					height="0"
+					sizes="100vw"
 					priority={true}
-					className="rounded-full border-sky-500 border shadow-lg shadow-sky-500 cursor-pointer"
+					className="rounded-full border-sky-500 border shadow-lg shadow-sky-500 cursor-pointer w-[10rem] h-auto"
 					onClick={handleProfile}
 				/>
 			</div>

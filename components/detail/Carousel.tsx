@@ -132,6 +132,7 @@ const Carousel = ({ images }: { images: (string | StaticImageData)[] }) => {
 							alt={`Carousel image ${index + 1}`}
 							width={1200}
 							height={1200}
+							placeholder="blur"
 						/>
 					</div>
 				))}

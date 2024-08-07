@@ -1,29 +1,33 @@
 import Image from "next/image";
 import React from "react";
+import evenorodd from "@/public/evenorodd.png";
+import guessnumber from "@/public/guessnumber.png";
 
 const PromotionType = () => {
 	return (
 		<div className="py-5 px-1">
 			<p>Promotion Type</p>
 			<div className="py-3 flex gap-3 justify-center">
-				<button>
+				<button className="w-[10rem] h-auto">
 					<Image
-						src="https://manage.im2015.com//uploads/attach/2020/03/20200308/2c0addb4118e3500cdf4e42bfe0065d3.png"
+						src={evenorodd}
 						width="0"
 						height="0"
 						sizes="100vw"
 						className="w-[10rem] h-auto rounded-md"
 						alt="promotion"
+						placeholder="blur"
 					/>
 				</button>
-				<button>
+				<button className="w-[10rem] h-auto">
 					<Image
-						src="https://manage.im2015.com//uploads/attach/2020/03/20200308/09ca72d62b96da0044dce0c2920f701e.png"
+						src={guessnumber}
 						width="0"
 						height="0"
 						sizes="100vw"
 						className="w-[10rem] h-auto rounded-md"
 						alt="promotion"
+						placeholder="blur"
 					/>
 				</button>
 			</div>

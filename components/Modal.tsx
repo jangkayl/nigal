@@ -2,6 +2,14 @@
 import { changeProfileById } from "@/lib/actions/user.action";
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import profile1 from "@/public/profile1.png";
+import profile2 from "@/public/profile2.png";
+import profile3 from "@/public/profile3.png";
+import profile4 from "@/public/profile4.png";
+import profilev1 from "@/public/profilev1.png";
+import profilev2 from "@/public/profilev2.png";
+import profilev3 from "@/public/profilev3.png";
+import profilev4 from "@/public/profilev4.png";
 
 interface ModalProps {
 	open: boolean;
@@ -52,40 +60,30 @@ const Modal: React.FC<ModalProps> = ({ open, setOpen, userId, currentImg }) => {
 					ref={modalRef}
 					className="relative bg-white rounded-lg shadow">
 					<div className="px-4 pt-5 text-center flex justify-between">
-						{[
-							"https://www.im2015.com/user-avatar/n1.png",
-							"https://www.im2015.com/user-avatar/n2.png",
-							"https://www.im2015.com/user-avatar/n3.png",
-							"https://www.im2015.com/user-avatar/n4.png",
-						].map((src) => (
+						{[profile1, profile2, profile3, profile4].map((src, index) => (
 							<Image
-								key={src}
+								key={index}
 								src={src}
 								alt="profile"
 								width={70}
 								height={70}
 								className={`cursor-pointer
-									${selectedImage === src ? "border rounded-xl border-blue-500" : ""}`}
-								onClick={() => handleImageClick(src)}
+									${selectedImage === src.src ? "border rounded-xl border-blue-500" : ""}`}
+								onClick={() => handleImageClick(src.src)}
 							/>
 						))}
 					</div>
 					<div className="px-4 py-5 text-center flex justify-between">
-						{[
-							"https://www.im2015.com/user-avatar/nv1.png",
-							"https://www.im2015.com/user-avatar/nv2.png",
-							"https://www.im2015.com/user-avatar/nv3.png",
-							"https://www.im2015.com/user-avatar/nv4.png",
-						].map((src) => (
+						{[profilev1, profilev2, profilev3, profilev4].map((src, index) => (
 							<Image
-								key={src}
+								key={index}
 								src={src}
 								alt="profile"
 								width={70}
 								height={70}
 								className={`cursor-pointer
-									${selectedImage === src ? "border rounded-xl border-blue-500" : ""}`}
-								onClick={() => handleImageClick(src)}
+									${selectedImage === src.src ? "border rounded-xl border-blue-500" : ""}`}
+								onClick={() => handleImageClick(src.src)}
 							/>
 						))}
 					</div>

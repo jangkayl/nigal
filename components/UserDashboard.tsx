@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import prize from "@/public/prizeopening.png";
 
 const UserDashboard = () => {
 	return (
@@ -10,7 +11,7 @@ const UserDashboard = () => {
 					className="px-2 py-2 text-center max-w-[7rem] flex flex-col items-center gap-2"
 					href="/user/prize">
 					<Image
-						src="https://manage.im2015.com//uploads/attach/2020/03/20200308/88a4bcd006cf577ad9f3819b79448b88.png"
+						src={prize}
 						alt="price"
 						width={27}
 						height={27}

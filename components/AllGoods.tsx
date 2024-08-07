@@ -37,13 +37,15 @@ const AllGoods = () => {
 						key={index}
 						className="border shadow-md rounded-md"
 						onClick={() => handleClick(index)}>
-						<div className="h-auto w-auto">
+						<div className="h-[10.5rem] w-[10.5rem]">
 							<Image
 								src={item.image}
 								alt="promo"
-								width={200}
-								height={1}
+								width="0"
+								height="0"
+								sizes="100vw"
 								placeholder="blur"
+								className="w-[10.5rem]"
 							/>
 						</div>
 						<div className="text-start py-3 px-4">
