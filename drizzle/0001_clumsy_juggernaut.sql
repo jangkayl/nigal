@@ -1,1 +1,0 @@
-ALTER TABLE "orderSuccess" ADD COLUMN "returns" text;

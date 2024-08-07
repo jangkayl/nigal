@@ -5,9 +5,12 @@ import { orderType } from "@/types";
 import Image from "next/image";
 import { getAllUserOrder } from "@/lib/actions/prize.action";
 import { getSessionUser } from "@/lib/actions/user.action";
+import Converted from "./Converted";
+import Refund from "./Refund";
 
 const OrderList = () => {
-	const [selected, setSelected] = useState("");
+	const [selected, setSelected] = useState("operated");
+	const [modal, setModal] = useState(false);
 	const [orders, setOrders] = useState<orderType[] | undefined>(undefined);
 
 	useEffect(() => {
@@ -20,63 +23,11 @@ const OrderList = () => {
 		};
 
 		fetchOrders();
-	}, []);
+	}, [modal]);
 
-	return (
-		<div className="w-full text-xs">
-			<div className="pb-1 border-b bg-white fixed top-0 max-w-sm w-full">
-				<p className="py-4 w-full text-center bg-white text-sm">My Order</p>
-				<div className="flex justify-evenly items-center bg-white">
-					<button
-						onClick={() => setSelected("operated")}
-						className={`${
-							selected === "operated"
-								? "font-semibold border-b border-blue-500"
-								: ""
-						} pb-2`}>
-						Operated
-					</button>
-					<button
-						onClick={() => setSelected("received")}
-						className={`${
-							selected === "received"
-								? "font-semibold border-b border-blue-500"
-								: ""
-						} pb-2`}>
-						Received
-					</button>
-					<button
-						onClick={() => setSelected("completed")}
-						className={`${
-							selected === "completed"
-								? "font-semibold border-b border-blue-500"
-								: ""
-						} pb-2`}>
-						Completed
-					</button>
-					<button
-						onClick={() => setSelected("converted")}
-						className={`${
-							selected === "converted"
-								? "font-semibold border-b border-blue-500"
-								: ""
-						} pb-2`}>
-						Converted
-					</button>
-					<button
-						onClick={() => setSelected("refund")}
-						className={`${
-							selected === "refund"
-								? "font-semibold border-b border-blue-500"
-								: ""
-						} pb-2`}>
-						Refund
-					</button>
-				</div>
-			</div>
-			{orders?.length ? (
-				<Operated orders={orders} />
-			) : (
+	const renderContent = () => {
+		if (!orders || orders.length === 0) {
+			return (
 				<div className="pt-44 z-10 w-48 mx-auto max-w-sm">
 					<Image
 						src="https://www.im2015.com/h5/img/noOrder.3770f435.png"
@@ -86,7 +37,42 @@ const OrderList = () => {
 						alt="No Orders"
 					/>
 				</div>
-			)}
+			);
+		}
+
+		const components: any = {
+			operated: (
+				<Operated
+					orders={orders}
+					modal={modal}
+					setModal={setModal}
+				/>
+			),
+			converted: <Converted orders={orders} />,
+			refund: <Refund orders={orders} />,
+		};
+
+		return components[selected] || null;
+	};
+
+	return (
+		<div className="w-full text-xs">
+			<div className="pb-1 border-b bg-white fixed top-0 max-w-sm w-full">
+				<p className="py-4 w-full text-center bg-white text-sm">My Order</p>
+				<div className="flex justify-evenly items-center bg-white">
+					{["operated", "converted", "refund"].map((tab) => (
+						<button
+							key={tab}
+							onClick={() => setSelected(tab)}
+							className={`${
+								selected === tab ? "font-semibold border-b border-blue-500" : ""
+							} pb-2`}>
+							{tab.charAt(0).toUpperCase() + tab.slice(1)}
+						</button>
+					))}
+				</div>
+			</div>
+			{renderContent()}
 		</div>
 	);
 };

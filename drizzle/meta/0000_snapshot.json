@@ -1,5 +1,5 @@
 {
-  "id": "d8b0ec1f-7409-40de-adfd-5d72d50724b4",
+  "id": "ef59a506-959e-40a4-a8f7-0f982f925fe8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -132,11 +132,24 @@
           "notNull": true,
           "default": "'Is not on sales yet'"
         },
+        "returns": {
+          "name": "returns",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "games": {
           "name": "games",
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "isDone": {
+          "name": "isDone",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "opening_time": {
           "name": "opening_time",
@@ -156,8 +169,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "index": {
-          "name": "index",
+        "cost": {
+          "name": "cost",
           "type": "integer",
           "primaryKey": false,
           "notNull": false

@@ -6,6 +6,7 @@ interface ModalState {
 	count: number;
 	cost: number;
 	dataIndex: number;
+	countdown: string;
 }
 
 interface ModalContextType {
@@ -23,6 +24,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
 		count: 1,
 		cost: 0,
 		dataIndex: 0,
+		countdown: "00:00",
 	});
 
 	return (

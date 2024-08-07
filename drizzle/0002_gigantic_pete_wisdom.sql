@@ -1,1 +1,0 @@
-ALTER TABLE "orderSuccess" RENAME COLUMN "index" TO "cost";

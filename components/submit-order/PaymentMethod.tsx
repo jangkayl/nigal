@@ -21,6 +21,7 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 	const formattedBalance = user?.balance?.toFixed(2) || "0.00";
 	const costBalance = cost.toFixed(2) || "0.00";
 	const [insufficient, setInsufficient] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	const hasSufficientBalance = () => {
@@ -36,23 +37,30 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 			: "Guess Odd or Even";
 
 	const handleSubmit = async () => {
+		if (loading) return; // Prevent multiple submissions if already loading
+
 		if (isSufficient) {
-			if (user) {
-				const deductBalance = user?.balance - cost;
-				await deductUserBalance(user?.id, deductBalance);
+			setLoading(true); // Start loading
+			try {
+				if (user) {
+					const deductBalance = user.balance - cost;
+					await deductUserBalance(user.id, deductBalance);
+				}
+				const returns = "Cash 2x returns";
+				await generateOrder(
+					user?.id,
+					count,
+					games,
+					cost,
+					data.image.src,
+					returns,
+					data.cost
+				);
+				const success = await getLatestUserOrder(user?.id);
+				router.push(`/order/status/${success?.orderNo}`);
+			} catch (error) {
+				console.error("Error processing payment:", error);
 			}
-			const returns = "Cash 2x returns";
-			await generateOrder(
-				user?.id,
-				count,
-				games,
-				cost,
-				data.image.src,
-				returns,
-				data.cost
-			);
-			const success = await getLatestUserOrder(user?.id);
-			router.push(`/order/status/${success?.orderNo}`);
 		} else {
 			setInsufficient(true);
 		}
@@ -67,7 +75,7 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 		<div className="text-xs">
 			<div className="bg-white p-3">
 				<p className="text-sm">Payment Method</p>
-				<div className="flex items-center border border-red-400 py-2 mt-2  justify-evenly">
+				<div className="flex items-center border border-red-400 py-2 mt-2 justify-evenly">
 					<div className="flex items-center gap-1">
 						<HiCurrencyYen
 							size={25}
@@ -87,9 +95,12 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 					Total: <span className="text-red-500">₱{cost}</span>
 				</p>
 				<button
-					className="px-6 py-2 rounded-full bg-red-500 text-white"
-					onClick={handleSubmit}>
-					Check Out
+					className={`px-6 py-2 rounded-full ${
+						loading ? "bg-gray-500 cursor-not-allowed" : "bg-red-500 text-white"
+					}`}
+					onClick={handleSubmit}
+					disabled={loading}>
+					{loading ? "Processing..." : "Check Out"}
 				</button>
 			</div>
 			<InsufficientModal

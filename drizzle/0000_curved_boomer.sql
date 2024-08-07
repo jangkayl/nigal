@@ -18,11 +18,13 @@ CREATE TABLE IF NOT EXISTS "orderSuccess" (
 	"item" integer NOT NULL,
 	"time" timestamp DEFAULT now() NOT NULL,
 	"status" text DEFAULT 'Is not on sales yet' NOT NULL,
+	"returns" text,
 	"games" text,
+	"isDone" boolean DEFAULT false,
 	"opening_time" timestamp,
 	"my_choice" integer,
 	"image" text,
-	"index" integer,
+	"cost" integer,
 	"total" integer NOT NULL,
 	"userId" uuid NOT NULL
 );

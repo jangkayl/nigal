@@ -1,5 +1,6 @@
 import { orderType } from "@/types";
-import { updateSuccessOrder } from "./actions/prize.action";
+import { getAllUserOrder, updateSuccessOrder } from "./actions/prize.action";
+import { getSessionUser } from "./actions/user.action";
 
 export const formatError = (error: any): string => {
 	if (error.name === "ZodError") {
@@ -38,16 +39,6 @@ let initialTimeoutId: NodeJS.Timeout | null = null;
 let stopJob = false;
 let currentJobPromise: Promise<void> | null = null;
 
-export const updateOrderStatus = async (order: orderType) => {
-	const image =
-		"https://manage.im2015.com//uploads/attach/2020/05/20200515/0e8c80facdfc560b7e45e3281b20c13c.png";
-	const returns = "Win the lottery";
-	const status = "Sales success";
-	const total = order.total * 2;
-	await updateSuccessOrder(order.orderNo, image, returns, status, total);
-	window.location.reload();
-};
-
 function getDelayToNextMinute(): number {
 	const now = new Date();
 	const nextMinute = new Date(
@@ -59,8 +50,12 @@ function getDelayToNextMinute(): number {
 		0,
 		0
 	);
-	return nextMinute.getTime() - now.getTime();
+	const delay = nextMinute.getTime() - now.getTime();
+	return delay + 2000; // Add 1 second (1000 milliseconds) delay
 }
+
+let user = null;
+let orders: any = null;
 
 // Cron job function
 const job = async () => {
@@ -68,8 +63,21 @@ const job = async () => {
 
 	try {
 		console.log("Cron job started at", new Date().toISOString());
-		await updateOrderStatus();
+		// await addPrizeWithRandomNumber();
+		user = await getSessionUser();
+		orders = await getAllUserOrder(user?.user.id);
+
+		orders.map((order: any) => {
+			if (order.status === "Waiting for draw") {
+				const update = async () => await updateOrderStatus(order);
+				update();
+				console.log("Update done");
+			}
+		});
+
 		if (stopJob) return; // Check stop flag after async operation
+		// await deleteExcessRecords();
+
 		console.log("Cron job completed at", new Date().toISOString());
 	} catch (error) {
 		console.error("Error during cron job execution:", error);
@@ -77,9 +85,13 @@ const job = async () => {
 };
 
 // Initialize and start the cron job
-export const startCronJob = () => {
+export const startCronJob = async () => {
 	if (isCronJobInitialized) {
 		console.log("Cron job is already initialized.");
+		user = await getSessionUser();
+		orders = await getAllUserOrder(user?.user.id);
+		console.log("Fetched orders:", orders);
+
 		return;
 	}
 
@@ -91,7 +103,6 @@ export const startCronJob = () => {
 
 	initialTimeoutId = setTimeout(async () => {
 		if (stopJob) return; // Exit if stop flag is set before starting the initial job
-
 		await job(); // Execute the initial job
 		if (stopJob) return; // Check stop flag after initial job execution
 
@@ -137,4 +148,9 @@ export const stopCronJob = () => {
 	}
 
 	isCronJobInitialized = false;
+};
+
+export const updateOrderStatus = async (order: orderType) => {
+	await updateSuccessOrder(order);
+	window.location.reload();
 };

@@ -1,6 +1,6 @@
 {
-  "id": "5c78bd22-1d7a-4c2a-b1a0-a24261d68f94",
-  "prevId": "d8b0ec1f-7409-40de-adfd-5d72d50724b4",
+  "id": "c485420e-0706-43dc-86cc-58d9bc76a3dc",
+  "prevId": "ef59a506-959e-40a4-a8f7-0f982f925fe8",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -144,6 +144,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "isDone": {
+          "name": "isDone",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
         "opening_time": {
           "name": "opening_time",
           "type": "timestamp",
@@ -156,14 +163,26 @@
           "primaryKey": false,
           "notNull": false
         },
+        "result_number": {
+          "name": "result_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "result_serial": {
+          "name": "result_serial",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "image": {
           "name": "image",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "index": {
-          "name": "index",
+        "cost": {
+          "name": "cost",
           "type": "integer",
           "primaryKey": false,
           "notNull": false

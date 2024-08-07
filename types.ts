@@ -38,4 +38,7 @@ export type orderType = {
 	image: string | null;
 	returns: string | null;
 	cost: number | null;
+	result_number: number | null;
+	result_serial: number | null;
+	isDone: boolean | null;
 };

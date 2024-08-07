@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import BetError from "../submit-order/BetError";
 import BetSuccess from "../submit-order/BetSuccess";
 import { getSessionUser } from "@/lib/actions/user.action";
+import { startCronJob } from "@/lib/utils";
 
 const OrderNav = ({ params }: any) => {
 	const [selected, setSelected] = useState("");
@@ -30,8 +31,6 @@ const OrderNav = ({ params }: any) => {
 		setSelected(choice);
 	};
 
-	console.log(result);
-
 	const handleClick = async () => {
 		const status = "Waiting for draw";
 		const choice = selected === "even" ? 0 : 1;
@@ -39,9 +38,9 @@ const OrderNav = ({ params }: any) => {
 		if (!result?.opening_time) {
 			setSuccess(true);
 			await updateUserOrder(result?.orderNo, status, choice);
+			startCronJob();
 		} else {
 			setError(true);
-			console.log("Cannot bet");
 		}
 	};
 

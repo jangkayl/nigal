@@ -13,6 +13,7 @@ const Partners = () => {
 						height={170}
 						alt="partners"
 						className="rounded-md"
+						style={{ width: "auto", height: "auto" }}
 					/>
 				</button>
 				<button>

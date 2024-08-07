@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import UserNavigation from "@/components/UserNavigation";
 import { ModalProvider } from "@/components/ModalContext";
+import StartCronJob from "@/components/StartCronJob";
 
 export const dynamic = "force-dynamic";
 
@@ -49,7 +50,10 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className={`${poppins.className} smooth-scroll`}>
-				<ModalProvider>{children}</ModalProvider>
+				<ModalProvider>
+					{children}
+					<StartCronJob />
+				</ModalProvider>
 				<UserNavigation />
 			</body>
 		</html>
