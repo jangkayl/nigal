@@ -10,7 +10,7 @@ const Partners = () => {
 			<p>Partners</p>
 			<div className="py-1 flex gap-3 justify-center items-center">
 				<Link
-					href={"gcash.com"}
+					href="https://www.gcash.com/"
 					className="w-[10rem] h-auto">
 					<Image
 						src={gcash}
@@ -23,7 +23,7 @@ const Partners = () => {
 					/>
 				</Link>
 				<Link
-					href={"youtube.com"}
+					href="https://www.youtube.com/"
 					className="w-[10rem] h-auto">
 					<Image
 						src={youtube}

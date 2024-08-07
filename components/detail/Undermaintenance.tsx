@@ -17,19 +17,22 @@ const Undermaintenance: React.FC<ModalProps> = ({ isVisible, onClose }) => {
 				className={`bg-red-500 px-5 py-8 rounded shadow-lg text-sm transition-transform duration-300 transform text-white flex justify-center items-center flex-col text-center  ${
 					isVisible ? "animate-pop-up" : ""
 				}`}>
-				<Image
-					src={undermaintenance}
-					alt="undermaintenance"
-					width="0"
-					height="0"
-					className="w-20 h-auto"
-				/>
+				<div className="w-20 h-auto">
+					<Image
+						src={undermaintenance}
+						alt="undermaintenance"
+						width="0"
+						height="0"
+						className="w-20 h-auto"
+						placeholder="blur"
+					/>
+				</div>
 				UNDER MAINTENANCE
 				<div className="flex justify-center items-center pt-3">
 					<button
 						className="text-red-400 py-2 px-4 bg-yellow-400 rounded-full"
 						onClick={onClose}>
-						Okay nigw
+						Okay nigs
 					</button>
 				</div>
 			</div>
