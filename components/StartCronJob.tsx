@@ -17,7 +17,7 @@ const StartCronJob = () => {
 				now.getDate(),
 				now.getHours(),
 				now.getMinutes() + 1,
-				1,
+				0,
 				0
 			);
 
