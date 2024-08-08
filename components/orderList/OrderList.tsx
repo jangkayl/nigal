@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Operated from "./Operated";
 import { orderType } from "@/types";
-import Image from "next/image";
 import { getAllUserOrder } from "@/lib/actions/prize.action";
 import { getSessionUser } from "@/lib/actions/user.action";
 import Converted from "./Converted";
@@ -12,44 +11,62 @@ const OrderList = () => {
 	const [selected, setSelected] = useState("operated");
 	const [modal, setModal] = useState(false);
 	const [orders, setOrders] = useState<orderType[] | undefined>(undefined);
+	const [operatedOrders, setOperatedOrders] = useState<orderType[] | undefined>(
+		undefined
+	);
+	const [convertedOrders, setConvertedOrders] = useState<
+		orderType[] | undefined
+	>(undefined);
+	const [refundOrders, setRefundOrders] = useState<orderType[] | undefined>(
+		undefined
+	);
 
 	useEffect(() => {
 		const fetchOrders = async () => {
 			const user = await getSessionUser();
 			if (user?.user.id) {
 				const res = await getAllUserOrder(user.user.id);
-				setOrders(res.length > 0 ? res : undefined);
+				if (res.length > 0) {
+					setOrders(res);
+					setOperatedOrders(filterOperatedOrders(res));
+					setConvertedOrders(filterConvertedOrders(res));
+					setRefundOrders(filterRefundOrders(res));
+				} else {
+					setOrders(undefined);
+				}
 			}
 		};
 
 		fetchOrders();
 	}, [modal]);
 
-	const renderContent = () => {
-		if (!orders || orders.length === 0) {
-			return (
-				<div className="pt-44 z-10 w-48 mx-auto max-w-sm">
-					<Image
-						src="https://www.im2015.com/h5/img/noOrder.3770f435.png"
-						width={999}
-						height={999}
-						quality={100}
-						alt="No Orders"
-					/>
-				</div>
-			);
-		}
+	const filterOperatedOrders = (orders: orderType[]) => {
+		return orders.filter((order) => !order.isDone);
+	};
 
-		const components: any = {
+	const filterConvertedOrders = (orders: orderType[]) => {
+		return orders.filter(
+			(order) => order.isDone && order.status === "Sales failed"
+		);
+	};
+
+	const filterRefundOrders = (orders: orderType[]) => {
+		return orders.filter(
+			(order) => order.isDone && order.status === "Sales success"
+		);
+	};
+
+	const renderContent = () => {
+		const components: { [key: string]: JSX.Element } = {
 			operated: (
 				<Operated
-					orders={orders}
+					orders={operatedOrders}
 					modal={modal}
 					setModal={setModal}
 				/>
 			),
-			converted: <Converted orders={orders} />,
-			refund: <Refund orders={orders} />,
+			converted: <Converted orders={convertedOrders} />,
+			refund: <Refund orders={refundOrders} />,
 		};
 
 		return components[selected] || null;

@@ -22,6 +22,20 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 	const [currentOrder, setCurrentOrder] = useState<orderType | null>(null);
 	const { state } = useModalState();
 
+	if (!orders || orders.length === 0) {
+		return (
+			<div className="pt-44 z-10 w-48 mx-auto max-w-sm">
+				<Image
+					src="https://www.im2015.com/h5/img/noOrder.3770f435.png"
+					width={999}
+					height={999}
+					quality={100}
+					alt="No Orders"
+				/>
+			</div>
+		);
+	}
+
 	const handleHotspot = (order: string) => {
 		router.push(`/order/game/${order}`);
 	};

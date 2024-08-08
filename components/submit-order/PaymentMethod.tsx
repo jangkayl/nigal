@@ -38,6 +38,7 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 
 	const handleSubmit = async () => {
 		if (loading) return; // Prevent multiple submissions if already loading
+		if (!user) router.push("/sign-in");
 
 		if (isSufficient) {
 			setLoading(true); // Start loading

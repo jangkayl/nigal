@@ -111,6 +111,21 @@ export const getAllUserOrder = async (id: any) => {
 	}
 };
 
+// GET ALL ORDERS
+export const getAllPendingOrders = async () => {
+	try {
+		const result = await db.query.orderSuccess.findMany({
+			where: eq(orderSuccess.status, "Waiting for draw"),
+			orderBy: desc(orderSuccess.time),
+		});
+
+		return result;
+	} catch (error) {
+		console.error("Query error:", error);
+		throw error;
+	}
+};
+
 // UPDATE USER ORDER
 export const updateUserOrder = async (
 	orderNo: any,

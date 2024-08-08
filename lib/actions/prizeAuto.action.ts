@@ -5,7 +5,11 @@ import { cronStatus, orderSuccess, prizes, users } from "@/db/schema";
 import { randomInt } from "crypto";
 import { desc, eq, notInArray } from "drizzle-orm";
 import { getSessionUser } from "./user.action";
-import { getAllUserOrder, updateSuccessOrder } from "./prize.action";
+import {
+	getAllPendingOrders,
+	getAllUserOrder,
+	updateSuccessOrder,
+} from "./prize.action";
 import { orderType } from "@/types";
 
 let isCronJobInitialized = false;
@@ -35,8 +39,19 @@ export const addPrizeWithRandomNumber = async () => {
 	const number = randomIn;
 	const result_value = number % 2 === 0 ? 0 : 1;
 	const result = number % 2 === 0 ? `Even&${number}` : `Odd&${number}`;
+	const orders = await getAllPendingOrders();
 
 	try {
+		console.log("Orders: ", orders);
+
+		orders.map((order: any) => {
+			if (order.status === "Waiting for draw") {
+				const update = async () => await updateOrderStatus(order);
+				update();
+				console.log("Update done");
+			}
+		});
+
 		console.log("Inserting prize:", { number, result_value, result });
 		await db.insert(prizes).values({
 			number,
@@ -151,16 +166,6 @@ const job = async () => {
 	try {
 		console.log("Cron job started at", new Date().toISOString());
 		await addPrizeWithRandomNumber();
-		const user = await getSessionUser();
-		const orders = await getAllUserOrder(user?.user.id);
-
-		orders.map((order: any) => {
-			if (order.status === "Waiting for draw") {
-				const update = async () => await updateOrderStatus(order);
-				update();
-				console.log("Update done");
-			}
-		});
 
 		if (stopJob) return;
 		await deleteExcessRecords();
@@ -190,34 +195,11 @@ export const startCronJob = async () => {
 
 	console.log(currentTime - latestTimestamp < 2 * 60 * 1000);
 
-	// Check isInitialized
-	const isInitialized = await db
-		.select()
-		.from(cronStatus)
-		.orderBy(desc(cronStatus.id))
-		.limit(1);
-
 	// If the latest prize was added in the last 2 minutes, do not start the cron job
-	if (
-		currentTime - latestTimestamp < 2 * 60 * 1000 ||
-		isInitialized[0].isInitialized === true
-	) {
-		await db
-			.update(cronStatus)
-			.set({
-				isInitialized: false,
-			})
-			.where(eq(cronStatus.id, 1));
+	if (currentTime - latestTimestamp < 2 * 60 * 1000) {
 		console.log("Cron job already ran recently, not starting again.");
 		return;
 	}
-
-	await db
-		.update(cronStatus)
-		.set({
-			isInitialized: true,
-		})
-		.where(eq(cronStatus.id, 1));
 
 	isCronJobInitialized = true;
 	stopJob = false;

@@ -50,7 +50,6 @@ const OrderSuccess = ({ result }: Props) => {
 								width={70}
 								height={70}
 								className="rounded-md"
-								placeholder="blur"
 							/>
 						</div>
 						<div className="flex flex-col gap-2">
