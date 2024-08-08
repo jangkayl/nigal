@@ -166,7 +166,11 @@ export const updateSuccessOrder = async (order: orderType) => {
 		let latest = await db.query.prizes.findFirst({
 			orderBy: desc(prizes.time),
 		});
-		if (latestResult === order.my_choice) {
+
+		if (
+			latestResult === order.my_choice &&
+			latest?.serial === order.result_serial
+		) {
 			await db
 				.update(orderSuccess)
 				.set({

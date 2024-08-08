@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "account" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "cronStatus" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"isInitialized" boolean DEFAULT false NOT NULL
+	"isInitialized" boolean DEFAULT false
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orderSuccess" (

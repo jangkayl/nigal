@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/db/drizzle";
-import { orderSuccess, prizes, users } from "@/db/schema";
+import { cronStatus, orderSuccess, prizes, users } from "@/db/schema";
 import { randomInt } from "crypto";
 import { desc, eq, notInArray } from "drizzle-orm";
 import { getSessionUser } from "./user.action";
@@ -147,7 +147,7 @@ export const updateRefund = async (balance: number, orderNo: string) => {
 
 const job = async () => {
 	if (stopJob) return;
-	const orders = await getAllPendingOrders();
+	let orders = await getAllPendingOrders();
 
 	try {
 		console.log("Cron job started at", new Date().toISOString());
@@ -191,8 +191,28 @@ export const startCronJob = async () => {
 
 	console.log(currentTime - latestTimestamp < 120000);
 
+	await db
+		.update(cronStatus)
+		.set({
+			isInitialized: true,
+		})
+		.where(eq(cronStatus.id, 1));
+
+	let cron = await db.query.cronStatus.findFirst({
+		where: eq(cronStatus.id, 1),
+	});
+
+	console.log("Cron status: ", cron?.isInitialized);
+
 	// If the latest prize was added in the last 2 minutes, do not start the cron job
-	if (currentTime - latestTimestamp < 120000) {
+	if (currentTime - latestTimestamp < 120000 || cron?.isInitialized) {
+		await db
+			.update(cronStatus)
+			.set({
+				isInitialized: false,
+			})
+			.where(eq(cronStatus.id, 1));
+		console.log("Cron status: ", cron?.isInitialized);
 		console.log("Cron job already ran recently, not starting again.");
 		return;
 	}
