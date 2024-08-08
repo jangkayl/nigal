@@ -205,7 +205,7 @@ export const startCronJob = async () => {
 	console.log("Cron status: ", cron?.isInitialized);
 
 	// If the latest prize was added in the last 2 minutes, do not start the cron job
-	if (currentTime - latestTimestamp < 120000 || cron?.isInitialized) {
+	if (currentTime - latestTimestamp < 120000) {
 		await db
 			.update(cronStatus)
 			.set({
