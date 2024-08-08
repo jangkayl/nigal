@@ -1,15 +1,11 @@
 "use server";
 
 import db from "@/db/drizzle";
-import { cronStatus, orderSuccess, prizes, users } from "@/db/schema";
+import { orderSuccess, prizes, users } from "@/db/schema";
 import { randomInt } from "crypto";
 import { desc, eq, notInArray } from "drizzle-orm";
 import { getSessionUser } from "./user.action";
-import {
-	getAllPendingOrders,
-	getAllUserOrder,
-	updateSuccessOrder,
-} from "./prize.action";
+import { getAllPendingOrders, updateSuccessOrder } from "./prize.action";
 import { orderType } from "@/types";
 
 let isCronJobInitialized = false;
