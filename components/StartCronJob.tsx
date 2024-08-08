@@ -7,12 +7,14 @@ const StartCronJob = () => {
 	const { state, setState } = useModalState();
 
 	useEffect(() => {
+		startCronJob();
 		const initializeCronJob = async () => {
 			if (
 				typeof window !== "undefined" &&
 				localStorage.getItem("cronJobInitialized") !== "true"
 			) {
 				await startCronJob();
+				localStorage.setItem("cronJobInitialized", "true");
 			}
 		};
 
@@ -41,9 +43,11 @@ const StartCronJob = () => {
 			const formattedMinutes = String(minutes).padStart(2, "0");
 			const formattedSeconds = String(seconds).padStart(2, "0");
 
+			const countdown = `${formattedMinutes}:${formattedSeconds}`;
+
 			setState((prevState) => ({
 				...prevState,
-				countdown: `${formattedMinutes}:${formattedSeconds}`,
+				countdown,
 			}));
 		}, 1000);
 

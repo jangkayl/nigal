@@ -60,7 +60,7 @@ const OrderList = () => {
 		const components: { [key: string]: JSX.Element } = {
 			operated: (
 				<Operated
-					orders={operatedOrders}
+					orders={orders}
 					modal={modal}
 					setModal={setModal}
 				/>

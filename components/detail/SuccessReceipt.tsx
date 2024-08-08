@@ -62,6 +62,18 @@ const SuccessReceipt = ({ result }: Props) => {
 				<div className="flex justify-between items-center">
 					<p>Promotion status:</p>
 					<div className="flex gap-3 items-center text-gray-400">
+						<p>{result?.result_serial ? result?.result_serial + 1 : ""}</p>
+					</div>
+				</div>
+				<div className="flex justify-between items-center">
+					<p>Lottery number:</p>
+					<div className="flex gap-3 items-center text-gray-400">
+						<p>{result?.result_number}</p>
+					</div>
+				</div>
+				<div className="flex justify-between items-center">
+					<p>Promotion period:</p>
+					<div className="flex gap-3 items-center text-gray-400">
 						<p>{result?.status}</p>
 					</div>
 				</div>

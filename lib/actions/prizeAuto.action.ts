@@ -189,10 +189,10 @@ export const startCronJob = async () => {
 		: 0;
 	const currentTime = Date.now();
 
-	console.log(currentTime - latestTimestamp < 2 * 60 * 1000);
+	console.log(currentTime - latestTimestamp < 80000);
 
 	// If the latest prize was added in the last 2 minutes, do not start the cron job
-	if (currentTime - latestTimestamp < 2 * 60 * 1000) {
+	if (currentTime - latestTimestamp < 80000) {
 		console.log("Cron job already ran recently, not starting again.");
 		return;
 	}

@@ -1,5 +1,5 @@
 {
-  "id": "ef59a506-959e-40a4-a8f7-0f982f925fe8",
+  "id": "e1d17d55-3c9f-4407-8e65-b1c86c221249",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -102,6 +102,29 @@
       },
       "uniqueConstraints": {}
     },
+    "public.cronStatus": {
+      "name": "cronStatus",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "isInitialized": {
+          "name": "isInitialized",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.orderSuccess": {
       "name": "orderSuccess",
       "schema": "",
@@ -159,6 +182,18 @@
         },
         "my_choice": {
           "name": "my_choice",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "result_number": {
+          "name": "result_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "result_serial": {
+          "name": "result_serial",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -350,7 +385,7 @@
           "type": "double precision",
           "primaryKey": false,
           "notNull": false,
-          "default": 0
+          "default": 300
         },
         "points": {
           "name": "points",

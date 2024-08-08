@@ -13,6 +13,11 @@ CREATE TABLE IF NOT EXISTS "account" (
 	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "cronStatus" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"isInitialized" boolean DEFAULT false NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orderSuccess" (
 	"orderNo" uuid PRIMARY KEY NOT NULL,
 	"item" integer NOT NULL,
@@ -23,6 +28,8 @@ CREATE TABLE IF NOT EXISTS "orderSuccess" (
 	"isDone" boolean DEFAULT false,
 	"opening_time" timestamp,
 	"my_choice" integer,
+	"result_number" integer,
+	"result_serial" integer,
 	"image" text,
 	"cost" integer,
 	"total" integer NOT NULL,
@@ -52,7 +59,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"password" text,
 	"image" text DEFAULT 'https://www.im2015.com/user-avatar/n1.png',
 	"createdAt" timestamp DEFAULT now() NOT NULL,
-	"balance" double precision DEFAULT 0,
+	"balance" double precision DEFAULT 300,
 	"points" double precision DEFAULT 0
 );
 --> statement-breakpoint

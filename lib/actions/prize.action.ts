@@ -132,6 +132,10 @@ export const updateUserOrder = async (
 	status: string,
 	choice: number
 ) => {
+	const latest = await db.query.prizes.findFirst({
+		orderBy: desc(prizes.time),
+	});
+
 	try {
 		await db
 			.update(orderSuccess)
@@ -139,6 +143,7 @@ export const updateUserOrder = async (
 				opening_time: new Date(),
 				my_choice: choice,
 				status: status,
+				result_serial: latest?.serial,
 			})
 			.where(eq(orderSuccess.orderNo, orderNo));
 		console.log("Update user order done");
@@ -158,6 +163,9 @@ export const updateSuccessOrder = async (order: orderType) => {
 	console.log(latestResult);
 
 	try {
+		let latest = await db.query.prizes.findFirst({
+			orderBy: desc(prizes.time),
+		});
 		if (latestResult === order.my_choice) {
 			await db
 				.update(orderSuccess)
@@ -166,6 +174,7 @@ export const updateSuccessOrder = async (order: orderType) => {
 					returns: returns,
 					status: status,
 					total: total,
+					result_number: latest?.number,
 				})
 				.where(eq(orderSuccess.orderNo, order.orderNo));
 		} else {
@@ -173,6 +182,7 @@ export const updateSuccessOrder = async (order: orderType) => {
 				.update(orderSuccess)
 				.set({
 					status: "Sales failed",
+					result_number: latest?.number,
 				})
 				.where(eq(orderSuccess.orderNo, order.orderNo));
 		}
