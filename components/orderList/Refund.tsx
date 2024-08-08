@@ -11,6 +11,20 @@ interface Props {
 const Refund = ({ orders }: Props) => {
 	const router = useRouter();
 
+	if (!orders || orders.length === 0) {
+		return (
+			<div className="pt-44 z-10 w-48 mx-auto max-w-sm">
+				<Image
+					src="https://www.im2015.com/h5/img/noOrder.3770f435.png"
+					width={999}
+					height={999}
+					quality={100}
+					alt="No Orders"
+				/>
+			</div>
+		);
+	}
+
 	return (
 		<div className="w-full pt-20 pb-32">
 			{orders?.map((order) => (
