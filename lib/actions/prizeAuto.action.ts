@@ -35,19 +35,8 @@ export const addPrizeWithRandomNumber = async () => {
 	const number = randomIn;
 	const result_value = number % 2 === 0 ? 0 : 1;
 	const result = number % 2 === 0 ? `Even&${number}` : `Odd&${number}`;
-	const orders = await getAllPendingOrders();
 
 	try {
-		console.log("Orders: ", orders);
-
-		orders.map((order: any) => {
-			if (order.status === "Waiting for draw") {
-				const update = async () => await updateOrderStatus(order);
-				update();
-				console.log("Update done");
-			}
-		});
-
 		console.log("Inserting prize:", { number, result_value, result });
 		await db.insert(prizes).values({
 			number,
@@ -158,10 +147,21 @@ export const updateRefund = async (balance: number, orderNo: string) => {
 
 const job = async () => {
 	if (stopJob) return;
+	const orders = await getAllPendingOrders();
 
 	try {
 		console.log("Cron job started at", new Date().toISOString());
 		await addPrizeWithRandomNumber();
+
+		console.log("Orders: ", orders);
+
+		orders.map((order: any) => {
+			if (order.status === "Waiting for draw") {
+				const update = async () => await updateOrderStatus(order);
+				update();
+				console.log("Update done");
+			}
+		});
 
 		if (stopJob) return;
 		await deleteExcessRecords();
