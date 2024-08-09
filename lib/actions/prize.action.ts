@@ -2,10 +2,9 @@
 import db from "@/db/drizzle";
 import { orderSuccess, prizes, users } from "@/db/schema";
 import { orderType } from "@/types";
-import { randomInt } from "crypto";
-import { asc, desc, eq, notInArray } from "drizzle-orm";
-import { getSessionUser } from "./user.action";
+import { desc, eq } from "drizzle-orm";
 import { getPrizeResult } from "./prizeAuto.action";
+import returnImg from "@/public/return.png";
 
 // GET ALL PRIZES
 export const getAllPrizes = async () => {
@@ -174,8 +173,6 @@ export const updateUserOrder = async (
 
 export const updateSuccessOrder = async (order: orderType) => {
 	let latestResult = await getPrizeResult();
-	const image =
-		"https://manage.im2015.com//uploads/attach/2020/05/20200515/0e8c80facdfc560b7e45e3281b20c13c.png";
 	const returns = "Win the lottery";
 	const status = "Sales success";
 	const total = order.total * 2;
@@ -194,7 +191,7 @@ export const updateSuccessOrder = async (order: orderType) => {
 			await db
 				.update(orderSuccess)
 				.set({
-					image: image,
+					image: returnImg.src,
 					returns: returns,
 					status: status,
 					total: total,
