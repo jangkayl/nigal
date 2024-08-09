@@ -35,7 +35,7 @@ const OrderNav = ({ params }: any) => {
 		const status = "Waiting for draw";
 		const choice = selected === "even" ? 0 : 1;
 
-		if (!result?.opening_time) {
+		if (!result?.opening_time && result?.games === "Guess Odd or Even") {
 			setSuccess(true);
 			await updateUserOrder(result?.orderNo, status, choice);
 			startCronJob();
@@ -57,6 +57,7 @@ const OrderNav = ({ params }: any) => {
 			</div>
 			<div className="flex items-center flex-col justify-center h-[27rem] gap-9">
 				<p>Select your anticipated result</p>
+
 				<div className="flex justify-evenly w-full text-white text-xl pt-4">
 					<button
 						className={`py-10 px-3 border border-yellow-600 ${

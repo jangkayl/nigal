@@ -35,19 +35,31 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
 	const [cost, localSetCost] = useState(data.cost);
 
 	const handleAdd = () => {
-		localSetCost(cost + data.cost);
-		localSetCount(count + 1);
-		if (oneBet) {
-			localSetWinrate(winrate + 1.25);
-		}
+		const newCount = count + 1;
+		updateState(newCount, cost + data.cost, winrate + (oneBet ? 1.25 : 0));
 	};
 
 	const handleMinus = () => {
-		localSetCost(cost - data.cost);
-		localSetCount(count - 1);
-		if (oneBet) {
-			localSetWinrate(winrate - 1.25);
+		if (count > 1) {
+			const newCount = count - 1;
+			updateState(newCount, cost - data.cost, winrate - (oneBet ? 1.25 : 0));
 		}
+	};
+
+	const handleCountChange = (newCount: number) => {
+		const newCost = newCount * data.cost;
+		const newWinrate = oneBet ? 1.25 * newCount : winrate;
+		updateState(newCount, newCost, newWinrate);
+	};
+
+	const updateState = (
+		newCount: number,
+		newCost: number,
+		newWinrate: number
+	) => {
+		localSetCount(newCount);
+		localSetCost(newCost);
+		localSetWinrate(newWinrate);
 	};
 
 	useEffect(() => {
@@ -141,6 +153,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
 					cost={cost}
 					handleAdd={handleAdd}
 					handleMinus={handleMinus}
+					handleCountChange={handleCountChange}
 				/>
 				{oneBet && (
 					<PredictType

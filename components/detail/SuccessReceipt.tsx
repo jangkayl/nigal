@@ -62,7 +62,7 @@ const SuccessReceipt = ({ result }: Props) => {
 				<div className="flex justify-between items-center">
 					<p>Promotion status:</p>
 					<div className="flex gap-3 items-center text-gray-400">
-						<p>{result?.result_serial ? result?.result_serial + 1 : ""}</p>
+						<p>{result?.result_serial}</p>
 					</div>
 				</div>
 				<div className="flex justify-between items-center">
@@ -91,8 +91,12 @@ const SuccessReceipt = ({ result }: Props) => {
 				</div>
 				<div className="flex justify-between items-center">
 					<p>My choice:</p>
-					<div className="flex gap-3 items-center text-gray-400">
-						<p>{result?.my_choice}</p>
+					<div className="flex gap-3 items-center text-gray-400 w-[12rem]">
+						<p>
+							{result?.my_choice === null
+								? result.vipChoices?.join(", ")
+								: result?.my_choice}
+						</p>
 					</div>
 				</div>
 				<div className="flex justify-between items-center">

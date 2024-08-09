@@ -37,17 +37,22 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 			: "Guess Odd or Even";
 
 	const handleSubmit = async () => {
-		if (loading) return; // Prevent multiple submissions if already loading
+		if (loading) return;
 		if (!user) router.push("/sign-in");
 
 		if (isSufficient) {
 			setLoading(true); // Start loading
 			try {
 				if (user) {
-					const deductBalance = user.balance - cost;
+					const deductBalance = user?.balance - cost;
 					await deductUserBalance(user.id, deductBalance);
 				}
-				const returns = "Cash 2x returns";
+				const vipChoices =
+					dataIndex === 2 || dataIndex === 3 ? new Array(count).fill(0) : [];
+				const returns =
+					dataIndex === 2 || dataIndex === 3
+						? "VIP 71x returns"
+						: "Cash 2x returns";
 				await generateOrder(
 					user?.id,
 					count,
@@ -55,7 +60,8 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 					cost,
 					data.image.src,
 					returns,
-					data.cost
+					data.cost,
+					vipChoices
 				);
 				const success = await getLatestUserOrder(user?.id);
 				router.push(`/order/status/${success?.orderNo}`);

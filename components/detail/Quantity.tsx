@@ -9,6 +9,7 @@ interface Props {
 	cost: number;
 	handleAdd: () => void;
 	handleMinus: () => void;
+	handleCountChange: (newCount: number) => void;
 }
 
 const Quantity = ({
@@ -18,7 +19,13 @@ const Quantity = ({
 	cost,
 	handleAdd,
 	handleMinus,
+	handleCountChange,
 }: Props) => {
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const newCount = Math.max(1, parseInt(event.target.value) || 1);
+		handleCountChange(newCount);
+	};
+
 	return (
 		<div className="pt-8 flex items-end justify-between">
 			<div>
@@ -36,9 +43,11 @@ const Quantity = ({
 							} py-2 w-12 border rounded-l-md border-r-0`}
 						/>
 					</button>
-					<p className="border-gray-500 border py-1 text-gray-500 w-12 text-center text-sm">
-						{count}
-					</p>
+					<input
+						className="border-gray-500 border py-1 text-gray-500 w-12 text-center text-sm"
+						value={count}
+						onChange={handleInputChange}
+					/>
 					<button onClick={handleAdd}>
 						<FaPlus
 							size={30}

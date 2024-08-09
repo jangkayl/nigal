@@ -9,7 +9,6 @@ import {
 	boolean,
 	doublePrecision,
 	bigserial,
-	serial,
 } from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
 
@@ -46,6 +45,7 @@ export const orderSuccess = pgTable("orderSuccess", {
 	item: integer("item").notNull(),
 	time: timestamp("time", { mode: "date" }).notNull().defaultNow(),
 	status: text("status").default("Is not on sales yet").notNull(),
+	vipChoices: integer("vipChoices").array(),
 	returns: text("returns"),
 	games: text("games"),
 	isDone: boolean("isDone").default(false),

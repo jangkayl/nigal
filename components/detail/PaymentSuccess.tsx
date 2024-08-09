@@ -12,6 +12,15 @@ interface Props {
 
 const PaymentSuccess = ({ result }: Props) => {
 	const router = useRouter();
+	const vip = result?.games === "Guess 71x return";
+
+	const handleSubmit = () => {
+		if (vip) {
+			router.push(`/order/vip/${result?.orderNo}`);
+		} else {
+			router.push(`/order/game/${result?.orderNo}`);
+		}
+	};
 
 	return (
 		<div className="mt-24 w-full relative">
@@ -42,7 +51,7 @@ const PaymentSuccess = ({ result }: Props) => {
 				</div>
 				<button
 					className="flex items-center justify-center w-full bg-red-500 rounded-full text-white py-3 mt-5"
-					onClick={() => router.push(`/order/game/${result?.orderNo}`)}>
+					onClick={handleSubmit}>
 					HOT SPOT
 					<FaRegRegistered size={15} />
 				</button>

@@ -50,4 +50,5 @@ export type orderType = {
 	result_number: number | null;
 	result_serial: number | null;
 	isDone: boolean | null;
+	vipChoices: number[] | null;
 };

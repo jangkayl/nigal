@@ -1,5 +1,5 @@
 {
-  "id": "77f5af80-6091-4f0f-88ad-2907a9b64295",
+  "id": "d00062ad-faae-4441-8a85-1f481c2fe34f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -102,29 +102,6 @@
       },
       "uniqueConstraints": {}
     },
-    "public.cronStatus": {
-      "name": "cronStatus",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "isInitialized": {
-          "name": "isInitialized",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "public.orderSuccess": {
       "name": "orderSuccess",
       "schema": "",
@@ -154,6 +131,12 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'Is not on sales yet'"
+        },
+        "vipChoices": {
+          "name": "vipChoices",
+          "type": "integer[]",
+          "primaryKey": false,
+          "notNull": false
         },
         "returns": {
           "name": "returns",

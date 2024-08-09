@@ -13,16 +13,12 @@ CREATE TABLE IF NOT EXISTS "account" (
 	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "cronStatus" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"isInitialized" boolean DEFAULT false
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orderSuccess" (
 	"orderNo" uuid PRIMARY KEY NOT NULL,
 	"item" integer NOT NULL,
 	"time" timestamp DEFAULT now() NOT NULL,
 	"status" text DEFAULT 'Is not on sales yet' NOT NULL,
+	"vipChoices" integer[],
 	"returns" text,
 	"games" text,
 	"isDone" boolean DEFAULT false,

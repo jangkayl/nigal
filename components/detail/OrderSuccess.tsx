@@ -22,7 +22,10 @@ const OrderSuccess = ({ result }: Props) => {
 	);
 
 	return (
-		<div className="w-full flex flex-col gap-2 text-sm">
+		<div
+			className={`w-full flex flex-col ${
+				result?.isDone ? "" : "gap-2"
+			} text-sm`}>
 			<div className="py-3 bg-white flex justify-center items-center fixed top-0 max-w-sm w-full">
 				<IoIosArrowBack
 					size={20}
@@ -31,9 +34,14 @@ const OrderSuccess = ({ result }: Props) => {
 				/>
 				<p>Order details</p>
 			</div>
-			<div className="px-3 py-3 bg-white mt-[50px]">
+			<div
+				className={`px-3 py-3 mt-[50px] ${
+					result?.isDone ? "bg-[#666666]" : "bg-white"
+				}`}>
 				<p className="font-semibold">
-					Seller has not send product yet, please kindly wait
+					{result?.isDone
+						? "Refund has been made successfully, thank you for your support"
+						: "Seller has not send product yet, please kindly wait"}
 				</p>
 				<p className="text-xs">{formatDateTime(result?.time)}</p>
 			</div>

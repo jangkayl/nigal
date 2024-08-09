@@ -22,12 +22,16 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 	const [currentOrder, setCurrentOrder] = useState<orderType | null>(null);
 	const { state } = useModalState();
 
-	if (state.countdown === "00:59") {
+	if (state.countdown === "00:58") {
 		window.location.reload();
 	}
 
-	const handleHotspot = (order: string) => {
-		router.push(`/order/game/${order}`);
+	const handleHotspot = (order: string, orderGame: string) => {
+		if (orderGame === "Guess 71x return") {
+			router.push(`/order/vip/${order}`);
+		} else {
+			router.push(`/order/game/${order}`);
+		}
 	};
 
 	// Sort orders: Descending by opening_time first, then by time if opening_time is null
@@ -132,7 +136,9 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 									</p>
 								</div>
 								<div className="w-full flex justify-end items-center px-4 py-3 gap-3">
-									{order.my_choice !== null ? (
+									{order.my_choice !== null ||
+									(order.vipChoices &&
+										order.vipChoices.some((choice) => choice !== 0)) ? (
 										<div>
 											{order.status === "Waiting for draw" ? (
 												<p className="">Bonus countdown: {state.countdown}</p>
@@ -161,7 +167,9 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 									) : (
 										<button
 											className="border rounded-lg border-red-500 text-red-500 flex justify-center items-center p-2"
-											onClick={() => handleHotspot(order.orderNo)}>
+											onClick={() =>
+												handleHotspot(order.orderNo, order?.games || "")
+											}>
 											HOT SPOT <FaRegRegistered size={10} />
 										</button>
 									)}

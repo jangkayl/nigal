@@ -59,7 +59,8 @@ export const generateOrder = async (
 	total: number,
 	image: string,
 	returns: string,
-	cost: number
+	cost: number,
+	vipChoices: number[]
 ) => {
 	try {
 		await db.insert(orderSuccess).values({
@@ -70,6 +71,7 @@ export const generateOrder = async (
 			image: image,
 			returns: returns,
 			cost: cost,
+			vipChoices: vipChoices,
 		});
 		console.log("Generate order done");
 	} catch (error) {
@@ -174,38 +176,93 @@ export const updateUserOrder = async (
 	}
 };
 
+// UPDATE USER ORDER VIP
+export const updateUserVipOrder = async (
+	orderNo: any,
+	status: string,
+	choice: number[]
+) => {
+	const latest = await db.query.prizes.findFirst({
+		orderBy: desc(prizes.time),
+	});
+	let serial = null;
+	if (latest?.serial) {
+		serial = latest?.serial + 1;
+	}
+
+	try {
+		await db
+			.update(orderSuccess)
+			.set({
+				opening_time: new Date(),
+				vipChoices: choice,
+				status: status,
+				result_serial: serial,
+			})
+			.where(eq(orderSuccess.orderNo, orderNo));
+		console.log("Update user order done");
+	} catch (error) {
+		console.error("Update User Order error: ", error);
+	}
+};
+
 export const updateSuccessOrder = async (order: orderType) => {
 	const returns = "Win the lottery";
 	const status = "Sales success";
 	const total = order.total * 2;
+	const vip = order.games === "Guess 71x return";
+	const vipTotal = order.total * 71;
 
 	try {
 		let latest = await db.query.prizes.findFirst({
 			orderBy: desc(prizes.time),
 		});
 
-		if (
-			latest?.result_value === order.my_choice &&
-			latest?.serial === order.result_serial
-		) {
-			await db
-				.update(orderSuccess)
-				.set({
-					image: returnImg.src,
-					returns: returns,
-					status: status,
-					total: total,
-					result_number: latest?.number,
-				})
-				.where(eq(orderSuccess.orderNo, order.orderNo));
+		if (vip) {
+			if (latest && order?.vipChoices?.includes(latest.number)) {
+				await db
+					.update(orderSuccess)
+					.set({
+						image: returnImg.src,
+						returns: returns,
+						status: status,
+						total: vipTotal,
+						result_number: latest.number,
+					})
+					.where(eq(orderSuccess.orderNo, order.orderNo));
+			} else {
+				await db
+					.update(orderSuccess)
+					.set({
+						status: "Sales failed",
+						result_number: latest?.number,
+					})
+					.where(eq(orderSuccess.orderNo, order.orderNo));
+			}
 		} else {
-			await db
-				.update(orderSuccess)
-				.set({
-					status: "Sales failed",
-					result_number: latest?.number,
-				})
-				.where(eq(orderSuccess.orderNo, order.orderNo));
+			if (
+				latest?.result_value === order.my_choice &&
+				latest?.serial === order.result_serial
+			) {
+				await db
+					.update(orderSuccess)
+					.set({
+						image: returnImg.src,
+						returns: returns,
+						status: status,
+						total: total,
+						result_number: latest?.number,
+					})
+					.where(eq(orderSuccess.orderNo, order.orderNo));
+			} else {
+				await db
+					.update(orderSuccess)
+					.set({
+						status: "Sales failed",
+						result_number: latest?.number,
+					})
+					.where(eq(orderSuccess.orderNo, order.orderNo));
+			}
 		}
 	} catch (error) {
 		console.error("Update User Order error: ", error);

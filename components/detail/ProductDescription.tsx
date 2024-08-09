@@ -5,6 +5,7 @@ import { RiHome3Line } from "react-icons/ri";
 import { detailType } from "@/types";
 import DetailsModal from "./DetailsModal";
 import SelectDetail from "./SelectDetail";
+import BetVipError from "./VIP/BetVipError";
 
 interface Props {
 	data: detailType;
@@ -18,6 +19,7 @@ const ProductDescription = ({ data, oneBet, dataIndex }: Props) => {
 	const [winrate, setWinrate] = useState(1.25);
 	const [count, setCount] = useState(1);
 	const [cost, setCost] = useState(data.cost);
+	const [error, setError] = useState(false);
 	const checkoutButtonRef = useRef<HTMLButtonElement>(null);
 
 	const handleCheckoutClick = () => {
@@ -28,14 +30,30 @@ const ProductDescription = ({ data, oneBet, dataIndex }: Props) => {
 				cost: cost.toString(),
 				dataIndex: dataIndex.toString(),
 			}).toString();
-			router.push(`/order/submit?${query}`);
+			if (dataIndex === 2 || dataIndex === 3) {
+				if (count > 80) {
+					setError(true);
+				} else {
+					router.push(`/order/submit?${query}`);
+				}
+			} else {
+				router.push(`/order/submit?${query}`);
+			}
 		} else {
 			setShowModal(true);
 		}
 	};
 
+	const handleClose = () => {
+		setError(!error);
+	};
+
 	return (
 		<div className="text-[0.8rem] pb-20">
+			<BetVipError
+				isVisible={error}
+				onClose={handleClose}
+			/>
 			<SelectDetail onClick={() => setShowModal(true)} />
 			<div className="py-3 bg-white">
 				<p className="text-center text-sm">Product Description</p>

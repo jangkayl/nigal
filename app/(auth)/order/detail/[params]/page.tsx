@@ -21,7 +21,10 @@ const Prize = async ({ params }: any) => {
 	return (
 		<>
 			<title>{title}</title>
-			<main className="min-h-screen flex flex-col items-center max-w-sm mx-auto bg-gray-100 relative">
+			<main
+				className={`min-h-screen flex flex-col items-center max-w-sm ${
+					res?.isDone ? "bg-[#666666]" : "bg-gray-100"
+				} mx-auto  relative`}>
 				{isValid ? <OrderSuccess result={res} /> : <PageNotFound />}
 			</main>
 		</>
