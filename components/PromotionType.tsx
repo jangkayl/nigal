@@ -17,6 +17,7 @@ const PromotionType = () => {
 						className="w-[10rem] h-auto rounded-md"
 						alt="promotion"
 						placeholder="blur"
+						quality={100}
 					/>
 				</button>
 				<button className="w-[10rem] h-auto">
@@ -28,6 +29,7 @@ const PromotionType = () => {
 						className="w-[10rem] h-auto rounded-md"
 						alt="promotion"
 						placeholder="blur"
+						quality={100}
 					/>
 				</button>
 			</div>

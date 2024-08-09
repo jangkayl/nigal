@@ -25,6 +25,15 @@ export type detailType = {
 	cost: number;
 };
 
+export type pointsType = {
+	image: any;
+	title: string;
+	price: string;
+	cost: number;
+	addBalance: number;
+	index: number;
+};
+
 export type orderType = {
 	orderNo: string;
 	item: number;

@@ -25,6 +25,7 @@ const Undermaintenance: React.FC<ModalProps> = ({ isVisible, onClose }) => {
 						height="0"
 						className="w-20 h-auto"
 						placeholder="blur"
+						quality={100}
 					/>
 				</div>
 				UNDER MAINTENANCE

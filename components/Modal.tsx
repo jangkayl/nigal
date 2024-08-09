@@ -67,6 +67,7 @@ const Modal: React.FC<ModalProps> = ({ open, setOpen, userId, currentImg }) => {
 								alt="profile"
 								width={70}
 								height={70}
+								quality={100}
 								className={`cursor-pointer
 									${selectedImage === src.src ? "border rounded-xl border-blue-500" : ""}`}
 								onClick={() => handleImageClick(src.src)}
@@ -81,6 +82,7 @@ const Modal: React.FC<ModalProps> = ({ open, setOpen, userId, currentImg }) => {
 								alt="profile"
 								width={70}
 								height={70}
+								quality={100}
 								className={`cursor-pointer
 									${selectedImage === src.src ? "border rounded-xl border-blue-500" : ""}`}
 								onClick={() => handleImageClick(src.src)}

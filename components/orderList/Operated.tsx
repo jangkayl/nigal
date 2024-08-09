@@ -22,7 +22,7 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 	const [currentOrder, setCurrentOrder] = useState<orderType | null>(null);
 	const { state } = useModalState();
 
-	if (state.countdown === "01:00") {
+	if (state.countdown === "00:59") {
 		window.location.reload();
 	}
 

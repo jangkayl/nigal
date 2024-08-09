@@ -7,7 +7,7 @@ interface Props {
 	data: detailType;
 }
 
-const SubmitItem = ({ count, data }: Props) => {
+const PointsItemSubmit = ({ count, data }: Props) => {
 	return (
 		<div className="bg-white my-3 text-sm">
 			<div className="w-full border-b py-2  px-4">
@@ -25,7 +25,7 @@ const SubmitItem = ({ count, data }: Props) => {
 					/>
 					<div className="flex flex-col gap-2">
 						<p>{data.title}</p>
-						<p className="text-xs text-red-500">₱{data.cost}</p>
+						<p className="text-xs text-red-500">{data.cost} Points</p>
 					</div>
 				</div>
 				<p className="text-gray-400">x {count}</p>
@@ -34,4 +34,4 @@ const SubmitItem = ({ count, data }: Props) => {
 	);
 };
 
-export default SubmitItem;
+export default PointsItemSubmit;

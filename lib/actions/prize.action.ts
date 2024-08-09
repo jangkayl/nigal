@@ -33,6 +33,26 @@ export const deductUserBalance = async (id: any, deduct: number) => {
 	}
 };
 
+// DEDUCT USER POINTS
+export const deductUserPoints = async (
+	id: any,
+	deduct: number,
+	addBalance: number
+) => {
+	try {
+		await db
+			.update(users)
+			.set({
+				points: deduct,
+				balance: addBalance,
+			})
+			.where(eq(users.id, id));
+		console.log("Deduct points successfull: ", deduct);
+	} catch (error) {
+		console.error("Deduct error: ", error);
+	}
+};
+
 // GENERATE ORDER
 export const generateOrder = async (
 	id: any,

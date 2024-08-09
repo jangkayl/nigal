@@ -15,6 +15,7 @@ const UserDashboard = () => {
 						alt="price"
 						width={27}
 						height={27}
+						quality={100}
 					/>
 					<p className="text-xs">Prize opening record</p>
 				</Link>

@@ -6,6 +6,10 @@ import image5 from "@/public/image5.jpg";
 import image6 from "@/public/image6.jpg";
 import image7 from "@/public/image7.jpg";
 import image8 from "@/public/image8.jpg";
+import bal100 from "@/public/bal100.png";
+import bal500 from "@/public/bal500.png";
+import bal1000 from "@/public/bal1000.png";
+import bal2000 from "@/public/bal2000.png";
 
 const allGoodsData = {
 	prices: [
@@ -60,4 +64,41 @@ const allGoodsData = {
 	],
 };
 
-export default allGoodsData;
+const pointsGoodsData = {
+	prices: [
+		{
+			image: bal100,
+			title: "Balance ₱100",
+			price: "10000 Points",
+			addBalance: 100,
+			cost: 10000,
+			index: 1,
+		},
+		{
+			image: bal500,
+			title: "Balance ₱500",
+			price: "45000 Points",
+			addBalance: 500,
+			cost: 45000,
+			index: 2,
+		},
+		{
+			image: bal1000,
+			title: "Balance ₱1000",
+			price: "1000 Points",
+			addBalance: 1000,
+			cost: 80000,
+			index: 3,
+		},
+		{
+			image: bal2000,
+			title: "Balance ₱2000",
+			price: "150000 Points",
+			addBalance: 2000,
+			cost: 150000,
+			index: 4,
+		},
+	],
+};
+
+export { allGoodsData, pointsGoodsData };

@@ -7,7 +7,7 @@ import image1 from "@/public/image1.jpg";
 import SuccessReceipt from "./SuccessReceipt";
 import { orderType } from "@/types";
 import { formatDateTime } from "@/lib/utils";
-import allGoodsData from "@/lib/sample-data";
+import { allGoodsData } from "@/lib/sample-data";
 import Link from "next/link";
 
 interface Props {
@@ -50,6 +50,7 @@ const OrderSuccess = ({ result }: Props) => {
 								width={70}
 								height={70}
 								className="rounded-md"
+								quality={100}
 							/>
 						</div>
 						<div className="flex flex-col gap-2">

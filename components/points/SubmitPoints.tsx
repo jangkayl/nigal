@@ -2,23 +2,23 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import SubmitItem from "./SubmitItem";
-import { allGoodsData } from "@/lib/sample-data";
-import PaymentMethod from "./PaymentMethod";
+import { pointsGoodsData } from "@/lib/sample-data";
 import { userType } from "@/types";
 import { getSessionUser, getUserById } from "@/lib/actions/user.action";
+import PointsItemSubmit from "./PointsItemSubmit";
+import PointsPaymentMethod from "./PointsPaymentMethod";
 
 interface UserProps {
 	user: userType | null;
 }
 
-const SubmitOrder = ({ user: initialUser }: UserProps) => {
+const SubmitPoints = ({ user: initialUser }: UserProps) => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const count = parseInt(searchParams.get("count") || "0", 10);
 	const cost = parseFloat(searchParams.get("cost") || "0");
 	const dataIndex = parseInt(searchParams.get("dataIndex") || "0");
-	const data = allGoodsData.prices[dataIndex];
+	const data = pointsGoodsData.prices[dataIndex];
 	const [user, setUser] = useState<userType | null>(initialUser);
 
 	useEffect(() => {
@@ -42,19 +42,17 @@ const SubmitOrder = ({ user: initialUser }: UserProps) => {
 				/>
 				<p>Submit Order</p>
 			</div>
-			<SubmitItem
+			<PointsItemSubmit
 				count={count}
 				data={data}
 			/>
-			<PaymentMethod
+			<PointsPaymentMethod
 				user={user}
 				cost={cost}
-				count={count}
-				dataIndex={dataIndex}
 				data={data}
 			/>
 		</div>
 	);
 };
 
-export default SubmitOrder;
+export default SubmitPoints;

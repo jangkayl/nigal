@@ -20,6 +20,7 @@ const Partners = () => {
 						className="w-[10rem] h-auto rounded-md"
 						alt="partners"
 						placeholder="blur"
+						quality={100}
 					/>
 				</Link>
 				<Link
@@ -29,6 +30,7 @@ const Partners = () => {
 						src={youtube}
 						width="0"
 						height="0"
+						quality={100}
 						sizes="100vw"
 						className="w-[10rem] h-auto rounded-md"
 						alt="partners"
