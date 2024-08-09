@@ -7,7 +7,6 @@ import { useFormState, useFormStatus } from "react-dom";
 import { MdPhoneAndroid, MdLock } from "react-icons/md";
 import { TbEyeClosed, TbEye } from "react-icons/tb";
 import { signInWithCredentials } from "@/lib/actions/user.action";
-import { useRouter } from "next/navigation";
 
 export default function CredentialsSignInForm() {
 	const [isOpen, setIsOpen] = useState(false);

@@ -11,9 +11,6 @@ const OrderList = () => {
 	const [selected, setSelected] = useState("operated");
 	const [modal, setModal] = useState(false);
 	const [orders, setOrders] = useState<orderType[] | undefined>(undefined);
-	const [operatedOrders, setOperatedOrders] = useState<orderType[] | undefined>(
-		undefined
-	);
 	const [convertedOrders, setConvertedOrders] = useState<
 		orderType[] | undefined
 	>(undefined);
@@ -28,7 +25,6 @@ const OrderList = () => {
 				const res = await getAllUserOrder(user.user.id);
 				if (res.length > 0) {
 					setOrders(res);
-					setOperatedOrders(filterOperatedOrders(res));
 					setConvertedOrders(filterConvertedOrders(res));
 					setRefundOrders(filterRefundOrders(res));
 				} else {
@@ -39,10 +35,6 @@ const OrderList = () => {
 
 		fetchOrders();
 	}, [modal]);
-
-	const filterOperatedOrders = (orders: orderType[]) => {
-		return orders.filter((order) => !order.isDone);
-	};
 
 	const filterConvertedOrders = (orders: orderType[]) => {
 		return orders.filter(
@@ -57,7 +49,7 @@ const OrderList = () => {
 	};
 
 	const renderContent = () => {
-		const components: { [key: string]: JSX.Element } = {
+		const components: { [key: string]: any } = {
 			operated: (
 				<Operated
 					orders={orders}

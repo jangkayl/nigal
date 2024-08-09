@@ -9,7 +9,7 @@ const Carousel = ({ images }: { images: (string | StaticImageData)[] }) => {
 	const carouselRef = useRef<HTMLDivElement>(null);
 	const startXRef = useRef<number | null>(null);
 	const isDragging = useRef(false);
-	const intervalRef = useRef<NodeJS.Timeout | null>(null);
+	const intervalRef = useRef<any>(null);
 	const router = useRouter();
 
 	const clonedImages = [images[images.length - 1], ...images, images[0]];

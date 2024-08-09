@@ -8,8 +8,8 @@ import { getAllPendingOrders, updateSuccessOrder } from "./prize.action";
 import { orderType } from "@/types";
 
 let isCronJobInitialized = false;
-let cronJobIntervalId: NodeJS.Timeout | null = null;
-let initialTimeoutId: NodeJS.Timeout | null = null;
+let cronJobIntervalId: any = null;
+let initialTimeoutId: any = null;
 let stopJob = false;
 let currentJobPromise: Promise<void> | null = null;
 

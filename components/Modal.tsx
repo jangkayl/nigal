@@ -13,6 +13,7 @@ import profilev4 from "@/public/profilev4.png";
 
 interface ModalProps {
 	open: boolean;
+	// eslint-disable-next-line no-unused-vars
 	setOpen: (open: boolean) => void;
 	userId: string;
 	currentImg: string;

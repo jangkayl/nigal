@@ -1,4 +1,3 @@
-import { getAllPrizes } from "@/lib/actions/prize.action";
 import { prizeType } from "@/types";
 import React, { useEffect, useState } from "react";
 

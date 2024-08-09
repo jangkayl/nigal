@@ -1,11 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 
-type Log = {
-	type: "log" | "error";
-	message: string;
-};
-
 const Countdown = () => {
 	const [countdown, setCountdown] = useState<string>("00:00");
 

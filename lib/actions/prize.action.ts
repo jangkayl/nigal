@@ -3,7 +3,6 @@ import db from "@/db/drizzle";
 import { orderSuccess, prizes, users } from "@/db/schema";
 import { orderType } from "@/types";
 import { desc, eq } from "drizzle-orm";
-import { getPrizeResult } from "./prizeAuto.action";
 import returnImg from "@/public/return.png";
 
 // GET ALL PRIZES
@@ -154,6 +153,10 @@ export const updateUserOrder = async (
 	const latest = await db.query.prizes.findFirst({
 		orderBy: desc(prizes.time),
 	});
+	let serial = null;
+	if (latest?.serial) {
+		serial = latest?.serial + 1;
+	}
 
 	try {
 		await db
@@ -162,7 +165,7 @@ export const updateUserOrder = async (
 				opening_time: new Date(),
 				my_choice: choice,
 				status: status,
-				result_serial: latest?.serial,
+				result_serial: serial,
 			})
 			.where(eq(orderSuccess.orderNo, orderNo));
 		console.log("Update user order done");
@@ -172,12 +175,9 @@ export const updateUserOrder = async (
 };
 
 export const updateSuccessOrder = async (order: orderType) => {
-	let latestResult = await getPrizeResult();
 	const returns = "Win the lottery";
 	const status = "Sales success";
 	const total = order.total * 2;
-
-	console.log(latestResult);
 
 	try {
 		let latest = await db.query.prizes.findFirst({
@@ -185,7 +185,7 @@ export const updateSuccessOrder = async (order: orderType) => {
 		});
 
 		if (
-			latestResult === order.my_choice &&
+			latest?.result_value === order.my_choice &&
 			latest?.serial === order.result_serial
 		) {
 			await db
@@ -207,7 +207,6 @@ export const updateSuccessOrder = async (order: orderType) => {
 				})
 				.where(eq(orderSuccess.orderNo, order.orderNo));
 		}
-		console.log("Update user order done");
 	} catch (error) {
 		console.error("Update User Order error: ", error);
 	}

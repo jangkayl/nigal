@@ -2,7 +2,8 @@
 import React from "react";
 
 interface PredictTypeProps {
-	onSelectPredictType: (type: string) => void;
+	// eslint-disable-next-line no-unused-vars
+	onSelectPredictType: (buttonName: string) => void;
 	activeButton: string | null;
 }
 

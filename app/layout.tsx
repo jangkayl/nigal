@@ -4,6 +4,7 @@ import "./globals.css";
 import UserNavigation from "@/components/UserNavigation";
 import { ModalProvider } from "@/components/ModalContext";
 import StartCronJob from "@/components/StartCronJob";
+import React from "react";
 
 export const dynamic = "force-dynamic";
 

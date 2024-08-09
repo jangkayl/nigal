@@ -11,7 +11,6 @@ interface ModalProps {
 const PointsInsufficientModal: React.FC<ModalProps> = ({
 	isVisible,
 	onClose,
-	cost,
 	data,
 }) => {
 	if (!isVisible) return null;

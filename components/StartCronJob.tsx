@@ -4,7 +4,7 @@ import { useModalState } from "@/components/ModalContext";
 import { startCronJob } from "@/lib/actions/prizeAuto.action";
 
 const StartCronJob = () => {
-	const { state, setState } = useModalState();
+	const { setState } = useModalState();
 
 	useEffect(() => {
 		startCronJob();

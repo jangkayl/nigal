@@ -1,6 +1,5 @@
 "use client";
-import { detailType } from "@/types";
-import React, { useState } from "react";
+import React from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 interface Props {
