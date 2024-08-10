@@ -20,16 +20,31 @@ const ProductDescription = ({ data, oneBet, dataIndex }: Props) => {
 	const [count, setCount] = useState(1);
 	const [cost, setCost] = useState(data.cost);
 	const [error, setError] = useState(false);
+	const [activePredictType, setActivePredictType] = useState<string | null>(
+		null
+	);
 	const checkoutButtonRef = useRef<HTMLButtonElement>(null);
 
 	const handleCheckoutClick = () => {
 		if (showModal) {
-			const query = new URLSearchParams({
-				winrate: winrate.toString(),
-				count: count.toString(),
-				cost: cost.toString(),
-				dataIndex: dataIndex.toString(),
-			}).toString();
+			let query = null;
+			if (activePredictType !== null) {
+				query = new URLSearchParams({
+					winrate: winrate.toString(),
+					count: count.toString(),
+					cost: cost.toString(),
+					dataIndex: dataIndex.toString(),
+					predictType: activePredictType.toString(),
+				}).toString();
+			} else {
+				query = new URLSearchParams({
+					winrate: winrate.toString(),
+					count: count.toString(),
+					cost: cost.toString(),
+					dataIndex: dataIndex.toString(),
+				}).toString();
+			}
+
 			if (dataIndex === 2 || dataIndex === 3) {
 				if (count > 80) {
 					setError(true);
@@ -112,6 +127,8 @@ const ProductDescription = ({ data, oneBet, dataIndex }: Props) => {
 				setWinrate={setWinrate}
 				setCount={setCount}
 				setCost={setCost}
+				activePredictType={activePredictType}
+				setActivePredictType={setActivePredictType}
 			/>
 		</div>
 	);

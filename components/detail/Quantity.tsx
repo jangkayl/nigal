@@ -9,6 +9,7 @@ interface Props {
 	cost: number;
 	handleAdd: () => void;
 	handleMinus: () => void;
+	// eslint-disable-next-line no-unused-vars
 	handleCountChange: (newCount: number) => void;
 }
 

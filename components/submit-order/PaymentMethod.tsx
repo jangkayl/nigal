@@ -15,14 +15,49 @@ interface UserProps {
 	count: number;
 	dataIndex: number;
 	data: detailType;
+	predictType: string | null;
 }
 
-const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
+const PaymentMethod = ({
+	user,
+	cost,
+	count,
+	dataIndex,
+	data,
+	predictType,
+}: UserProps) => {
 	const formattedBalance = user?.balance?.toFixed(2) || "0.00";
 	const costBalance = cost.toFixed(2) || "0.00";
 	const [insufficient, setInsufficient] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
+	let vipChoices: number[] = [];
+
+	if (dataIndex === 2 || dataIndex === 3) {
+		if (predictType === "Random") {
+			// Generate non-duplicate random numbers
+			const generatedSet = new Set<number>();
+			while (generatedSet.size < count) {
+				const randomNum = Math.floor(Math.random() * 80) + 1;
+				generatedSet.add(randomNum);
+			}
+			vipChoices = Array.from(generatedSet);
+		} else if (predictType === "Big") {
+			// Generate a sequence from 41 to 80
+			vipChoices = Array.from({ length: count }, (_, i) => 41 + (i % 40));
+		} else if (predictType === "Small") {
+			// Generate a sequence from 1 to 40
+			vipChoices = Array.from({ length: count }, (_, i) => 1 + (i % 40));
+		} else if (predictType === "Mantissa") {
+			// Generate non-duplicate mantissa numbers (0-9)
+			const generatedSet = new Set<number>();
+			while (generatedSet.size < count) {
+				const mantissaNum = Math.floor(Math.random() * 10);
+				generatedSet.add(mantissaNum);
+			}
+			vipChoices = Array.from(generatedSet);
+		}
+	}
 
 	const hasSufficientBalance = () => {
 		const balance = user?.balance || 0;
@@ -47,8 +82,7 @@ const PaymentMethod = ({ user, cost, count, dataIndex, data }: UserProps) => {
 					const deductBalance = user?.balance - cost;
 					await deductUserBalance(user.id, deductBalance);
 				}
-				const vipChoices =
-					dataIndex === 2 || dataIndex === 3 ? new Array(count).fill(0) : [];
+
 				const returns =
 					dataIndex === 2 || dataIndex === 3
 						? "VIP 71x returns"

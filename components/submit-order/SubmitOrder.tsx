@@ -18,6 +18,7 @@ const SubmitOrder = ({ user: initialUser }: UserProps) => {
 	const count = parseInt(searchParams.get("count") || "0", 10);
 	const cost = parseFloat(searchParams.get("cost") || "0");
 	const dataIndex = parseInt(searchParams.get("dataIndex") || "0");
+	const predictType = searchParams.get("predictType") || null;
 	const data = allGoodsData.prices[dataIndex];
 	const [user, setUser] = useState<userType | null>(initialUser);
 
@@ -52,6 +53,7 @@ const SubmitOrder = ({ user: initialUser }: UserProps) => {
 				count={count}
 				dataIndex={dataIndex}
 				data={data}
+				predictType={predictType}
 			/>
 		</div>
 	);

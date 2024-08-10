@@ -15,12 +15,8 @@ const VipBet = ({ params }: any) => {
 	const [bet, setBet] = useState(false);
 	const [result, setResult] = useState<orderType>();
 	const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
-	const [remainingCount, setRemainingCount] = useState<number>(
-		result?.total || 0
-	);
+	const [remainingCount, setRemainingCount] = useState<number>(0);
 	const router = useRouter();
-
-	console.log(selectedNumbers);
 
 	useEffect(() => {
 		const fetchOrders = async () => {
@@ -28,8 +24,15 @@ const VipBet = ({ params }: any) => {
 			if (user?.user.id) {
 				const res = await getOrderById(params);
 				setResult(res);
+				if (res?.vipChoices) {
+					setSelectedNumbers(res.vipChoices);
+				}
 				if (res?.total) {
-					setRemainingCount(res.total);
+					if (res.cost === 1) {
+						setRemainingCount(res.total - (res.vipChoices?.length || 0));
+					} else {
+						setRemainingCount(res.total / 5 - (res.vipChoices?.length || 0));
+					}
 				}
 			}
 		};
@@ -39,11 +42,31 @@ const VipBet = ({ params }: any) => {
 
 	const handleNumberClick = (number: number) => {
 		if (selectedNumbers.includes(number)) {
-			setSelectedNumbers(selectedNumbers.filter((num) => num !== number));
-			setRemainingCount(remainingCount + 1); // Increment remaining count when a number is deselected
+			const updatedNumbers = selectedNumbers.filter((num) => num !== number);
+			setSelectedNumbers(updatedNumbers);
+			// Update remaining count
+			if (result?.cost === 1) {
+				setRemainingCount(
+					result?.total ? result.total - updatedNumbers.length : 0
+				);
+			} else {
+				setRemainingCount(
+					result?.total ? result.total / 5 - updatedNumbers.length : 0
+				);
+			}
 		} else if (remainingCount > 0) {
-			setSelectedNumbers([...selectedNumbers, number]);
-			setRemainingCount(remainingCount - 1); // Decrement remaining count when a number is selected
+			const updatedNumbers = [...selectedNumbers, number];
+			setSelectedNumbers(updatedNumbers);
+			// Update remaining count
+			if (result?.cost === 1) {
+				setRemainingCount(
+					result?.total ? result.total - updatedNumbers.length : 0
+				);
+			} else {
+				setRemainingCount(
+					result?.total ? result.total / 5 - updatedNumbers.length : 0
+				);
+			}
 		}
 	};
 

@@ -14,6 +14,8 @@ interface DetailsModalProps {
 	setWinrate: React.Dispatch<React.SetStateAction<number>>;
 	setCount: React.Dispatch<React.SetStateAction<number>>;
 	setCost: React.Dispatch<React.SetStateAction<number>>;
+	activePredictType: string | null;
+	setActivePredictType: any;
 }
 
 const DetailsModal: React.FC<DetailsModalProps> = ({
@@ -25,12 +27,12 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
 	setWinrate,
 	setCount,
 	setCost,
+	activePredictType,
+	setActivePredictType,
 }) => {
 	const modalRef = useRef<HTMLDivElement>(null);
 	const [winrate, localSetWinrate] = useState(1.25);
-	const [activePredictType, setActivePredictType] = useState<string | null>(
-		null
-	);
+
 	const [count, localSetCount] = useState(1);
 	const [cost, localSetCost] = useState(data.cost);
 
@@ -95,15 +97,15 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
 		setActivePredictType(type);
 		if (type === "Big" || type === "Small") {
 			localSetWinrate(50);
-			localSetCost(40);
+			localSetCost(40 * data.cost);
 			localSetCount(40);
 		} else if (type === "Mantissa") {
 			localSetWinrate(10);
-			localSetCost(8);
+			localSetCost(8 * data.cost);
 			localSetCount(8);
 		} else if (type === "Area") {
 			localSetWinrate(12.5);
-			localSetCost(10);
+			localSetCost(10 * data.cost);
 			localSetCount(10);
 		}
 	};

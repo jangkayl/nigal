@@ -211,7 +211,7 @@ export const updateSuccessOrder = async (order: orderType) => {
 	const status = "Sales success";
 	const total = order.total * 2;
 	const vip = order.games === "Guess 71x return";
-	const vipTotal = order.total * 71;
+	const vipTotal = order.cost === 1 ? 71 : 355;
 
 	try {
 		let latest = await db.query.prizes.findFirst({

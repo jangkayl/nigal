@@ -136,9 +136,7 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 									</p>
 								</div>
 								<div className="w-full flex justify-end items-center px-4 py-3 gap-3">
-									{order.my_choice !== null ||
-									(order.vipChoices &&
-										order.vipChoices.some((choice) => choice !== 0)) ? (
+									{order.status !== "Is not on sales yet" ? (
 										<div>
 											{order.status === "Waiting for draw" ? (
 												<p className="">Bonus countdown: {state.countdown}</p>

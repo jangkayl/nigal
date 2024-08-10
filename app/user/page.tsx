@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const User = async () => {
-	const session = await getSessionUser();
+	let session = await getSessionUser();
 	let user: userType | null = null;
 
 	if (session?.user?.id) {

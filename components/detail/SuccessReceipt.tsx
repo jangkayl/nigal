@@ -91,7 +91,7 @@ const SuccessReceipt = ({ result }: Props) => {
 				</div>
 				<div className="flex justify-between items-center">
 					<p>My choice:</p>
-					<div className="flex gap-3 items-center text-gray-400 w-[12rem]">
+					<div className="flex gap-3 items-center text-gray-400 max-w-[12rem]">
 						<p>
 							{result?.my_choice === null
 								? result.vipChoices?.join(", ")
@@ -116,13 +116,25 @@ const SuccessReceipt = ({ result }: Props) => {
 				<div className="text-end pt-3">
 					<p>
 						Amount paid:{" "}
-						<span className="font-semibold text-red-500">
-							₱
-							{result?.status === "Sales success"
-								? result.total / 2
-								: result?.total}
-							.00
-						</span>
+						{result?.games === "Guess 71x return" ? (
+							<span className="font-semibold text-red-500">
+								₱
+								{result?.status === "Sales success"
+									? result.cost === 1
+										? (result.vipChoices?.length || 0) * 1
+										: (result.vipChoices?.length || 0) * 5
+									: result?.total}
+								.00
+							</span>
+						) : (
+							<span className="font-semibold text-red-500">
+								₱
+								{result?.status === "Sales success"
+									? result.total / 2
+									: result?.total}
+								.00
+							</span>
+						)}
 					</p>
 				</div>
 			</div>

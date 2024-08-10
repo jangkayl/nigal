@@ -15,7 +15,7 @@ const UserInfo = ({ user }: UserProfileProps) => {
 				<UserProfile user={user} />
 				<div className="grid grid-cols-2 pt-5 max-w-[20rem] mx-auto">
 					<div className="text-center">
-						<p className="text-2xl">{user.balance}</p>
+						<p className="text-2xl">{user.balance.toFixed(2)}</p>
 						<p className="text-xs text-gray-400">Available balance (₱)</p>
 					</div>
 					<div className="text-center">
