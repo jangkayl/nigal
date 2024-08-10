@@ -11,9 +11,8 @@ interface UserProfileProps {
 }
 
 const UserProfile = ({ user }: UserProfileProps) => {
-	const [open, setOpen] = useState(false);
 	const router = useRouter();
-
+	const [open, setOpen] = useState(false);
 	const handleProfile = () => {
 		setOpen(!open);
 	};
@@ -37,11 +36,12 @@ const UserProfile = ({ user }: UserProfileProps) => {
 				<p>{user.name}</p>
 				<p className="flex items-center gap-1">
 					ID: {user.uid}
-					<CiEdit
-						size={20}
-						className="cursor-pointer text-gray-500"
-						onClick={() => router.push("/user/data/")}
-					/>
+					<button onClick={() => router.push("/user/data/")}>
+						<CiEdit
+							size={20}
+							className="cursor-pointer text-gray-500"
+						/>
+					</button>
 				</p>
 			</div>
 			<Modal

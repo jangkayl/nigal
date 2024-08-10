@@ -1,6 +1,7 @@
+"use client";
 import { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export const metadata: Metadata = {
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 const PageNotFound = () => {
+	const router = useRouter();
 	return (
 		<div className="w-full max-w-sm bg-white mx-auto h-screen">
 			<div className="flex justify-center items-center flex-col min-h-[80vh]">
@@ -24,11 +26,11 @@ const PageNotFound = () => {
 						Sorry! This page is not available, please click back or click the
 						button below to return to homepage...
 					</p>
-					<Link
-						className="py-2 px-5 bg-red-600 text-white rounded-full text-sm"
-						href={"/"}>
+					<button
+						onClick={() => router.push("/")}
+						className="py-2 px-5 bg-red-600 text-white rounded-full text-sm">
 						Back home
-					</Link>
+					</button>
 				</div>
 			</div>
 		</div>

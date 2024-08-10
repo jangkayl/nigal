@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useModalState } from "../ModalContext";
 
 interface Winner {
 	name: string | null;
@@ -11,8 +12,8 @@ interface Props {
 }
 
 const Notice = ({ winners }: Props) => {
+	const { setState } = useModalState();
 	const containerRef = useRef<HTMLDivElement>(null);
-	const [currentIndex, setCurrentIndex] = useState(0);
 
 	useEffect(() => {
 		const container = containerRef.current;
@@ -25,24 +26,35 @@ const Notice = ({ winners }: Props) => {
 
 		const paragraphHeight = paragraphs[0].offsetHeight;
 
-		const updateScroll = () => {
-			if (container) {
-				const offset = currentIndex * paragraphHeight;
-				container.style.transform = `translateY(-${offset}px)`;
-			}
+		// Function to update scroll position
+		const updateScroll = (index: number) => {
+			const offset = index * paragraphHeight;
+			container.style.transform = `translateY(-${offset}px)`;
+			// Save the current index to localStorage
+			localStorage.setItem("currentIndex", index.toString());
 		};
 
+		// Retrieve the last index from localStorage
+		const savedIndex = localStorage.getItem("currentIndex");
+		const initialIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
+
+		// Set initial scroll position
+		updateScroll(initialIndex);
+
 		const scrollInterval = setInterval(() => {
-			setCurrentIndex((prevIndex) => {
-				const newIndex = (prevIndex + 1) % totalParagraphs;
-				updateScroll();
-				return newIndex;
+			setState((prevState) => {
+				const newIndex = (prevState.currentIndex + 1) % totalParagraphs;
+				updateScroll(newIndex);
+				return {
+					...prevState,
+					currentIndex: newIndex,
+				};
 			});
 		}, 3000); // Total interval time (display time + transition time)
 
 		// Clean up interval on component unmount
 		return () => clearInterval(scrollInterval);
-	}, [currentIndex, winners?.length]);
+	}, [setState, winners.length]);
 
 	return (
 		<div className="w-full bg-white px-3 py-3 mb-3 mt-[4.5rem]">

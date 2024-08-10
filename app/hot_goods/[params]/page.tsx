@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 };
 
 const HotGoods = ({ params }: any) => {
-	console.log(params);
 	return (
 		<main className="min-h-screen flex flex-col max-w-sm mx-auto bg-gray-100 relative">
 			<GoodsNav />

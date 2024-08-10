@@ -4,7 +4,7 @@ import { auth, signIn, signOut } from "@/auth";
 import { signInFormSchema, signUpFormSchema } from "@/lib/zod";
 import db from "@/db/drizzle";
 import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { hashSync } from "bcrypt-ts-edge";
 import { formatError } from "../utils";
 import { userType } from "@/types";
@@ -106,4 +106,17 @@ export const changeNameById = async (id: string, name: string) => {
 export const getSessionUser = async () => {
 	const session = await auth();
 	return session;
+};
+
+export const getAllUsers = async () => {
+	let players = await db.query.users.findMany({
+		orderBy: desc(users.createdAt),
+	});
+
+	let result = players.map((players: any) => ({
+		name: players.name,
+		id: players.id,
+	}));
+
+	return result;
 };

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { MdPhoneAndroid } from "react-icons/md";
 import { TbEyeClosed, TbEye } from "react-icons/tb";
 import { BiSolidLock } from "react-icons/bi";
-import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 import { signUp } from "@/lib/actions/user.action";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -130,11 +129,11 @@ const RegisterForm = () => {
 			)}
 			<p className="text-gray-400 text-sm">
 				Have an existing account?{" "}
-				<Link
-					href={`/sign-in?callbackUrl=${callbackUrl}`}
+				<button
+					onClick={() => router.push(`/sign-in?callbackUrl=${callbackUrl}`)}
 					className="text-sky-500 text-sm">
 					Login
-				</Link>
+				</button>
 			</p>
 		</div>
 	);

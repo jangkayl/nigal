@@ -3,9 +3,10 @@ import { MdPhoneAndroid } from "react-icons/md";
 import { TbEyeClosed } from "react-icons/tb";
 import { TbEye } from "react-icons/tb";
 import { BiSolidLock } from "react-icons/bi";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const ForgotForm = () => {
+	const router = useRouter();
 	const [fIsOpen, setFIsOpen] = useState(false);
 	const [sIsOpen, setSIsOpen] = useState(false);
 
@@ -82,11 +83,11 @@ const ForgotForm = () => {
 			</button>
 			<p className="text-gray-400 text-sm">
 				Have an existing account?{" "}
-				<Link
-					href="/api/auth/signin"
+				<button
+					onClick={() => router.push("/api/auth/signin")}
 					className="text-sky-500 text-sm">
 					Login
-				</Link>
+				</button>
 			</p>
 		</div>
 	);

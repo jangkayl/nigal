@@ -1,7 +1,6 @@
 "use client";
 import { signInDefaultValues } from "@/lib/constants";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { MdPhoneAndroid, MdLock } from "react-icons/md";
@@ -9,6 +8,7 @@ import { TbEyeClosed, TbEye } from "react-icons/tb";
 import { signInWithCredentials } from "@/lib/actions/user.action";
 
 export default function CredentialsSignInForm() {
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const [data, action] = useFormState(signInWithCredentials, {
 		success: false,
@@ -105,21 +105,25 @@ export default function CredentialsSignInForm() {
 					)}
 					<SignInButton />
 					<p className="text-gray-400 text-right">
-						<Link
-							href="/forgot-password"
+						<button
+							onClick={() => router.push("/forgot-password")}
 							className="text-sky-500 text-sm">
 							Forgot password
-						</Link>
+						</button>
 					</p>
 				</div>
 			</form>
 			<p className="text-gray-400 text-sm">
 				No account yet?{" "}
-				<Link
-					href={`/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+				<button
+					onClick={() =>
+						router.push(
+							`/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`
+						)
+					}
 					className="text-sky-500 text-sm">
 					Register
-				</Link>
+				</button>
 			</p>
 		</div>
 	);

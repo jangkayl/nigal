@@ -1,16 +1,18 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import gcash from "@/public/gcash.jpeg";
 import youtube from "@/public/youtube.png";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Partners = () => {
+	const router = useRouter();
 	return (
 		<div className="py-2 px-1">
 			<p>Partners</p>
 			<div className="py-1 flex gap-3 justify-center items-center">
-				<Link
-					href="https://www.gcash.com/"
+				<button
+					onClick={() => router.push("https://www.gcash.com/")}
 					className="w-[10rem] h-auto">
 					<Image
 						src={gcash}
@@ -22,9 +24,9 @@ const Partners = () => {
 						placeholder="blur"
 						quality={100}
 					/>
-				</Link>
-				<Link
-					href="https://www.youtube.com/"
+				</button>
+				<button
+					onClick={() => router.push("https://www.youtube.com/")}
 					className="w-[10rem] h-auto">
 					<Image
 						src={youtube}
@@ -36,7 +38,7 @@ const Partners = () => {
 						alt="partners"
 						placeholder="blur"
 					/>
-				</Link>
+				</button>
 			</div>
 		</div>
 	);

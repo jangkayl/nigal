@@ -12,8 +12,8 @@ const PromotionType = () => {
 			<p>Promotion Type</p>
 			<div className="py-3 flex gap-3 justify-center">
 				<button
-					className="w-[10rem] h-auto"
-					onClick={() => router.push("/hot_goods/1")}>
+					onClick={() => router.push("/hot_goods/1")}
+					className="w-[10rem] h-auto">
 					<Image
 						src={evenorodd}
 						width="0"
@@ -25,7 +25,9 @@ const PromotionType = () => {
 						quality={100}
 					/>
 				</button>
-				<button className="w-[10rem] h-auto">
+				<button
+					onClick={() => router.push("/hot_goods/2")}
+					className="w-[10rem] h-auto">
 					<Image
 						src={guessnumber}
 						width="0"
