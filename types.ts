@@ -8,6 +8,7 @@ export type userType = {
 	balance: number;
 	points: number;
 	createdAt: Date;
+	isOnline: boolean;
 };
 
 export type prizeType = {

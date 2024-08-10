@@ -6,7 +6,7 @@ import Partners from "./Partners";
 
 const Hotspot = () => {
 	return (
-		<div className="w-full bg-white px-3 py-6 pb-20 pt-[5rem]">
+		<div className="w-full bg-white px-3 py-6 pb-20">
 			<div className="flex justify-between">
 				<p>HOTSPOT</p>
 				<button className="flex items-center">

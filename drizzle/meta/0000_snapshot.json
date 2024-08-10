@@ -1,5 +1,5 @@
 {
-  "id": "d00062ad-faae-4441-8a85-1f481c2fe34f",
+  "id": "671a8340-23db-4ace-a27d-f5b4fe404328",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -376,6 +376,13 @@
           "primaryKey": false,
           "notNull": false,
           "default": 0
+        },
+        "isOnline": {
+          "name": "isOnline",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {},

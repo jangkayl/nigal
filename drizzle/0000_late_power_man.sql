@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"image" text DEFAULT 'https://www.im2015.com/user-avatar/n1.png',
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"balance" double precision DEFAULT 300,
-	"points" double precision DEFAULT 0
+	"points" double precision DEFAULT 0,
+	"isOnline" boolean DEFAULT false NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "verificationToken" (

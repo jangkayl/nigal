@@ -26,6 +26,7 @@ export const users = pgTable("user", {
 	createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 	balance: doublePrecision("balance").default(300.0),
 	points: doublePrecision("points").default(0.0),
+	isOnline: boolean("isOnline").default(false).notNull(),
 });
 
 // PRIZES

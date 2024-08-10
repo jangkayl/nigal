@@ -4,6 +4,7 @@ import { orderSuccess, prizes, users } from "@/db/schema";
 import { orderType } from "@/types";
 import { desc, eq } from "drizzle-orm";
 import returnImg from "@/public/return.png";
+import { getSessionUser, getUserById } from "./user.action";
 
 // GET ALL PRIZES
 export const getAllPrizes = async () => {
@@ -267,4 +268,25 @@ export const updateSuccessOrder = async (order: orderType) => {
 	} catch (error) {
 		console.error("Update User Order error: ", error);
 	}
+};
+
+export const getRecentWin = async () => {
+	let session = await getSessionUser();
+	let username = await getUserById(session?.user.id || "");
+
+	let orders = await db
+		.select()
+		.from(orderSuccess)
+		.orderBy(desc(orderSuccess.time))
+		.where(eq(orderSuccess.status, "Sales success"))
+		.limit(5);
+
+	let userOrders = orders.filter((order) => order.userId === username?.id);
+
+	let result = userOrders.map((order) => ({
+		name: username?.name || "participant",
+		total: order.total,
+	}));
+
+	return result;
 };

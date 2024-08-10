@@ -77,6 +77,7 @@ export const getUserById = async (id: string): Promise<userType | null> => {
 		balance: user?.balance ?? 0,
 		points: user?.points ?? 0,
 		createdAt: user?.createdAt || new Date(),
+		isOnline: user?.isOnline || false,
 	};
 };
 

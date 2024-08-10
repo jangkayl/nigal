@@ -148,6 +148,11 @@ const job = async () => {
 	if (stopJob) return;
 	let orders = await getAllPendingOrders();
 
+	await db.update(users).set({
+		isOnline: false,
+	});
+	console.log("All users are offline");
+
 	try {
 		console.log("Cron job started at", new Date().toISOString());
 		await addPrizeWithRandomNumber();
@@ -250,4 +255,29 @@ export const stopCronJob = async () => {
 
 export const updateOrderStatus = async (order: orderType) => {
 	await updateSuccessOrder(order);
+};
+
+export const setUserOnline = async () => {
+	let userSession = await getSessionUser();
+
+	if (userSession?.user.id) {
+		await db
+			.update(users)
+			.set({
+				isOnline: true,
+			})
+			.where(eq(users.id, userSession.user.id));
+
+		console.log("User ", userSession.user.name, " is online");
+	}
+
+	return await getOnlineUsers();
+};
+
+export const getOnlineUsers = async () => {
+	const userOnlines = await db.query.users.findMany({
+		where: eq(users.isOnline, true),
+	});
+
+	return userOnlines.length;
 };
