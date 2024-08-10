@@ -26,6 +26,7 @@ const GoodsVip = () => {
 							sizes="100vw"
 							quality={100}
 							alt="noImage"
+							placeholder="blur"
 							className="rounded-md"
 						/>
 					</div>

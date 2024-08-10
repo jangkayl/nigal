@@ -271,7 +271,9 @@ export const setUserOnline = async () => {
 		console.log("User ", userSession.user.name, " is online");
 	}
 
-	return await getOnlineUsers();
+	let userOnline = await getOnlineUsers();
+
+	return userOnline;
 };
 
 export const getOnlineUsers = async () => {

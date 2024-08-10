@@ -11,14 +11,14 @@ const ListGoodsDashboard = () => {
 	);
 
 	return (
-		<div className="pt-16 pb-3 w-full grid grid-cols-2">
+		<div className="pt-16 pb-3 grid grid-cols-2">
 			{data.map((goods, index) => (
 				<button
 					onClick={() =>
 						router.push(`/detail/${index >= 2 ? index + 3 : index + 1}`)
 					}
 					key={index}
-					className="py-3 text-sm cursor-pointer flex justify-center w-full items-center">
+					className="py-3 text-sm cursor-pointer flex justify-center items-center">
 					<div className="bg-white max-w-[10.5rem] rounded-b-md pb-1">
 						<div className="w-full">
 							<Image

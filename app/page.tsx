@@ -1,7 +1,8 @@
+import NoticeCarousel from "@/components/carousel/NoticeCarousel";
 import Hotspot from "@/components/Hotspot";
-import Notice from "@/components/main/Notice";
 import { getRecentWin } from "@/lib/actions/prize.action";
 import { setUserOnline } from "@/lib/actions/prizeAuto.action";
+import { EmblaOptionsType } from "embla-carousel";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,6 +12,9 @@ export const metadata: Metadata = {
 export default async function Home() {
 	let userOnline = await setUserOnline();
 	let winners = await getRecentWin();
+	
+
+	const OPTIONS: EmblaOptionsType = { align: "start", loop: true, axis: "y" };
 
 	return (
 		<main className="min-h-screen flex flex-col max-w-sm mx-auto gap-5 relative bg-gray-100">
@@ -22,7 +26,10 @@ export default async function Home() {
 				<p className="text-sm">online {userOnline}</p>
 			</div>
 			<div className="max-h-[97vh] overflow-y-auto scrollbar-hide">
-				<Notice winners={winners} />
+				<NoticeCarousel
+					winners={winners}
+					options={OPTIONS}
+				/>
 				<Hotspot />
 			</div>
 		</main>

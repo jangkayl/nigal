@@ -27,6 +27,7 @@ const GoodsDashboard = () => {
 							quality={100}
 							alt="noImage"
 							className="rounded-md"
+							placeholder="blur"
 						/>
 					</div>
 					<div className="flex flex-col justify-evenly">

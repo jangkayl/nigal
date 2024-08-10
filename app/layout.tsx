@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import "./sandbox.css";
+import "./embla.css";
 import UserNavigation from "@/components/UserNavigation";
 import { ModalProvider } from "@/components/ModalContext";
 import StartCronJob from "@/components/StartCronJob";
