@@ -177,6 +177,8 @@ const job = async () => {
 };
 
 export const startCronJob = async () => {
+	await setUserOnline();
+
 	if (isCronJobInitialized) {
 		console.log("Cron job is already initialized.");
 		return;
@@ -260,6 +262,8 @@ export const updateOrderStatus = async (order: orderType) => {
 export const setUserOnline = async () => {
 	let userSession = await getSessionUser();
 
+	console.log("User set online");
+
 	if (userSession?.user.id) {
 		await db
 			.update(users)
@@ -270,15 +274,12 @@ export const setUserOnline = async () => {
 
 		console.log("User ", userSession.user.name, " is online");
 	}
-
-	let userOnline = await getOnlineUsers();
-
-	return userOnline;
 };
 
 export const getOnlineUsers = async () => {
 	const userOnlines = await db.query.users.findMany({
 		where: eq(users.isOnline, true),
+		orderBy: desc(users.createdAt),
 	});
 
 	return userOnlines.length;

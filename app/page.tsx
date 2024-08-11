@@ -1,19 +1,28 @@
+import Carousel from "@/components/carousel/Carousel";
 import NoticeCarousel from "@/components/carousel/NoticeCarousel";
 import Hotspot from "@/components/Hotspot";
 import { getRecentWin } from "@/lib/actions/prize.action";
-import { setUserOnline } from "@/lib/actions/prizeAuto.action";
+import { getOnlineUsers, setUserOnline } from "@/lib/actions/prizeAuto.action";
 import { EmblaOptionsType } from "embla-carousel";
 import { Metadata } from "next";
+import carousel1 from "@/public/carousel1.jpg";
+import carousel2 from "@/public/carousel2.jpg";
+import carousel3 from "@/public/carousel3.png";
+import carousel4 from "@/public/carousel4.jpg";
 
 export const metadata: Metadata = {
 	title: `Nigal`,
 };
 
 export default async function Home() {
-	let userOnline = await setUserOnline();
+	await setUserOnline();
+	let userOnline = await getOnlineUsers();
 	let winners = await getRecentWin();
-	
+	const images = [carousel1, carousel2, carousel3, carousel4];
 
+	console.log("Online users: ", userOnline);
+
+	const CAROUSELOPTIONS: EmblaOptionsType = { align: "start", loop: true };
 	const OPTIONS: EmblaOptionsType = { align: "start", loop: true, axis: "y" };
 
 	return (
@@ -25,7 +34,11 @@ export default async function Home() {
 				</p>
 				<p className="text-sm">online {userOnline}</p>
 			</div>
-			<div className="max-h-[97vh] overflow-y-auto scrollbar-hide">
+			<div className="max-h-[97vh] overflow-y-auto scrollbar-hide pt-[5rem]">
+				<Carousel
+					options={CAROUSELOPTIONS}
+					images={images}
+				/>
 				<NoticeCarousel
 					winners={winners}
 					options={OPTIONS}

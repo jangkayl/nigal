@@ -14,7 +14,6 @@ const Detail = ({ params }: any) => {
 	const dataIndex = params.slug - 1;
 	const oneBet = params.slug - 1 === 2 || params.slug - 1 === 3;
 	const images = [data.image, data.image];
-
 	const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
 
 	return (

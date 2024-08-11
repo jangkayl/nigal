@@ -17,14 +17,14 @@ const PointsOrders = ({ filteredGoods, clicked }: PointsOrdersProps) => {
 	};
 
 	return (
-		<div className="py-3 flex justify-center items-center pb-[6rem]">
+		<div className="py-3 flex justify-center items-center pb-[6rem] w-full">
 			<div className={`${clicked ? "hidden" : "block"} grid grid-cols-2 gap-3`}>
 				{filteredGoods.map((item, index) => (
 					<button
 						key={index}
 						className="border shadow-md bg-white rounded-md w-[10.5rem]"
 						onClick={() => handleClick(item.index)}>
-						<div className="h-auto w-[full]">
+						<div className="h-auto w-full">
 							<Image
 								src={item.image}
 								alt="promo"

@@ -32,7 +32,7 @@ const NoticeCarousel: React.FC<PropType> = (props) => {
 	}, [emblaApi]);
 
 	return (
-		<div className="w-full bg-white px-3 py-3 mb-3 mt-[4.5rem]">
+		<div className="w-full bg-white px-3 py-3 mb-3 mt-3">
 			<div className="flex justify-between text-lg max-h-[3rem]">
 				<p className="font-semibold">Notice</p>
 				<div className="overflow-hidden embla_y">

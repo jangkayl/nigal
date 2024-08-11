@@ -19,6 +19,7 @@ interface Props {
 
 const Operated = ({ orders, modal, setModal }: Props) => {
 	const router = useRouter();
+	const [loading, setLoading] = useState(false);
 	const [currentOrder, setCurrentOrder] = useState<orderType | null>(null);
 	const { state } = useModalState();
 
@@ -55,18 +56,21 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 	});
 
 	const handleRefund = async (points: number, order: orderType) => {
+		setLoading(true);
 		updateRefund(points, order.orderNo);
 		setCurrentOrder(order);
 		setModal(true);
 	};
 
 	const handleRedeemPoints = async (points: number, order: orderType) => {
+		setLoading(true);
 		updateRedeemPoints(points, order.orderNo);
 		setCurrentOrder(order);
 		setModal(true);
 	};
 
 	const handleClose = () => {
+		setLoading(false);
 		setModal(false);
 		setCurrentOrder(null);
 	};
@@ -146,7 +150,7 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 														<button
 															className="p-2 border rounded-lg border-cyan-500 text-cyan-500 flex justify-center items-center"
 															onClick={() => handleRefund(order.total, order)}
-															disabled={modal}>
+															disabled={loading}>
 															Refund
 														</button>
 													) : (
@@ -155,7 +159,7 @@ const Operated = ({ orders, modal, setModal }: Props) => {
 															onClick={() =>
 																handleRedeemPoints(order.total, order)
 															}
-															disabled={modal}>
+															disabled={loading}>
 															Redeem points
 														</button>
 													)}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { CiWallet } from "react-icons/ci";
 import { LiaPiggyBankSolid } from "react-icons/lia";
@@ -9,10 +10,12 @@ const TopUp = () => {
 				<CiWallet size={30} />
 				<p>Top-up</p>
 			</button>
-			<button className="flex bg-yellow-500 justify-center items-center w-full rounded-md flex-col gap-2">
+			<Link
+				className="flex bg-yellow-500 justify-center items-center w-full rounded-md flex-col gap-2"
+				href={"/user/withdrawal"}>
 				<LiaPiggyBankSolid size={30} />
 				<p>Cash withdrawal</p>
-			</button>
+			</Link>
 		</div>
 	);
 };

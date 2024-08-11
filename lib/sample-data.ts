@@ -9,7 +9,7 @@ import image8 from "@/public/image8.jpg";
 import bal100 from "@/public/bal100.png";
 import bal500 from "@/public/bal500.png";
 import bal1000 from "@/public/bal1000.png";
-import bal2000 from "@/public/bal2000.png";
+import bal2001 from "@/public/bal2001.png";
 
 const allGoodsData = {
 	prices: [
@@ -91,7 +91,7 @@ const pointsGoodsData = {
 			index: 3,
 		},
 		{
-			image: bal2000,
+			image: bal2001,
 			title: "Balance ₱2000",
 			price: "150000 Points",
 			addBalance: 2000,

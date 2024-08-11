@@ -4,15 +4,34 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const ListGoodsDashboard = () => {
+interface Props {
+	up: boolean;
+	down: boolean;
+}
+
+const ListGoodsDashboard = ({ up, down }: Props) => {
 	const router = useRouter();
-	const data = allGoodsData.prices.filter(
-		(goods) => goods.title === "Cash 2x returns"
-	);
+
+	// Function to sort data based on price
+	const sortDataByPrice = () => {
+		return allGoodsData.prices
+			.filter((goods) => goods.title === "Cash 2x returns")
+			.sort((a, b) => {
+				if (up) {
+					return a.cost - b.cost; // Sort in ascending order
+				}
+				if (down) {
+					return b.cost - a.cost; // Sort in descending order
+				}
+				return 0; // No sorting if neither up nor down is true
+			});
+	};
+
+	const sortedData = sortDataByPrice();
 
 	return (
-		<div className="pt-16 pb-3 grid grid-cols-2">
-			{data.map((goods, index) => (
+		<div className="pt-[5rem] pb-3 grid grid-cols-2">
+			{sortedData.map((goods, index) => (
 				<button
 					onClick={() =>
 						router.push(`/detail/${index >= 2 ? index + 3 : index + 1}`)

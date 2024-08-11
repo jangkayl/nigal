@@ -13,6 +13,7 @@ const OrderNav = ({ params }: any) => {
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [result, setResult] = useState<orderType>();
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -32,6 +33,7 @@ const OrderNav = ({ params }: any) => {
 	};
 
 	const handleClick = async () => {
+		setLoading(true);
 		const status = "Waiting for draw";
 		const choice = selected === "even" ? 0 : 1;
 
@@ -45,6 +47,7 @@ const OrderNav = ({ params }: any) => {
 	};
 
 	const handleClose = () => {
+		setLoading(false);
 		setSuccess(false);
 		setError(false);
 		router.push(`/order/detail/${result?.orderNo}`);
@@ -78,7 +81,8 @@ const OrderNav = ({ params }: any) => {
 				</div>
 				<button
 					className="py-2 px-2 rounded-md text-white bg-yellow-500 border border-yellow-600 scale-animation"
-					onClick={handleClick}>
+					onClick={handleClick}
+					disabled={loading}>
 					Confirm selection
 				</button>
 			</div>
