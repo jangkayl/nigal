@@ -4,7 +4,7 @@ import { orderSuccess, prizes, users } from "@/db/schema";
 import { orderType } from "@/types";
 import { desc, eq } from "drizzle-orm";
 import returnImg from "@/public/return.png";
-import { getAllUsers } from "./user.action";
+import { getAllUsers, getSessionUser } from "./user.action";
 
 // GET ALL PRIZES
 export const getAllPrizes = async () => {
@@ -290,4 +290,32 @@ export const getRecentWin = async () => {
 	});
 
 	return result;
+};
+
+// SET USER ONLINE
+export const setUserOnline = async () => {
+	let userSession = await getSessionUser();
+
+	console.log("User set online");
+
+	if (userSession?.user.id) {
+		await db
+			.update(users)
+			.set({
+				isOnline: true,
+			})
+			.where(eq(users.id, userSession.user.id));
+
+		console.log("User ", userSession.user.name, " is online");
+	}
+};
+
+// GET ALL ONLINE USERS
+export const getOnlineUsers = async () => {
+	const userOnlines = await db.query.users.findMany({
+		where: eq(users.isOnline, true),
+		orderBy: desc(users.createdAt),
+	});
+
+	return userOnlines.length;
 };

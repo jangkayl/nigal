@@ -4,7 +4,11 @@ import { orderSuccess, prizes, users } from "@/db/schema";
 import { randomInt } from "crypto";
 import { desc, eq, notInArray } from "drizzle-orm";
 import { getSessionUser } from "./user.action";
-import { getAllPendingOrders, updateSuccessOrder } from "./prize.action";
+import {
+	getAllPendingOrders,
+	setUserOnline,
+	updateSuccessOrder,
+} from "./prize.action";
 import { orderType } from "@/types";
 
 let isCronJobInitialized = false;
@@ -257,30 +261,4 @@ export const stopCronJob = async () => {
 
 export const updateOrderStatus = async (order: orderType) => {
 	await updateSuccessOrder(order);
-};
-
-export const setUserOnline = async () => {
-	let userSession = await getSessionUser();
-
-	console.log("User set online");
-
-	if (userSession?.user.id) {
-		await db
-			.update(users)
-			.set({
-				isOnline: true,
-			})
-			.where(eq(users.id, userSession.user.id));
-
-		console.log("User ", userSession.user.name, " is online");
-	}
-};
-
-export const getOnlineUsers = async () => {
-	const userOnlines = await db.query.users.findMany({
-		where: eq(users.isOnline, true),
-		orderBy: desc(users.createdAt),
-	});
-
-	return userOnlines.length;
 };

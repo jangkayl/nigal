@@ -112,7 +112,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({
 
 	return (
 		<div
-			className={`fixed inset-0 flex justify-center items-end bg-black bg-opacity-50 transition-opacity duration-300 ${
+			className={`fixed inset-0 flex justify-center items-end bg-black bg-opacity-50 transition-opacity duration-300 z-20 ${
 				show
 					? "opacity-100 pointer-events-auto"
 					: "opacity-0 pointer-events-none"

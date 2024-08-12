@@ -1,8 +1,11 @@
 import Carousel from "@/components/carousel/Carousel";
 import NoticeCarousel from "@/components/carousel/NoticeCarousel";
 import Hotspot from "@/components/Hotspot";
-import { getRecentWin } from "@/lib/actions/prize.action";
-import { getOnlineUsers, setUserOnline } from "@/lib/actions/prizeAuto.action";
+import {
+	getOnlineUsers,
+	getRecentWin,
+	setUserOnline,
+} from "@/lib/actions/prize.action";
 import { EmblaOptionsType } from "embla-carousel";
 import { Metadata } from "next";
 import carousel1 from "@/public/carousel1.jpg";

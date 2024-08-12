@@ -104,7 +104,7 @@ const ProductDescription = ({ data, oneBet, dataIndex }: Props) => {
 					check the winning number in the Prize opening record in the Account.
 				</p>
 			</div>
-			<div className="fixed bottom-0 flex justify-between items-center w-full max-w-sm px-5 py-2 bg-white z-10 border-t-2">
+			<div className="fixed bottom-0 flex justify-between items-center w-full max-w-sm px-5 py-2 bg-white border-t-2 z-30">
 				<button
 					className="flex flex-col justify-center items-center text-xs text-gray-500"
 					onClick={() => router.back()}>
