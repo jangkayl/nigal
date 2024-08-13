@@ -6,10 +6,12 @@ import { LiaPiggyBankSolid } from "react-icons/lia";
 const TopUp = () => {
 	return (
 		<div className="grid grid-cols-2 gap-3 text-center text-white w-full h-28 px-5 text-sm">
-			<button className="flex bg-sky-300 justify-center items-center rounded-md flex-col gap-2">
+			<Link
+				href={"/user/recharge"}
+				className="flex bg-sky-300 justify-center items-center rounded-md flex-col gap-2">
 				<CiWallet size={30} />
 				<p>Top-up</p>
-			</button>
+			</Link>
 			<Link
 				className="flex bg-yellow-500 justify-center items-center w-full rounded-md flex-col gap-2"
 				href={"/user/withdrawal"}>

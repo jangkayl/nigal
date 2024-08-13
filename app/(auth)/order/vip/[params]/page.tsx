@@ -1,5 +1,5 @@
+import PageNotFound from "@/app/not-found";
 import VipBet from "@/components/detail/VIP/VipBet";
-import PageNotFound from "@/components/PageNotFound";
 import PrizeOrders from "@/components/user-prize/PrizeOrders";
 import { getOrderById } from "@/lib/actions/prize.action";
 import { getSessionUser } from "@/lib/actions/user.action";

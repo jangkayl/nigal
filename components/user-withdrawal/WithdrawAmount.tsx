@@ -1,3 +1,4 @@
+import { successWithdrawal } from "@/lib/actions/user.action";
 import { userType } from "@/types";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -42,9 +43,10 @@ const WithdrawAmount = ({ user, provider, number, name }: Props) => {
 		setSelected(amount);
 	};
 
-	const handleWithdraw = () => {
+	const handleWithdraw = async () => {
 		if (user) {
 			if (!error && user?.balance >= selected) {
+				await successWithdrawal(user?.id, user.balance - selected);
 				setShowError(false);
 				router.push("/user/withdrawal/success");
 			} else {

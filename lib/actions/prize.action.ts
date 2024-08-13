@@ -207,6 +207,7 @@ export const updateUserVipOrder = async (
 	}
 };
 
+// UPDATE SUCCESS ORDERS
 export const updateSuccessOrder = async (order: orderType) => {
 	const returns = "Win the lottery";
 	const status = "Sales success";
@@ -270,6 +271,7 @@ export const updateSuccessOrder = async (order: orderType) => {
 	}
 };
 
+// GET RECENT WINNERS
 export const getRecentWin = async () => {
 	let users = await getAllUsers();
 

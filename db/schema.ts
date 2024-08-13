@@ -74,6 +74,21 @@ export const orderSuccessRelations = relations(orderSuccess, ({ one }) => ({
 	}),
 }));
 
+// USER CREDITS
+export const userCredits = pgTable("userCredits", {
+	userId: uuid("userId")
+		.notNull()
+		.references(() => users.id),
+	orderNum: uuid("orderNum")
+		.primaryKey()
+		.notNull()
+		.$defaultFn(() => crypto.randomUUID()),
+	createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+	amount: integer("amount").notNull(),
+	status: boolean("status").default(false),
+	bonus: integer("bonus"),
+});
+
 export const accounts = pgTable(
 	"account",
 	{

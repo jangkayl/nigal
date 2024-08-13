@@ -17,6 +17,7 @@ let initialTimeoutId: any = null;
 let stopJob = false;
 let currentJobPromise: Promise<void> | null = null;
 
+// 1 MINUTE DELAY
 function getDelayToNextMinute(): number {
 	const now = new Date();
 	const nextMinute = new Date(
@@ -32,6 +33,7 @@ function getDelayToNextMinute(): number {
 	return delay + 1000; // Add 1 second (1000 milliseconds) delay
 }
 
+// ADD PRIZE RANDOM NUMBER
 export const addPrizeWithRandomNumber = async () => {
 	const randomIn = randomInt(1, 81);
 
@@ -52,6 +54,7 @@ export const addPrizeWithRandomNumber = async () => {
 	}
 };
 
+// DELETE EXCESS RECORDS MORE THAN 50
 export const deleteExcessRecords = async () => {
 	try {
 		const recentPrizes = await db
@@ -72,6 +75,7 @@ export const deleteExcessRecords = async () => {
 	}
 };
 
+// GET LATEST PRIZE RESULT
 export const getPrizeResult = async () => {
 	const result = await db.query.prizes.findFirst({
 		orderBy: desc(prizes.serial),
@@ -79,6 +83,7 @@ export const getPrizeResult = async () => {
 	return result?.result_value;
 };
 
+// UPDATE REDEEM POINTS AFTER LOSING
 export const updateRedeemPoints = async (points: number, orderNo: string) => {
 	const user = await getSessionUser();
 	const userId = user?.user.id;
@@ -112,6 +117,7 @@ export const updateRedeemPoints = async (points: number, orderNo: string) => {
 	console.log("IsDone true");
 };
 
+// UPDATE REFUND AFTER WINNING
 export const updateRefund = async (balance: number, orderNo: string) => {
 	const user = await getSessionUser();
 	const userId = user?.user.id;
@@ -148,6 +154,7 @@ export const updateRefund = async (balance: number, orderNo: string) => {
 	console.log("Order marked as done");
 };
 
+// JOB
 const job = async () => {
 	if (stopJob) return;
 	let orders = await getAllPendingOrders();
@@ -180,6 +187,7 @@ const job = async () => {
 	}
 };
 
+// START CRON JOB
 export const startCronJob = async () => {
 	await setUserOnline();
 
@@ -235,6 +243,7 @@ export const startCronJob = async () => {
 	console.log("Cron job scheduled to start.");
 };
 
+// STOP CRON JOB
 export const stopCronJob = async () => {
 	stopJob = true;
 
@@ -259,6 +268,7 @@ export const stopCronJob = async () => {
 	isCronJobInitialized = false;
 };
 
+// UPDATE ORDER STATUS
 export const updateOrderStatus = async (order: orderType) => {
 	await updateSuccessOrder(order);
 };

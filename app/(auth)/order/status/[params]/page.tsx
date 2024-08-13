@@ -1,5 +1,5 @@
+import PageNotFound from "@/app/not-found";
 import PaymentSuccess from "@/components/detail/PaymentSuccess";
-import PageNotFound from "@/components/PageNotFound";
 import { getOrderById } from "@/lib/actions/prize.action";
 import { getSessionUser } from "@/lib/actions/user.action";
 import React from "react";

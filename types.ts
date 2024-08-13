@@ -53,3 +53,12 @@ export type orderType = {
 	isDone: boolean | null;
 	vipChoices: number[] | null;
 };
+
+export type userCreditType = {
+	userId: string;
+	orderNo: string;
+	amount: number;
+	status: boolean;
+	createdAt: Date;
+	bonus: number | null;
+};

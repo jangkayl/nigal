@@ -1,0 +1,1 @@
+ALTER TABLE "userCredits" ADD COLUMN "bonus" integer NOT NULL;
